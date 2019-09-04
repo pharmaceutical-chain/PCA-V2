@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="main-heading">
+        {{ 'pca.examples.elements.title' | translate }}
+      </h1>
+    </div>
+  </div>
+  <div class="row" [ngClass]="routeAnimationsElements" rtl>
+    <div class="col-md-12 col-lg-6">
+      <ng-template #loading>Loading...</ng-template>
+      <mwc-button raised *axLazyElement="'https://unpkg.com/@material/mwc-button@0.6.0/mwc-button.js?module'; loadingTemplate: loading; module: true"
+                  (click)="increment()">
+        Increment
+      </mwc-button>
+      <br>
+      <br>
+      <p>{{ 'pca.examples.elements.counter' | translate }}: {{counter}}</p>
+    </div>
+    <div class="col-md-12 col-lg-6" [ngClass]="routeAnimationsElements">
+      <p>
+        {{ 'pca.examples.elements.text1' | translate }}
+        <code>https://unpkg.com/@material/mwc-button@0.6.0/mwc-button.js?module</code>
+        {{ 'pca.examples.elements.text2' | translate }}
+      </p>
+      <p>
+        {{ 'pca.examples.elements.text3' | translate }}
+        <code>*axLazyElement</code>
+        {{ 'pca.examples.elements.text4' | translate }}
+        <code>@angular-extensions/elements</code>
+        {{ 'pca.examples.elements.text5' | translate }}.
+      </p>
+      <p>
+        {{ 'pca.examples.elements.text6' | translate }}
+        <a href="https://github.com/angular-extensions/elements" target="_blank">{{
+          'pca.examples.elements.text5' | translate
+          }}</a>,
+        <a href="https://angular-extensions.github.io/elements/#/docs/use-cases" target="_blank">{{
+          'pca.examples.elements.text7' | translate
+          }}</a>
+        {{ 'pca.examples.elements.text8' | translate }}
+        {{ 'pca.examples.elements.text9' | translate }}
+        <a href="https://angular-extensions.github.io/elements/#/examples" target="_blank">{{
+          'pca.examples.elements.text10' | translate
+          }}</a>
+
+        {{ 'pca.examples.elements.text11' | translate }}
+        <a href="https://angular-extensions.github.io/elements/#/docs" target="_blank">{{
+          'pca.examples.elements.text12' | translate
+          }}</a>...
+      </p>
+    </div>
+  </div>
+</div>

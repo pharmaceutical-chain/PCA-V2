@@ -1,0 +1,9 @@
+$pca-black-primary: mat-palette($mat-grey, 700, 300, 900);
+$pca-black-accent: mat-palette($mat-blue-grey, 400);
+$pca-black-warn: mat-palette($mat-red, 500);
+
+$pca-black-theme: mat-dark-theme(
+  $pca-black-primary,
+  $pca-black-accent,
+  $pca-black-warn
+);

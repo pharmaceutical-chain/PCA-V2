@@ -1,0 +1,9 @@
+$pca-light-primary: mat-palette($mat-grey, 200, 500, 300);
+$pca-light-accent: mat-palette($mat-brown, 200);
+$pca-light-warn: mat-palette($mat-deep-orange, 200);
+
+$pca-light-theme: mat-light-theme(
+  $pca-light-primary,
+  $pca-light-accent,
+  $pca-light-warn
+);

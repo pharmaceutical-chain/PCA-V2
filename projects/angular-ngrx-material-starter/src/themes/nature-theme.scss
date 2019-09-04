@@ -1,0 +1,9 @@
+$pca-nature-primary: mat-palette($mat-brown, 700, 300, 900);
+$pca-nature-accent: mat-palette($mat-deep-purple, 300);
+$pca-nature-warn: mat-palette($mat-red, 600);
+
+$pca-nature-theme: mat-light-theme(
+  $pca-nature-primary,
+  $pca-nature-accent,
+  $pca-nature-warn
+);
