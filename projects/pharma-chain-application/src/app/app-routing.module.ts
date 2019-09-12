@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { CallbackComponent } from './core/auth/callback/callback.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'about',
     pathMatch: 'full'
+  },
+  {
+    path: 'callback',
+    component: CallbackComponent
   },
   {
     path: 'about',
@@ -39,7 +44,6 @@ const routes: Routes = [
   // useHash supports github.io demo page, remove in your app
   imports: [
     RouterModule.forRoot(routes, {
-      useHash: true,
       scrollPositionRestoration: 'enabled',
       preloadingStrategy: PreloadAllModules
     })

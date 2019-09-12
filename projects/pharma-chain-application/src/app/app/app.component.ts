@@ -20,6 +20,7 @@ import {
   actionSettingsChangeAnimationsPageDisabled,
   actionSettingsChangeLanguage
 } from '../core/settings/settings.actions';
+import { AuthService } from '../core/auth/auth.service';
 
 @Component({
   selector: 'pca-root',
@@ -51,7 +52,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private storageService: LocalStorageService
+    private storageService: LocalStorageService,
+    private authService: AuthService
   ) {}
 
   private static isIEorEdgeOrSafari() {
@@ -59,6 +61,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.localAuthSetup();
     this.storageService.testLocalStorage();
     if (AppComponent.isIEorEdgeOrSafari()) {
       this.store.dispatch(
@@ -84,5 +87,11 @@ export class AppComponent implements OnInit {
 
   onLanguageSelect({ value: language }) {
     this.store.dispatch(actionSettingsChangeLanguage({ language }));
+  }
+
+  getUser() {
+    this.authService.getUser$(res => {
+      console.log(res);
+    });
   }
 }

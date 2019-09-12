@@ -45,8 +45,12 @@ import {
   selectEffectiveTheme,
   selectSettingsStickyHeader
 } from './settings/settings.selectors';
+import { AuthGuard } from './auth/auth.guard';
+import { AdminGuard } from './auth/admin.guard';
+import { CallbackComponent } from './auth/callback/callback.component';
 
 export {
+  CallbackComponent,
   TitleService,
   selectAuth,
   authLogin,
@@ -58,6 +62,8 @@ export {
   ROUTE_ANIMATIONS_ELEMENTS,
   AnimationsService,
   AuthGuardService,
+  AuthGuard,
+  AdminGuard,
   selectRouterState,
   NotificationService,
   selectEffectiveTheme,
@@ -102,7 +108,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  declarations: [],
+  declarations: [CallbackComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
     { provide: ErrorHandler, useClass: AppErrorHandler },
