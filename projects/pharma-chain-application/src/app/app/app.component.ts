@@ -1,17 +1,14 @@
 import browser from 'browser-detect';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { environment as env } from '../../environments/environment';
 
 import {
-  authLogin,
-  authLogout,
   routeAnimations,
   AppState,
   LocalStorageService,
-  selectIsAuthenticated,
   selectSettingsStickyHeader,
   selectSettingsLanguage,
   selectEffectiveTheme
@@ -61,7 +58,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.localAuthSetup();
     this.storageService.testLocalStorage();
     if (AppComponent.isIEorEdgeOrSafari()) {
       this.store.dispatch(
@@ -71,18 +67,18 @@ export class AppComponent implements OnInit {
       );
     }
 
-    this.isAuthenticated$ = this.store.pipe(select(selectIsAuthenticated));
     this.stickyHeader$ = this.store.pipe(select(selectSettingsStickyHeader));
     this.language$ = this.store.pipe(select(selectSettingsLanguage));
     this.theme$ = this.store.pipe(select(selectEffectiveTheme));
+    this.authService.localAuthSetup();
   }
 
   onLoginClick() {
-    this.store.dispatch(authLogin());
+    this.authService.login();
   }
 
   onLogoutClick() {
-    this.store.dispatch(authLogout());
+    this.authService.logout();
   }
 
   onLanguageSelect({ value: language }) {
@@ -90,8 +86,7 @@ export class AppComponent implements OnInit {
   }
 
   getUser() {
-    this.authService.getUser$(res => {
-      console.log(res);
-    });
+    console.log('res');
+    this.authService.getUser$().subscribe(res => console.log(res));
   }
 }

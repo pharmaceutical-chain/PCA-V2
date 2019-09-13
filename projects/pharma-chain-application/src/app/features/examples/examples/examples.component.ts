@@ -1,13 +1,10 @@
-import { Store, select } from '@ngrx/store';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import {
-  routeAnimations,
-  selectIsAuthenticated
-} from '../../../core/core.module';
+import { routeAnimations } from '../../../core/core.module';
 
 import { State } from '../examples.state';
+import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'pca-examples',
@@ -34,9 +31,9 @@ export class ExamplesComponent implements OnInit {
     { link: 'authenticated', label: 'pca.examples.menu.auth', auth: true }
   ];
 
-  constructor(private store: Store<State>) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.isAuthenticated$ = this.store.pipe(select(selectIsAuthenticated));
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
   }
 }

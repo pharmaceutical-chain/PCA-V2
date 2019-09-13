@@ -80,6 +80,8 @@ export class AuthService {
         if (loggedIn) {
           // If authenticated, get user and set in app
           // NOTE: you could pass options here if needed
+          console.log('----------local setup');
+          this.getUser$().subscribe(res => console.log(res));
           return this.getUser$();
         }
         // If not authenticated, return stream that emits 'false'
@@ -125,7 +127,15 @@ export class AuthService {
     // Response will be an array of user, token, and login status
     authComplete$.subscribe(([user, loggedIn]) => {
       // Redirect to target route after callback processing
+      console.log('----------pre redirect');
+      console.log(user);
+      console.log(loggedIn);
       this.router.navigate([targetRoute]);
+    });
+
+    this.getUser$().subscribe(res => {
+      console.log('----------callback');
+      console.log(res);
     });
   }
 
