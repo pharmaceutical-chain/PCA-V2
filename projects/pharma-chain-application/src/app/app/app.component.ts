@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
   }
 
   onLoginClick() {
-    this.authService.login();
+    this.authService.login('about');
   }
 
   onLogoutClick() {

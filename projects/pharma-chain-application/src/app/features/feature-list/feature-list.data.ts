@@ -2,101 +2,50 @@ import { environment as env } from '../../../environments/environment';
 
 export interface Feature {
   name: string;
-  version?: string;
-  description: string;
-  github?: string;
-  documentation: string;
-  medium?: string;
+  icon: string;
+  link: string;
+  total?: string;
+  roles?: Array<string>;
 }
 
 export const features: Feature[] = [
   {
-    name: 'Angular',
-    version: env.versions.angular,
-    description: 'pca.features.angular',
-    github: 'https://github.com/angular/angular',
-    documentation: 'https://angular.io/docs/ts/latest/'
+    name: 'Overview tenants',
+    icon: '',
+    link: '',
+    roles: ['admin'],
+    total: '22'
   },
   {
-    name: 'Angular Material',
-    version: env.versions.material,
-    description: 'pca.features.angular-material',
-    github: 'https://github.com/angular/material2/',
-    documentation: 'https://material.angular.io/'
+    name: 'Overview medicine batches',
+    icon: '',
+    link: '',
+    roles: ['admin', 'manufacturer', 'distributor', 'retailer'],
+    total: '77'
   },
   {
-    name: 'Angular Cli',
-    version: env.versions.angularCli,
-    description: 'pca.features.angular-cli',
-    github: 'https://github.com/angular/angular-cli',
-    documentation: 'https://cli.angular.io/'
+    name: 'Overview medicine transfers',
+    icon: '',
+    link: '',
+    roles: ['admin', 'manufacturer', 'distributor', 'retailer'],
+    total: '102'
   },
   {
-    name: 'NgRx',
-    version: env.versions.ngrx,
-    description: 'pca.features.ngrx',
-    github: 'https://github.com/ngrx/platform',
-    documentation: 'http://ngrx.github.io/',
-    medium:
-      'https://medium.com/@tomastrajan/object-assign-vs-object-spread-in-angular-ngrx-reducers-3d62ecb4a4b0'
+    name: 'Enter tenant',
+    icon: '',
+    link: '',
+    roles: ['admin']
   },
   {
-    name: 'RxJS',
-    version: env.versions.rxjs,
-    description: 'pca.features.rxjs',
-    github: 'https://github.com/ReactiveX/RxJS',
-    documentation: 'http://reactivex.io/rxjs/',
-    medium:
-      'https://medium.com/@tomastrajan/practical-rxjs-in-the-wild-requests-with-concatmap-vs-mergemap-vs-forkjoin-11e5b2efe293'
+    name: 'Enter medicine batches',
+    icon: '',
+    link: '',
+    roles: ['admin', 'manufacturer']
   },
   {
-    name: 'Bootstrap',
-    version: env.versions.bootstrap,
-    description: 'pca.features.bootstrap',
-    github: 'https://github.com/twbs/bootstrap',
-    documentation: 'https://getbootstrap.com/docs/4.0/layout/grid/',
-    medium:
-      'https://medium.com/@tomastrajan/how-to-build-responsive-layouts-with-bootstrap-4-and-angular-6-cfbb108d797b'
-  },
-  {
-    name: 'Typescript',
-    version: env.versions.typescript,
-    description: 'pca.features.typescript',
-    github: 'https://github.com/Microsoft/TypeScript',
-    documentation: 'https://www.typescriptlang.org/docs/home.html'
-  },
-  {
-    name: 'I18n',
-    version: env.versions.ngxtranslate,
-    description: 'pca.features.ngxtranslate',
-    github: 'https://github.com/ngx-translate/core',
-    documentation: 'http://www.ngx-translate.com/'
-  },
-  {
-    name: 'Font Awesome 5',
-    version: env.versions.fontAwesome,
-    description: 'pca.features.fontawesome',
-    github: 'https://github.com/FortAwesome/Font-Awesome',
-    documentation: 'https://fontawesome.com/icons'
-  },
-  {
-    name: 'Cypress',
-    version: env.versions.cypress,
-    description: 'pca.features.cypress',
-    github: 'https://github.com/cypress-io/cypress',
-    documentation: 'https://www.cypress.io/'
-  },
-  {
-    name: 'pca.features.themes.title',
-    description: 'pca.features.themes.description',
-    documentation: 'https://material.angular.io/guide/theming',
-    medium:
-      'https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1'
-  },
-  {
-    name: 'pca.features.lazyloading.title',
-    description: 'pca.features.lazyloading.description',
-    documentation:
-      'https://angular.io/guide/router#lazy-loading-route-configuration'
+    name: 'Enter medicine transfer',
+    icon: '',
+    link: '',
+    roles: ['admin', 'manufacturer', 'distributor']
   }
-];
+]

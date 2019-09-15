@@ -74,8 +74,11 @@ mat-sidenav-container {
 
     .content {
       flex: 1 0 auto;
-      margin-top: 64px;
       overflow: hidden;
+    }
+
+    .content-margin-top {
+      margin-top: 64px;
     }
 
     .footer {
@@ -152,7 +155,7 @@ mat-sidenav-container {
   }
 
   @media (max-width: $toolbar-breakpoint) {
-    .content {
+    .content-margin-top {
       margin-top: 56px !important;
     }
   }

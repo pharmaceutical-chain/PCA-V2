@@ -14,6 +14,11 @@ mat-card {
 
   mat-card-title {
     position: relative;
+    font-size: 20px;
+  }
+  mat-card-subtitle {
+    min-height: 60px;
+    position: relative;
 
     code {
       position: absolute;
@@ -22,9 +27,6 @@ mat-card {
       float: right;
       font-size: 10px;
     }
-  }
-  mat-card-subtitle {
-    min-height: 60px;
   }
 
   @media (max-width: map-get($grid-breakpoints, sm)) {

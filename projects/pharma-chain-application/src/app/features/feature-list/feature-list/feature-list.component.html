@@ -1,28 +1,23 @@
 <div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <h1 rtl class="main-heading">{{ 'pca.features.title' | translate }}</h1>
-    </div>
-  </div>
   <div class="row align-items-end">
     <div *ngFor="let feature of features" class="col-md-6 col-lg-4" [ngClass]="routeAnimationsElements">
       <mat-card>
         <mat-card-title>
-          <code *ngIf="feature.version">{{feature.version}}</code>{{feature.name | translate}}
+          {{feature.name | translate}}
         </mat-card-title>
         <mat-card-subtitle rtl>
-          {{ feature.description | translate }}
+          <code *ngIf="feature.total">{{feature.total}}</code>
         </mat-card-subtitle>
         <mat-card-actions>
-          <a *ngIf="feature.github" mat-icon-button [href]="feature.github" target="_blank">
+          <!-- <a *ngIf="feature.github" mat-icon-button [href]="feature.github" target="_blank">
             <fa-icon [icon]="['fab','github']"></fa-icon>
           </a>
           <a mat-button [href]="feature.documentation" target="_blank">
-            <fa-icon icon="book"></fa-icon>{{ 'pca.features.documentation' | translate }}
+            <fa-icon icon="['fas', 'arrow-right']"></fa-icon>{{ 'pca.features.documentation' | translate }}
           </a>
           <a *ngIf="feature.medium" mat-button [href]="feature.medium" target="_blank">
             <fa-icon [icon]="['fab','medium-m']"></fa-icon>{{ 'pca.features.guide' | translate }}
-          </a>
+          </a> -->
         </mat-card-actions>
       </mat-card>
     </div>

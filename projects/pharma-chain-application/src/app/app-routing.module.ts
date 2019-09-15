@@ -1,6 +1,8 @@
+import { AdminGuard } from './core/auth/admin.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { CallbackComponent } from './core/auth/callback/callback.component';
+import { AuthGuard } from './core/core.module';
 
 const routes: Routes = [
   {
@@ -26,6 +28,7 @@ const routes: Routes = [
   },
   {
     path: 'settings',
+    canActivate: [AuthGuard, AdminGuard],
     loadChildren: () =>
       import('./features/settings/settings.module').then(m => m.SettingsModule)
   },

@@ -18,7 +18,7 @@
 
     <div class="wrapper">
 
-      <div class="toolbar" [style.position]="(stickyHeader$ | async) ? 'fixed' : 'inherit'" [class.mat-elevation-z4]="(stickyHeader$ | async)">
+      <div *ngIf="authService.loggedIn" class="toolbar" [style.position]="(stickyHeader$ | async) ? 'fixed' : 'inherit'" [class.mat-elevation-z4]="(stickyHeader$ | async)">
         <mat-toolbar color="primary">
           <button mat-icon-button class="d-md-none" (click)="sidenav.open()">
             <fa-icon icon="bars"></fa-icon>
@@ -39,12 +39,11 @@
             </button>
           </span>
 
-          <button mat-button mat-stroked-button color="accent" *ngIf="!authService.loggedIn" (click)="onLoginClick()">
+          <!-- <button mat-button mat-stroked-button color="accent" *ngIf="!authService.loggedIn" (click)="onLoginClick()">
             {{ 'pca.menu.login' | translate }}
-          </button>
+          </button> -->
 
-          <button *ngIf="authService.loggedIn"
-                  mat-icon-button
+          <button mat-icon-button
                   [matMenuTriggerFor]="toolbarUserMenu">
             <fa-icon icon="user-circle"></fa-icon>
           </button>
@@ -78,8 +77,11 @@
         </mat-toolbar>
       </div>
 
-      <div class="content" [@routeAnimations]="o.isActivated && o.activatedRoute.routeConfig.data && o.activatedRoute.routeConfig.data.title">
+      <div [ngClass]="{'content-margin-top': authService.loggedIn}" class="content" [@routeAnimations]="o.isActivated && o.activatedRoute.routeConfig.data && o.activatedRoute.routeConfig.data.title">
         <router-outlet #o="outlet"></router-outlet>
+        <button mat-button mat-stroked-button color="accent" *ngIf="!authService.loggedIn" (click)="onLoginClick()">
+          {{ 'pca.menu.login' | translate }}
+        </button>
       </div>
 
       <div class="footer" (click)="getUser()">
