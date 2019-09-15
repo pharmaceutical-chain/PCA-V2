@@ -22,13 +22,17 @@ const routes: Routes = [
   {
     path: 'feature-list',
     loadChildren: () =>
-      import('./features/feature-list/feature-list.module').then(
-        m => m.FeatureListModule
-      )
+      import('./features/feature-list/feature-list.module').then(m => m.FeatureListModule)
+  },
+  {
+    path: 'tenant',
+    canActivate: [AdminGuard],
+    loadChildren: () =>
+    import('./features/tenant/tenant.module').then(m => m.TenantModule)
   },
   {
     path: 'settings',
-    canActivate: [AuthGuard, AdminGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/settings/settings.module').then(m => m.SettingsModule)
   },
