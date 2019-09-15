@@ -47,12 +47,16 @@ export class AuthService {
   // Create a local property for login status
   loggedIn: boolean = null;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   isAdmin$ = this.userProfileSubject$.pipe(
-    concatMap(user =>
-      of(user[config.namespace + 'roles'] === 'admin' ? true : false)
-    )
+    concatMap(user => {
+      if (user) {
+        return of(user[config.namespace + 'roles'] === 'admin' ? true : false)
+      }
+
+      return of(false);
+    })
   );
 
   // When calling, options can be passed if desired

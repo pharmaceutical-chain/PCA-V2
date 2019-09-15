@@ -19,11 +19,12 @@ export class AdminGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean | UrlTree> | boolean {
-    return this.auth.isAdmin$.pipe(
-      tap(isAdmin => {
-        console.log(isAdmin);
-        return isAdmin ? true : false;
-      })
-    );
+    this.auth.isAuthenticated$.subscribe(loggedIn => {
+      if (!loggedIn) {
+        this.auth.login(state.url);
+      }
+    });
+
+    return this.auth.isAdmin$;
   }
 }
