@@ -18,6 +18,7 @@ import {
   actionSettingsChangeLanguage
 } from '../core/settings/settings.actions';
 import { AuthService } from '../core/auth/auth.service';
+import { LOGIN_STATE } from '../core/local-storage/local-storage.service';
 
 @Component({
   selector: 'pca-root',
@@ -49,16 +50,16 @@ export class AppComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private storageService: LocalStorageService,
+    private localStorageService: LocalStorageService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   private static isIEorEdgeOrSafari() {
     return ['ie', 'edge', 'safari'].includes(browser().name);
   }
 
   ngOnInit(): void {
-    this.storageService.testLocalStorage();
+    this.localStorageService.testLocalStorage();
     if (AppComponent.isIEorEdgeOrSafari()) {
       this.store.dispatch(
         actionSettingsChangeAnimationsPageDisabled({
@@ -67,6 +68,7 @@ export class AppComponent implements OnInit {
       );
     }
 
+    this.isAuthenticated$ = of<boolean>(this.localStorageService.getItem(LOGIN_STATE));
     this.stickyHeader$ = this.store.pipe(select(selectSettingsStickyHeader));
     this.language$ = this.store.pipe(select(selectSettingsLanguage));
     this.theme$ = this.store.pipe(select(selectEffectiveTheme));

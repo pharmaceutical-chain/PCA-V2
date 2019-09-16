@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 
 const APP_PREFIX = 'pca-';
+export const USER_PROFILE = 'user-profile';
+export const LOGIN_STATE = 'login-state';
 
 @Injectable({
   providedIn: 'root'
@@ -65,5 +67,10 @@ export class LocalStorageService {
     if (retrievedValue !== testValue) {
       throw new Error(errorMessage);
     }
+  }
+
+  setLoginState(userProfile: Object, loginState: boolean) {
+    this.setItem('USER_PROFILE', userProfile);
+    this.setItem('LOGIN_STATE', loginState);
   }
 }

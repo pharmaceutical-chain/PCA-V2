@@ -12,6 +12,7 @@ import {
 } from 'rxjs';
 import { tap, catchError, concatMap, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '../local-storage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +48,11 @@ export class AuthService {
   // Create a local property for login status
   loggedIn: boolean = null;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private localStorageService: LocalStorageService) {
+
+  }
 
   isAdmin$ = this.userProfileSubject$.pipe(
     concatMap(user => {
@@ -96,6 +101,10 @@ export class AuthService {
       // If authenticated, response will be user object
       // If not authenticated, response will be 'false'
       this.loggedIn = !!response;
+
+      if (this.loggedIn === false) {
+        this.localStorageService.setLoginState({}, false);
+      }
     });
   }
 
@@ -123,7 +132,6 @@ export class AuthService {
       }),
       concatMap(() => {
         // Redirect callback complete; get user and login status
-        // tslint:disable-next-line: deprecation
         return combineLatest(this.getUser$(), this.isAuthenticated$);
       })
     );
@@ -131,21 +139,16 @@ export class AuthService {
     // Response will be an array of user, token, and login status
     authComplete$.subscribe(([user, loggedIn]) => {
       // Redirect to target route after callback processing
-      console.log('----------pre redirect');
-      console.log(user);
-      console.log(loggedIn);
+      this.localStorageService.setLoginState(user, loggedIn);
       this.router.navigate([targetRoute]);
-    });
-
-    this.getUser$().subscribe(res => {
-      console.log('----------callback');
-      console.log(res);
     });
   }
 
   logout() {
     // Ensure Auth0 client instance exists
     this.auth0Client$.subscribe((client: Auth0Client) => {
+      this.localStorageService.setLoginState({}, false);
+
       // Call method to log out
       client.logout({
         client_id: config.clientId,
