@@ -39,6 +39,7 @@ export class AuthService {
     concatMap((client: Auth0Client) => from(client.isAuthenticated())),
     tap(res => (this.loggedIn = res))
   );
+  
   handleRedirectCallback$ = this.auth0Client$.pipe(
     concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
   );
@@ -54,12 +55,12 @@ export class AuthService {
 
   }
 
+  // Define user roles guards
   isAdmin$ = this.userProfile$.pipe(
     concatMap(user => {
       if (user) {
         return of(user[config.namespace + 'roles'] === 'admin' ? true : false)
       }
-
       return of(false);
     })
   );
