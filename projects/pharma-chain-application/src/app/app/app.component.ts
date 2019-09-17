@@ -92,7 +92,6 @@ export class AppComponent implements OnInit {
   }
 
   getUser() {
-    console.log('res');
-    this.authService.getUser$().subscribe(res => console.log(res));
+    this.authService.userProfile$.subscribe(res => console.log(res));
   }
 }

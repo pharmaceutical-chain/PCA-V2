@@ -13,14 +13,14 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AdminGuard implements CanActivate {
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean | UrlTree> | boolean {
-    this.auth.isAuthenticated$.subscribe(loggedIn => {
-      if (!loggedIn) {
+    this.auth.userProfile$.subscribe(user => {
+      if (!user) {
         this.auth.login(state.url);
       }
     });

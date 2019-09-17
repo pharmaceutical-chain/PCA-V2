@@ -54,7 +54,7 @@ export class AuthService {
 
   }
 
-  isAdmin$ = this.userProfileSubject$.pipe(
+  isAdmin$ = this.userProfile$.pipe(
     concatMap(user => {
       if (user) {
         return of(user[config.namespace + 'roles'] === 'admin' ? true : false)
