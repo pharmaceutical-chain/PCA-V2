@@ -1,7 +1,7 @@
 import browser from 'browser-detect';
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { environment as env } from '../../environments/environment';
 
@@ -18,7 +18,6 @@ import {
   actionSettingsChangeLanguage
 } from '../core/settings/settings.actions';
 import { AuthService } from '../core/auth/auth.service';
-import { LOGIN_STATE } from '../core/local-storage/local-storage.service';
 
 @Component({
   selector: 'pca-root',
@@ -69,8 +68,8 @@ export class AppComponent implements OnInit {
       );
     }
 
-    this.localStorageService.watchStorage().subscribe(() => {
-      this.isAuthenticated = this.localStorageService.getItem(LOGIN_STATE);
+    this.authService.loggedInSub$.subscribe((isAuthenticated) => {
+      this.isAuthenticated = isAuthenticated;
     });
 
     this.stickyHeader$ = this.store.pipe(select(selectSettingsStickyHeader));

@@ -1,8 +1,7 @@
-import { AdminGuard } from './core/auth/admin.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { CallbackComponent } from './core/auth/callback/callback.component';
-import { AuthGuard } from './core/core.module';
+import { AuthGuard, AdminGuard } from './core/core.module';
 
 const routes: Routes = [
   {
@@ -27,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'tenant',
-    canActivate: [AuthGuard && AdminGuard],
+    canActivate: [AdminGuard],
     loadChildren: () =>
     import('./features/tenant/tenant.module').then(m => m.TenantModule)
   },

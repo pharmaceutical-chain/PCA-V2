@@ -31,15 +31,20 @@ export class AuthService {
     shareReplay(1), // Every subscription receives the same shared value
     catchError(err => throwError(err))
   );
+  // Define all user role guards
   // Define observables for SDK methods that return promises by default
   // For each Auth0 SDK method, first ensure the client instance is ready
-  // concatMap: Using the client instance, call SDK method; SDK returns a promise
+  // concatMap: call SDK method; SDK returns a promise
   // from: Convert that resulting promise into an observable
   isAuthenticated$ = this.auth0Client$.pipe(
     concatMap((client: Auth0Client) => from(client.isAuthenticated())),
     tap(res => (this.loggedIn = res))
   );
-  
+  isAdmin$ = this.isAuthenticated$.pipe(
+    concatMap(loggedIn => loggedIn ? this.getUser$() : of(false)),
+    concatMap(user => user ? of(user[config.namespace + 'roles'] === 'admin' ? true : false) : of (false))
+  );
+
   handleRedirectCallback$ = this.auth0Client$.pipe(
     concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
   );
@@ -48,22 +53,13 @@ export class AuthService {
   userProfile$ = this.userProfileSubject$.asObservable();
   // Create a local property for login status
   loggedIn: boolean = null;
+  loggedInSub$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private router: Router,
     private localStorageService: LocalStorageService) {
 
   }
-
-  // Define user roles guards
-  isAdmin$ = this.userProfile$.pipe(
-    concatMap(user => {
-      if (user) {
-        return of(user[config.namespace + 'roles'] === 'admin' ? true : false)
-      }
-      return of(false);
-    })
-  );
 
   // When calling, options can be passed if desired
   // https://auth0.github.io/auth0-spa-js/classes/auth0client.html#getuser
@@ -90,6 +86,7 @@ export class AuthService {
         if (loggedIn) {
           // If authenticated, get user and set in app
           // NOTE: you could pass options here if needed
+          this.loggedInSub$.next(true);
           return this.getUser$();
         }
         // If not authenticated, return stream that emits 'false'
@@ -102,7 +99,7 @@ export class AuthService {
       this.loggedIn = !!response;
 
       if (this.loggedIn === false) {
-        this.localStorageService.setLoginState({}, false);
+        this.loggedInSub$.next(false);
       }
     });
   }
@@ -131,14 +128,14 @@ export class AuthService {
       }),
       concatMap(() => {
         // Redirect callback complete; get user and login status
-        return combineLatest(this.getUser$(), this.isAuthenticated$);
+        return combineLatest([this.getUser$(), this.isAuthenticated$]);
       })
     );
     // Subscribe to authentication completion observable
     // Response will be an array of user, token, and login status
     authComplete$.subscribe(([user, loggedIn]) => {
       // Redirect to target route after callback processing
-      this.localStorageService.setLoginState(user, loggedIn);
+      this.loggedInSub$.next(loggedIn);
       this.router.navigate([targetRoute]);
     });
   }
