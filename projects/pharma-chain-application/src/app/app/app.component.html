@@ -18,7 +18,7 @@
 
     <div class="wrapper">
 
-      <div *ngIf="isAuthenticated$ | async" class="toolbar" [style.position]="(stickyHeader$ | async) ? 'fixed' : 'inherit'" [class.mat-elevation-z4]="(stickyHeader$ | async)">
+      <div *ngIf="isAuthenticated" class="toolbar" [style.position]="(stickyHeader$ | async) ? 'fixed' : 'inherit'" [class.mat-elevation-z4]="(stickyHeader$ | async)">
         <mat-toolbar color="primary">
           <button mat-icon-button class="d-md-none" (click)="sidenav.open()">
             <fa-icon icon="bars"></fa-icon>
@@ -39,7 +39,7 @@
             </button>
           </span>
 
-          <!-- <button mat-button mat-stroked-button color="accent" *ngIf="!isAuthenticated$ | async" (click)="onLoginClick()">
+          <!-- <button mat-button mat-stroked-button color="accent" *ngIf="!isAuthenticated" (click)="onLoginClick()">
             {{ 'pca.menu.login' | translate }}
           </button> -->
 
@@ -77,9 +77,9 @@
         </mat-toolbar>
       </div>
 
-      <div [ngClass]="{'content-margin-top': isAuthenticated$ | async}" class="content" [@routeAnimations]="o.isActivated && o.activatedRoute.routeConfig.data && o.activatedRoute.routeConfig.data.title">
+      <div [ngClass]="{'content-margin-top': isAuthenticated}" class="content" [@routeAnimations]="o.isActivated && o.activatedRoute.routeConfig.data && o.activatedRoute.routeConfig.data.title">
         <router-outlet #o="outlet"></router-outlet>
-        <button mat-button mat-stroked-button color="accent" *ngIf="!isAuthenticated$ | async" (click)="onLoginClick()">
+        <button mat-button mat-stroked-button color="accent" *ngIf="!isAuthenticated" (click)="onLoginClick()">
           {{ 'pca.menu.login' | translate }}
         </button>
       </div>

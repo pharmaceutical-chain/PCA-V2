@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import createAuth0Client from '@auth0/auth0-spa-js';
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
-import * as config from '../../../../../auth_config.json';
+import * as config from '../../../../../../auth_config.json';
 import {
   from,
   of,
@@ -89,8 +89,6 @@ export class AuthService {
         if (loggedIn) {
           // If authenticated, get user and set in app
           // NOTE: you could pass options here if needed
-          console.log('----------local setup');
-          this.getUser$().subscribe(res => console.log(res));
           return this.getUser$();
         }
         // If not authenticated, return stream that emits 'false'
@@ -147,8 +145,6 @@ export class AuthService {
   logout() {
     // Ensure Auth0 client instance exists
     this.auth0Client$.subscribe((client: Auth0Client) => {
-      this.localStorageService.setLoginState({}, false);
-
       // Call method to log out
       client.logout({
         client_id: config.clientId,

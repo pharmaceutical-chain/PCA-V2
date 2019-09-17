@@ -1,5 +1,5 @@
 import browser from 'browser-detect';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
@@ -27,6 +27,7 @@ import { LOGIN_STATE } from '../core/local-storage/local-storage.service';
   animations: [routeAnimations]
 })
 export class AppComponent implements OnInit {
+
   isProd = env.production;
   envName = env.envName;
   version = env.versions.app;
@@ -43,7 +44,7 @@ export class AppComponent implements OnInit {
     { link: 'settings', label: 'pca.menu.settings' }
   ];
 
-  isAuthenticated$: Observable<boolean>;
+  isAuthenticated: boolean;
   stickyHeader$: Observable<boolean>;
   language$: Observable<string>;
   theme$: Observable<string>;
@@ -68,7 +69,10 @@ export class AppComponent implements OnInit {
       );
     }
 
-    this.isAuthenticated$ = of<boolean>(this.localStorageService.getItem(LOGIN_STATE));
+    this.localStorageService.watchStorage().subscribe(() => {
+      this.isAuthenticated = this.localStorageService.getItem(LOGIN_STATE);
+    });
+
     this.stickyHeader$ = this.store.pipe(select(selectSettingsStickyHeader));
     this.language$ = this.store.pipe(select(selectSettingsLanguage));
     this.theme$ = this.store.pipe(select(selectEffectiveTheme));

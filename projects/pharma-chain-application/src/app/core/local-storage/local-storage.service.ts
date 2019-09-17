@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject, Observable } from 'rxjs';
 
 const APP_PREFIX = 'pca-';
 export const USER_PROFILE = 'user-profile';
@@ -8,7 +9,10 @@ export const LOGIN_STATE = 'login-state';
   providedIn: 'root'
 })
 export class LocalStorageService {
-  constructor() {}
+
+  private storageSub = new Subject<boolean>();
+
+  constructor() { }
 
   static loadInitialState() {
     return Object.keys(localStorage).reduce((state: any, storageKey) => {
@@ -41,8 +45,13 @@ export class LocalStorageService {
     }, {});
   }
 
+  watchStorage(): Observable<any> {
+    return this.storageSub.asObservable();
+  }
+
   setItem(key: string, value: any) {
     localStorage.setItem(`${APP_PREFIX}${key}`, JSON.stringify(value));
+    this.storageSub.next();
   }
 
   getItem(key: string) {
@@ -51,6 +60,7 @@ export class LocalStorageService {
 
   removeItem(key: string) {
     localStorage.removeItem(`${APP_PREFIX}${key}`);
+    this.storageSub.next();
   }
 
   /** Tests that localStorage exists, can be written to, and read from. */
@@ -70,7 +80,7 @@ export class LocalStorageService {
   }
 
   setLoginState(userProfile: Object, loginState: boolean) {
-    this.setItem('USER_PROFILE', userProfile);
-    this.setItem('LOGIN_STATE', loginState);
+    this.setItem(USER_PROFILE, userProfile);
+    this.setItem(LOGIN_STATE, loginState);
   }
 }
