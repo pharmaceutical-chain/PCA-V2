@@ -10,6 +10,11 @@ const routes: Routes = [
     component: TenantComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'overview-tenant',
+        pathMatch: 'full'
+      },
+      {
         path: 'enter-tenant',
         component: EnterTenantComponent,
         data: { title: 'enter tenant' }
