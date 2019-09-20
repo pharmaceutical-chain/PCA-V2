@@ -79,7 +79,7 @@
 
       <div [ngClass]="{'content-margin-top': isAuthenticated}" class="content" [@routeAnimations]="o.isActivated && o.activatedRoute.routeConfig.data && o.activatedRoute.routeConfig.data.title">
         <router-outlet #o="outlet"></router-outlet>
-        <button mat-button mat-stroked-button color="accent" *ngIf="!isAuthenticated" (click)="onLoginClick()">
+        <button *ngIf="!isAuthenticated" mat-button mat-raised-button color="accent" (click)="onLoginClick()" style="margin: 10% 50%;" [ngClass]="routeAnimationsElements">
           {{ 'pca.menu.login' | translate }}
         </button>
       </div>

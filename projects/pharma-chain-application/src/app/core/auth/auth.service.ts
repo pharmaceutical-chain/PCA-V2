@@ -10,9 +10,8 @@ import {
   combineLatest,
   throwError
 } from 'rxjs';
-import { tap, catchError, concatMap, shareReplay } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { LocalStorageService } from '../local-storage/local-storage.service';
+import { tap, catchError, concatMap, shareReplay, filter } from 'rxjs/operators';
+import { Router, NavigationCancel } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +30,7 @@ export class AuthService {
     shareReplay(1), // Every subscription receives the same shared value
     catchError(err => throwError(err))
   );
-  // Define all user role guards
+  // Define authenticated guards
   // Define observables for SDK methods that return promises by default
   // For each Auth0 SDK method, first ensure the client instance is ready
   // concatMap: call SDK method; SDK returns a promise
@@ -40,10 +39,6 @@ export class AuthService {
     concatMap((client: Auth0Client) => from(client.isAuthenticated())),
     tap(res => (this.loggedIn = res))
   );
-  isAdmin$ = this.isAuthenticated$.pipe(
-    concatMap(loggedIn => loggedIn ? this.getUser$() : of(false)),
-    concatMap(user => user ? of(user[config.namespace + 'roles'] === 'admin' ? true : false) : of (false))
-  );
 
   handleRedirectCallback$ = this.auth0Client$.pipe(
     concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
@@ -51,13 +46,29 @@ export class AuthService {
   // Create subject and public observable of user profile data
   private userProfileSubject$ = new BehaviorSubject<any>(null);
   userProfile$ = this.userProfileSubject$.asObservable();
-  // Create a local property for login status
+  // Create a local property for login status and subject to keep track and to control
   loggedIn: boolean = null;
   loggedInSub$ = new BehaviorSubject<boolean>(false);
 
+  // Define all user role guards
+  isAdmin$ = this.userProfile$.pipe(
+    concatMap(user => user ? of(user[config.namespace + 'roles'] === 'admin' ? true : false) : of(false))
+  );
+  isInspection$ = this.userProfile$.pipe(
+    concatMap(user => user ? of(user[config.namespace + 'roles'] === 'inspection' ? true : false) : of(false))
+  );
+  isManufacturer$ = this.userProfile$.pipe(
+    concatMap(user => user ? of(user[config.namespace + 'roles'] === 'manufacturer' ? true : false) : of(false))
+  );
+  isDistributor$ = this.userProfile$.pipe(
+    concatMap(user => user ? of(user[config.namespace + 'roles'] === 'distributor' ? true : false) : of(false))
+  );
+  isRetailer$ = this.userProfile$.pipe(
+    concatMap(user => user ? of(user[config.namespace + 'roles'] === 'retailer' ? true : false) : of(false))
+  );
+
   constructor(
-    private router: Router,
-    private localStorageService: LocalStorageService) {
+    private router: Router) {
 
   }
 
@@ -134,9 +145,16 @@ export class AuthService {
     // Subscribe to authentication completion observable
     // Response will be an array of user, token, and login status
     authComplete$.subscribe(([user, loggedIn]) => {
-      // Redirect to target route after callback processing
       this.loggedInSub$.next(loggedIn);
+      // Redirect to target route after callback processing
       this.router.navigate([targetRoute]);
+
+      // After login but unauthorized
+      // Subcribe navigationcancel event of router
+      // Need navigate to default page
+      this.router.events.pipe(filter(e => e instanceof NavigationCancel)).subscribe(cancel => {
+        this.router.navigate(['/']);
+      });
     });
   }
 

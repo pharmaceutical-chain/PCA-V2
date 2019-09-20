@@ -20,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: 'feature-list',
-    canActivate: [AuthGuard],
+    canActivate: [AdminGuard],
     loadChildren: () =>
       import('./features/feature-list/feature-list.module').then(m => m.FeatureListModule)
   },

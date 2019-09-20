@@ -143,5 +143,7 @@
   "pca.examples.todos.toggle.notification": "Toggled {{name}} to",
   "pca.examples.todos.tooltip.add": "Add new todo",
   "pca.examples.todos.tooltip.remove": "Remove done todos",
-  "pca.examples.todos.undo": "Undo"
+  "pca.examples.todos.undo": "Undo",
+  "pca.features.tenants.enter": "Enter tenant",
+  "pca.features.tenants.overview": "Overview tenants"
 }

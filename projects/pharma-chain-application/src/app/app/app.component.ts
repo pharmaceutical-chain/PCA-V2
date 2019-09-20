@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
   navigation = [
     { link: 'about', label: 'pca.menu.about' },
     { link: 'feature-list', label: 'pca.menu.features' },
-    { link: 'examples', label: 'pca.menu.examples' }
+    // { link: 'examples', label: 'pca.menu.examples' }
   ];
   navigationSideMenu = [
     ...this.navigation,

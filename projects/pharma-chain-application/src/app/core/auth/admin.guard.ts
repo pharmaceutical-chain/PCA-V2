@@ -7,7 +7,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
-import { tap } from 'rxjs/operators';
+import { tap, concatMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +19,13 @@ export class AdminGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean | UrlTree> | boolean {
-    return this.auth.isAdmin$.pipe(
+    return this.auth.isAuthenticated$.pipe(
       tap(loggedIn => {
         if (!loggedIn) {
           this.auth.login(state.url);
         }
-      })
+      }),
+      concatMap(isAuthenticated => this.auth.isAdmin$)
     );
   }
 }
