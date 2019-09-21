@@ -51,19 +51,19 @@ export class AuthService {
   loggedInSub$ = new BehaviorSubject<boolean>(false);
 
   // Define all user role guards
-  isAdmin$ = this.userProfile$.pipe(
+  isAdmin$ = this.getUser$().pipe(
     concatMap(user => user ? of(user[config.namespace + 'roles'] === 'admin' ? true : false) : of(false))
   );
-  isInspection$ = this.userProfile$.pipe(
+  isInspection$ = this.getUser$().pipe(
     concatMap(user => user ? of(user[config.namespace + 'roles'] === 'inspection' ? true : false) : of(false))
   );
-  isManufacturer$ = this.userProfile$.pipe(
+  isManufacturer$ = this.getUser$().pipe(
     concatMap(user => user ? of(user[config.namespace + 'roles'] === 'manufacturer' ? true : false) : of(false))
   );
-  isDistributor$ = this.userProfile$.pipe(
+  isDistributor$ = this.getUser$().pipe(
     concatMap(user => user ? of(user[config.namespace + 'roles'] === 'distributor' ? true : false) : of(false))
   );
-  isRetailer$ = this.userProfile$.pipe(
+  isRetailer$ = this.getUser$().pipe(
     concatMap(user => user ? of(user[config.namespace + 'roles'] === 'retailer' ? true : false) : of(false))
   );
 
