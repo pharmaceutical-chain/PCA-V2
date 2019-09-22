@@ -4,9 +4,6 @@
       <h1 class="main-heading">{{ 'pca.examples.form.title' | translate }}</h1>
     </div>
   </div>
-  <!-- <ng-container *ngIf="formValueChanges$ | async as updatedForm">
-    {{update(updatedForm)}}
-  </ng-container> -->
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -109,5 +106,35 @@
       </div>
     </div>
   </form>
+
+  <div class="row justify-content-center">
+    <div class="col">
+      <input (change)="onFileSelected()" type="file" id="file" accept="application/pdf">
+      <div *ngIf="error">
+        {{ error.message | json }}
+      </div>
+    </div>
+    <div class="col">
+      <div *ngIf="!isLoaded && !error && progressData" id="progress">
+        <div class="bg">
+          <div class="bar" [style.width]="progressData.loaded / progressData.total * 100 + '%'"></div>
+        </div>
+        <span>{{ getInt(progressData.loaded / progressData.total * 100) }}%</span>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <pdf-viewer 
+      [src]="pdfSrc$ | async"
+      [original-size]="false"
+      [autoresize]="true"
+      [render-text]="true"
+      [external-link-target]="'blank'"
+      (on-progress)="onProgress($event)"
+      (page-rendered)="pageRendered($event)"
+      (error)="onError($event)"
+      (after-load-complete)="afterLoadComplete($event)">
+    </pdf-viewer>
+  </div>
 
 </div>

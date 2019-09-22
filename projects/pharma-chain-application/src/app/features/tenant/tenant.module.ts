@@ -14,6 +14,7 @@ import { TenantComponent } from './tenant/tenant.component';
 import { OverviewTenantComponent } from './overview-tenant/overview-tenant.component';
 import { EffectsModule } from '@ngrx/effects';
 import { TenantsEffects } from './tenants.effects';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(
@@ -29,6 +30,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CommonModule,
     SharedModule,
     TenantRoutingModule,
+    PdfViewerModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
