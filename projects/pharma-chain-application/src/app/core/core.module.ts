@@ -44,6 +44,7 @@ import {
 import { AuthGuard } from './auth/auth.guard';
 import { AdminGuard } from './auth/admin.guard';
 import { CallbackComponent } from './auth/callback/callback.component';
+import { UploaderService } from './uploader/uploader.service';
 
 export {
   CallbackComponent,
@@ -59,7 +60,8 @@ export {
   NotificationService,
   selectEffectiveTheme,
   selectSettingsLanguage,
-  selectSettingsStickyHeader
+  selectSettingsStickyHeader,
+  UploaderService
 };
 
 export function HttpLoaderFactory(http: HttpClient) {
