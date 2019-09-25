@@ -34,8 +34,9 @@ export class EnterTenantComponent implements OnInit {
 
 
   pdfSrc$ = new BehaviorSubject<string | PDFSource | ArrayBuffer>('');
-  pdf: any;
-  isLoaded = false;
+  pdf: PDFDocumentProxy;
+  isLoaded = false; // presented all page on view
+  currentPageRendered = 0;
   error: any;
   progressData: PDFProgressData;
 
@@ -58,20 +59,11 @@ export class EnterTenantComponent implements OnInit {
 
       reader.onload = (e: any) => {
         this.pdfSrc$.next(e.target.result);
+        this.isLoaded = false;
       };
 
       reader.readAsArrayBuffer($pdf.files[0]);
     }
-  }
-
-  /**
-  * Pdf loading progress callback
-  * @param {PDFProgressData} progressData
-  */
-  onProgress(progressData: PDFProgressData) {
-    this.progressData = progressData;
-    this.isLoaded = false;
-    this.error = null;
   }
 
   /**
@@ -88,7 +80,6 @@ export class EnterTenantComponent implements OnInit {
   */
   afterLoadComplete(pdf: PDFDocumentProxy) {
     this.pdf = pdf;
-    this.isLoaded = true;
   }
 
   /**
@@ -140,6 +131,10 @@ export class EnterTenantComponent implements OnInit {
   */
   pageRendered(e: CustomEvent) {
     console.log('(page-rendered)', e);
+    this.currentPageRendered = e['pageNumber'];
+    if (this.currentPageRendered === this.pdf.numPages) {
+      this.isLoaded = true;
+    }
   }
 
 }

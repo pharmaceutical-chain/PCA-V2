@@ -115,11 +115,12 @@
       </div>
     </div>
     <div class="col">
-      <div *ngIf="!isLoaded && !error && progressData" id="progress">
-        <div class="bg">
-          <div class="bar" [style.width]="progressData.loaded / progressData.total * 100 + '%'"></div>
-        </div>
-        <span>{{ getInt(progressData.loaded / progressData.total * 100) }}%</span>
+      <div *ngIf="!isLoaded && !error && pdf">
+        <mat-progress-bar
+          [color]="primary"
+          [mode]="determinate"
+          [value]="getInt(currentPageRendered / pdf.numPages * 100)">
+      </mat-progress-bar>
       </div>
     </div>
   </div>
@@ -130,7 +131,6 @@
       [autoresize]="true"
       [render-text]="true"
       [external-link-target]="'blank'"
-      (on-progress)="onProgress($event)"
       (page-rendered)="pageRendered($event)"
       (error)="onError($event)"
       (after-load-complete)="afterLoadComplete($event)">
