@@ -109,7 +109,7 @@
 
   <div class="row justify-content-center">
     <div class="col">
-      <input (change)="onFileSelected()" type="file" id="file" accept="application/pdf">
+      <input (change)="onFileSelected()" type="file" id="file" accept="application/pdf" multiple="multiple">
       <div *ngIf="error">
         {{ error.message | json }}
       </div>
@@ -125,8 +125,10 @@
     </div>
   </div>
   <div class="row justify-content-center">
-    <pdf-viewer 
-      [src]="pdfSrc$ | async"
+    <pdf-viewer
+      [ngStyle]="{'width': currentPageRendered >= 1 ? '20%' : '40%'}"
+      [ngClass]="{'auto-resize': currentPageRendered >= 1}"
+      [src]="(pdfSrc$ | async)?(pdfSrc$ | async)[0] : ''"
       [original-size]="false"
       [autoresize]="true"
       [render-text]="true"

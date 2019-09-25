@@ -18,9 +18,21 @@ mat-slider {
   margin: 20px 0px;
 }
 
-
 pdf-viewer {
   display: block;
+}
+
+.auto-resize {
+  ::ng-deep {
+    .page, .canvasWrapper, canvas, .textLayer {
+      width: 100% !important;
+      height: 20% !important;
+    }
+
+    .pdfViewer {
+      display: flex;
+    }
+  }
 }
 
 .error {

@@ -1,14 +1,14 @@
-import { BehaviorSubject } from 'rxjs';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
 import { FormBuilder, Validators } from '@angular/forms';
 import { PDFDocumentProxy, PDFSource, PDFProgressData } from 'ng2-pdf-viewer';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'pca-enter-tenant',
   templateUrl: './enter-tenant.component.html',
   styleUrls: ['./enter-tenant.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EnterTenantComponent implements OnInit {
 
@@ -32,8 +32,8 @@ export class EnterTenantComponent implements OnInit {
     rating: [0, Validators.required]
   });
 
-
-  pdfSrc$ = new BehaviorSubject<string | PDFSource | ArrayBuffer>('');
+  pdfSrc: Array<string | PDFSource | ArrayBuffer> = [];
+  pdfSrc$ = new BehaviorSubject<any>(this.pdfSrc);
   pdf: PDFDocumentProxy;
   isLoaded = false; // presented all page on view
   currentPageRendered = 0;
@@ -42,6 +42,7 @@ export class EnterTenantComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private cdf: ChangeDetectorRef
   ) {
   }
 
@@ -54,12 +55,13 @@ export class EnterTenantComponent implements OnInit {
   onFileSelected() {
     const $pdf: any = document.querySelector('#file');
 
-    if (typeof FileReader !== 'undefined') {
+    if (typeof FileReader !== 'undefined' && $pdf.files.lenght !== 0) {
       const reader = new FileReader();
 
       reader.onload = (e: any) => {
-        this.pdfSrc$.next(e.target.result);
         this.isLoaded = false;
+        this.pdfSrc.push(e.target.result);
+        this.pdfSrc$.next(this.pdfSrc);
       };
 
       reader.readAsArrayBuffer($pdf.files[0]);
@@ -109,7 +111,7 @@ export class EnterTenantComponent implements OnInit {
   setPassword(password: string) {
     let newSrc;
 
-    const pdfSrc = this.pdfSrc$.toPromise();
+    const pdfSrc = this.pdfSrc[0];
 
     if (pdfSrc instanceof ArrayBuffer) {
       newSrc = { data: pdfSrc };
@@ -121,7 +123,8 @@ export class EnterTenantComponent implements OnInit {
 
     newSrc.password = password;
 
-    this.pdfSrc$.next(newSrc);
+    this.pdfSrc[0] = newSrc;
+    this.pdfSrc$.next(this.pdfSrc);
   }
 
   /**
@@ -136,5 +139,4 @@ export class EnterTenantComponent implements OnInit {
       this.isLoaded = true;
     }
   }
-
 }
