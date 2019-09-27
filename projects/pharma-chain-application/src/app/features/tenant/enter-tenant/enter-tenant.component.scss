@@ -5,36 +5,66 @@
   margin: 0 0 20px 0;
   text-align: center;
 }
+
 mat-card {
   margin-bottom: 20px;
 }
+
 mat-checkbox {
   margin: 10px 0 20px 0;
 }
+
 mat-slider {
   width: 100%;
 }
+
 .buttons {
   margin: 20px 0px;
 }
 
-pdf-viewer {
-  display: block;
+.progress-bar-container {
 }
 
-.auto-resize {
-  ::ng-deep {
-    .page, .canvasWrapper, canvas, .textLayer {
-      width: 100% !important;
-      height: 20% !important;
-    }
+.pdfViewer-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 15px;
 
-    .pdfViewer {
-      display: flex;
+  .pdfViewer-item {
+    width: 30%;
+    margin-right: 18px;
+  }
+
+  pdf-viewer {
+    display: block;
+
+    ::ng-deep {
+      .page, .canvasWrapper, canvas, .textLayer {
+        width: 100% !important;
+        height: 100% !important;
+      }
+    }
+  }
+
+  .remove-pdf-icon {
+    position: absolute;
+    cursor: pointer;
+    top: 30px;
+    font-size: 20px;
+    color: #616161;
+
+    &:hover {
+      color: #303030;
     }
   }
 }
 
 .error {
   color: #ff4146;
+}
+
+.import-button {
+  position: absolute;
+  top: -8px;
+  right: 0px;
 }

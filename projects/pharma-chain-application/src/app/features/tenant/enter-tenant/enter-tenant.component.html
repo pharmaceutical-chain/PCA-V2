@@ -8,12 +8,7 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <mat-card>
-          <span class="d-flex justify-content-between align-items-baseline">
-            <h2>{{ 'pca.examples.form.subtitle1' | translate }}</h2>
-            <mat-slide-toggle formControlName="autosave">
-              {{ 'pca.examples.form.autosave' | translate }}
-            </mat-slide-toggle>
-          </span>
+          <!-- Business name -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <input matInput placeholder="{{ 'pca.examples.form.placeholder1' | translate }}"
@@ -23,6 +18,10 @@
                 {{ 'pca.examples.form.error1' | translate }}
               </mat-error>
             </mat-form-field>
+          </div>
+
+          <!-- Business register certificate code, Tax code -->
+          <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <input matInput type="password" placeholder="{{ 'pca.examples.form.placeholder2' | translate }}"
                 formControlName="password">
@@ -31,7 +30,28 @@
                 {{ 'pca.examples.form.error1' | translate }}
               </mat-error>
             </mat-form-field>
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.examples.form.placeholder5' | translate }}">
+              <!-- <mat-error *ngIf="form.get('email').hasError('required')">
+                  {{ 'pca.examples.form.placeholder5' | translate }}
+                  {{ 'pca.examples.form.error1' | translate }}
+                </mat-error> -->
+            </mat-form-field>
           </div>
+
+          <!-- Type of business -->
+          <div class="row">
+            <mat-form-field class="col-6" [ngClass]="routeAnimationsElements">
+              <mat-label>Type of business</mat-label>
+              <mat-select>
+                <mat-option *ngFor="let type of types" [value]="type">
+                  {{type}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Address -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <input matInput placeholder="{{ 'pca.examples.form.placeholder3' | translate }}" formControlName="email"
@@ -40,103 +60,54 @@
                 {{ 'pca.examples.form.placeholder3' | translate }}
                 {{ 'pca.examples.form.error1' | translate }}
               </mat-error>
-              <mat-error *ngIf="form.get('email').hasError('email')">
-                {{ 'pca.examples.form.placeholder3' | translate }}
-                {{ 'pca.examples.form.error2' | translate }}</mat-error>
             </mat-form-field>
           </div>
+
+          <!-- Import button -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput formControlName="birthday" [matDatepicker]="picker"
-                placeholder="{{ 'pca.examples.form.placeholder5' | translate }}">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-              <mat-error *ngIf="form.get('birthday').hasError('required')">
-                {{ 'pca.examples.form.placeholder5' | translate }}
-                {{ 'pca.examples.form.error1' | translate }}
-              </mat-error>
+              <input matInput placeholder="{{ 'pca.examples.form.save' | translate }}">
+              <input #file (change)="onFileSelected()" type="file" id="file" accept="application/pdf"
+                multiple="multiple" style="display:none">
+              <button (click)="file.click()" type="button" mat-raised-button color="accent" class="import-button">
+                {{ 'pca.examples.form.reset' | translate }}
+              </button>
             </mat-form-field>
           </div>
-          <div class="row">
-            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <textarea matInput placeholder="{{ 'pca.examples.form.placeholder4' | translate }}"
-                formControlName="description" minlength="10" maxlength="1000" cdkTextareaAutosize
-                #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3" cdkAutosizeMaxRows="10"></textarea>
-              <mat-hint align="end">{{form.get('description').value?.length}} /
-                1000</mat-hint>
-              <mat-error *ngIf="form.get('description').hasError('required')">
-                {{ 'pca.examples.form.placeholder4' | translate }}
-                {{ 'pca.examples.form.error1' | translate }}
-              </mat-error>
-              <mat-error *ngIf="form.get('description').hasError('minlength')">
-                {{ 'pca.examples.form.placeholder4' | translate }}
-                {{ 'pca.examples.form.error3' | translate }} 10
-              </mat-error>
-              <mat-error *ngIf="form.get('description').hasError('maxlength')">
-                {{ 'pca.examples.form.placeholder4' | translate }}
-                {{ 'pca.examples.form.error4' | translate }} 1000
-              </mat-error>
-            </mat-form-field>
+
+          <!-- Pdf loading progress -->
+          <div class="row" *ngIf="isLoading" [ngClass]="routeAnimationsElements" class="progress-bar-container">
+            <mat-progress-bar mode="indeterminate">
+            </mat-progress-bar>
           </div>
-          <div class="row" [ngClass]="routeAnimationsElements">
-            <div class="col">
-              <label>{{ 'pca.examples.form.text2' | translate }}</label>
-              <br>
-              <mat-slider thumbLabel tickInterval="1" min="1" max="10" formControlName="rating"></mat-slider>
+
+          <!-- Pdfviewer -->
+          <div class="row pdfViewer-container">
+            <div *ngFor="let pdfSrc of (pdfSrc$ | async); let i=index" class="pdfViewer-item"
+              [ngClass]="routeAnimationsElements">
+              <mat-form-field *ngIf="currentPageRendered[i]" class="col">
+                <input matInput placeholder="{{ 'pca.examples.form.placeholder4' | translate }}">
+                <fa-icon class="remove-pdf-icon" icon="times"></fa-icon>
+                <mat-error *ngIf="form.get('username').invalid">
+                  {{ 'pca.examples.form.placeholder4' | translate }}
+                  {{ 'pca.examples.form.error1' | translate }}
+                </mat-error>
+              </mat-form-field>
+              <pdf-viewer [src]="pdfSrc.source" [original-size]="false" [autoresize]="true" [show-all]="false"
+                [external-link-target]="'blank'" (page-rendered)="pageRendered($event,i)" (error)="onError($event,i)"
+                (after-load-complete)="afterLoadComplete($event,i)">
+              </pdf-viewer>
             </div>
           </div>
-          <div class="row">
-            <mat-checkbox class="col" formControlName="requestGift" [ngClass]="routeAnimationsElements">
-              {{ 'pca.examples.form.text1' | translate }}
-            </mat-checkbox>
-          </div>
+
+          <!-- Group button -->
           <div class="row buttons d-flex justify-content-between pad">
             <button mat-raised-button color="primary" [ngClass]="routeAnimationsElements">
               {{ 'pca.examples.form.send' | translate }}
-            </button>
-            <button type="button" mat-raised-button color="accent" [disabled]="form.get('autosave').value"
-              [ngClass]="routeAnimationsElements" (click)="save()">
-              {{ 'pca.examples.form.save' | translate }}
-            </button>
-            <button type="reset" mat-raised-button (click)="reset()" [ngClass]="routeAnimationsElements">
-              {{ 'pca.examples.form.reset' | translate }}
             </button>
           </div>
         </mat-card>
       </div>
     </div>
   </form>
-
-  <div class="row justify-content-center">
-    <div class="col">
-      <input (change)="onFileSelected()" type="file" id="file" accept="application/pdf" multiple="multiple">
-      <div *ngIf="error">
-        {{ error.message | json }}
-      </div>
-    </div>
-    <div class="col">
-      <div *ngIf="!isLoaded && !error && pdf">
-        <mat-progress-bar
-          [color]="primary"
-          [mode]="determinate"
-          [value]="getInt(currentPageRendered / pdf.numPages * 100)">
-      </mat-progress-bar>
-      </div>
-    </div>
-  </div>
-  <div class="row justify-content-center">
-    <pdf-viewer
-      [ngStyle]="{'width': currentPageRendered >= 1 ? '20%' : '40%'}"
-      [ngClass]="{'auto-resize': currentPageRendered >= 1}"
-      [src]="(pdfSrc$ | async)?(pdfSrc$ | async)[0] : ''"
-      [original-size]="false"
-      [autoresize]="true"
-      [render-text]="true"
-      [external-link-target]="'blank'"
-      (page-rendered)="pageRendered($event)"
-      (error)="onError($event)"
-      (after-load-complete)="afterLoadComplete($event)">
-    </pdf-viewer>
-  </div>
-
 </div>

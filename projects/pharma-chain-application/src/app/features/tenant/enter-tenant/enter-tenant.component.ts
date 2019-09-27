@@ -1,18 +1,25 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
 import { FormBuilder, Validators } from '@angular/forms';
 import { PDFDocumentProxy, PDFSource, PDFProgressData } from 'ng2-pdf-viewer';
 import { BehaviorSubject } from 'rxjs';
 
+interface PdfSourceModel {
+  source: string | PDFSource | ArrayBuffer;
+  name: string
+}
+
 @Component({
   selector: 'pca-enter-tenant',
   templateUrl: './enter-tenant.component.html',
   styleUrls: ['./enter-tenant.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EnterTenantComponent implements OnInit {
 
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
+
+  types = ['Manufacturer', 'Distributor', 'Retailer'];
 
   form = this.fb.group({
     autosave: false,
@@ -32,17 +39,16 @@ export class EnterTenantComponent implements OnInit {
     rating: [0, Validators.required]
   });
 
-  pdfSrc: Array<string | PDFSource | ArrayBuffer> = [];
+  pdfSrc: Array<PdfSourceModel> = [];
   pdfSrc$ = new BehaviorSubject<any>(this.pdfSrc);
-  pdf: PDFDocumentProxy;
-  isLoaded = false; // presented all page on view
-  currentPageRendered = 0;
-  error: any;
+  pdf: Array<PDFDocumentProxy> = [];
+  isLoading = false; // presented all pdf on view
+  currentPageRendered = [];
+  error: Array<any> = [];
   progressData: PDFProgressData;
 
   constructor(
-    private fb: FormBuilder,
-    private cdf: ChangeDetectorRef
+    private fb: FormBuilder
   ) {
   }
 
@@ -55,16 +61,19 @@ export class EnterTenantComponent implements OnInit {
   onFileSelected() {
     const $pdf: any = document.querySelector('#file');
 
-    if (typeof FileReader !== 'undefined' && $pdf.files.lenght !== 0) {
-      const reader = new FileReader();
+    if ((typeof FileReader !== 'undefined') && ($pdf.files.length !== 0)) {
+      this.isLoading = true;
 
-      reader.onload = (e: any) => {
-        this.isLoaded = false;
-        this.pdfSrc.push(e.target.result);
-        this.pdfSrc$.next(this.pdfSrc);
-      };
+      for (let i = 0; i < $pdf.files.length; i++) {
+        const reader = new FileReader();
 
-      reader.readAsArrayBuffer($pdf.files[0]);
+        reader.onloadend = (e: any) => {
+          this.pdfSrc.push({ source: e.target.result, name: '' });
+          this.pdfSrc$.next(this.pdfSrc);
+        };
+
+        reader.readAsArrayBuffer($pdf.files[i]);
+      }
     }
   }
 
@@ -80,8 +89,8 @@ export class EnterTenantComponent implements OnInit {
   * Get pdf information after it's loaded
   * @param pdf
   */
-  afterLoadComplete(pdf: PDFDocumentProxy) {
-    this.pdf = pdf;
+  afterLoadComplete(pdf: PDFDocumentProxy, index: number) {
+    this.pdf.push(pdf);
   }
 
   /**
@@ -89,8 +98,8 @@ export class EnterTenantComponent implements OnInit {
    *
    * @param error
    */
-  onError(error: any) {
-    this.error = error;
+  onError(error: any, index: number) {
+    this.error[index] = error;
 
     if (error.name === 'PasswordException') {
       const password = prompt(
@@ -98,8 +107,8 @@ export class EnterTenantComponent implements OnInit {
       );
 
       if (password) {
-        this.error = null;
-        this.setPassword(password);
+        this.error[index] = null;
+        this.setPassword(password, index);
       }
     }
   }
@@ -108,10 +117,10 @@ export class EnterTenantComponent implements OnInit {
    * Handle adding password to access this loading file
    * @param password 
    */
-  setPassword(password: string) {
+  setPassword(password: string, index: number) {
     let newSrc;
 
-    const pdfSrc = this.pdfSrc[0];
+    const pdfSrc = this.pdfSrc[index].source;
 
     if (pdfSrc instanceof ArrayBuffer) {
       newSrc = { data: pdfSrc };
@@ -123,7 +132,7 @@ export class EnterTenantComponent implements OnInit {
 
     newSrc.password = password;
 
-    this.pdfSrc[0] = newSrc;
+    this.pdfSrc[index].source = newSrc;
     this.pdfSrc$.next(this.pdfSrc);
   }
 
@@ -132,11 +141,9 @@ export class EnterTenantComponent implements OnInit {
   *
   * @param {CustomEvent} e
   */
-  pageRendered(e: CustomEvent) {
-    console.log('(page-rendered)', e);
-    this.currentPageRendered = e['pageNumber'];
-    if (this.currentPageRendered === this.pdf.numPages) {
-      this.isLoaded = true;
-    }
+  pageRendered(e: CustomEvent, index: number) {
+    console.log(`(page-${index}-rendered)`, e);
+    this.currentPageRendered[index] = e['pageNumber'];
+    this.isLoading = false;
   }
 }
