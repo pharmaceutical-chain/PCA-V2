@@ -45,6 +45,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { AdminGuard } from './auth/admin.guard';
 import { CallbackComponent } from './auth/callback/callback.component';
 import { UploaderService } from './uploader/uploader.service';
+import { InterceptorService } from './auth/interceptor.service';
 
 export {
   CallbackComponent,
@@ -100,6 +101,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [CallbackComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
     { provide: ErrorHandler, useClass: AppErrorHandler },
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],

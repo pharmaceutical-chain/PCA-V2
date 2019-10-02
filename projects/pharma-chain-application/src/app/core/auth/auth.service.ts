@@ -24,7 +24,7 @@ export class AuthService {
       client_id: config.clientId,
       redirect_uri: `${window.location.origin}/callback`,
       audience: config.audience,
-      scope: 'openid'
+      scope: 'openid profile email create:users'
     })
   ) as Observable<Auth0Client>).pipe(
     shareReplay(1), // Every subscription receives the same shared value
@@ -67,9 +67,7 @@ export class AuthService {
     concatMap(user => user ? of(user[config.namespace + 'roles'] === 'retailer' ? true : false) : of(false))
   );
 
-  constructor(
-    private router: Router) {
-
+  constructor(private router: Router) {
   }
 
   // When calling, options can be passed if desired
@@ -155,6 +153,9 @@ export class AuthService {
       this.router.events.pipe(filter(e => e instanceof NavigationCancel)).subscribe(cancel => {
         this.router.navigate(['/']);
       });
+    }, (error) => {
+      // User did not authorize the request at decision/consent
+      this.router.navigate(['/']);
     });
   }
 
