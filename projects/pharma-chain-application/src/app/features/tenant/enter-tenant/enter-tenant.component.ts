@@ -1,13 +1,10 @@
+import { PdfViewerComponent } from './../../../shared/pdf-viewer/pdf-viewer.component';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
-import { FormBuilder, Validators } from '@angular/forms';
-import { PDFDocumentProxy, PDFSource, PDFProgressData } from 'ng2-pdf-viewer';
+import { FormBuilder, Validators, FormArray } from '@angular/forms';
+import { PDFDocumentProxy, PDFProgressData } from 'ng2-pdf-viewer';
 import { BehaviorSubject } from 'rxjs';
-
-interface PdfSourceModel {
-  source: string | PDFSource | ArrayBuffer;
-  name: string
-}
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'pca-enter-tenant',
@@ -22,24 +19,16 @@ export class EnterTenantComponent implements OnInit {
   types = ['Manufacturer', 'Distributor', 'Retailer'];
 
   form = this.fb.group({
-    autosave: false,
-    username: ['', [Validators.required]],
-    password: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    description: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(1000)
-      ]
-    ],
-    requestGift: [''],
-    birthday: ['', [Validators.required]],
-    rating: [0, Validators.required]
+    name: ['', [Validators.required]],
+    taxCode: ['', [Validators.required]],
+    registrationCode: ['', [Validators.required]],
+    type: ['', [Validators.required]],
+    addresses: ['', [Validators.required]],
+    goodPractices: [''],
+    certificates: this.fb.array([])
   });
 
-  pdfSrc: Array<PdfSourceModel> = [];
+  pdfSrc: Array<any> = [];
   pdfSrc$ = new BehaviorSubject<any>(this.pdfSrc);
   pdf: Array<PDFDocumentProxy> = [];
   isLoading = false; // presented all pdf on view
@@ -48,11 +37,56 @@ export class EnterTenantComponent implements OnInit {
   progressData: PDFProgressData;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialog: MatDialog
   ) {
   }
 
   ngOnInit() {
+    this.certificatesFormArray.valueChanges.subscribe(() => this.form.get('goodPractices').setValue(this.certificateNames));
+  }
+
+  submit() {
+    console.log(this.form.value);
+  }
+
+  get certificatesFormArray(): FormArray {
+    return this.form.get('certificates') as FormArray;
+  }
+
+  get certificateNames(): string {
+    let name = '';
+    for (let i = 0; i < this.certificatesFormArray.length; i++) {
+      const certificateNameAt = this.certificatesFormArray.at(i).get('name').value;
+      if (certificateNameAt !== '') {
+        name += `(${i + 1}) ${certificateNameAt}; `;
+      }
+    }
+
+    return name;
+  }
+
+  addCertificate(certificateFile: File) {
+    const certificate = this.fb.group({
+      name: ['', [Validators.required]],
+      file: [certificateFile, [Validators.required]]
+    });
+
+    this.certificatesFormArray.push(certificate);
+  }
+
+  removeCertificate(index: number) {
+    this.certificatesFormArray.removeAt(index);
+    this.pdfSrc.splice(index, 1);
+    this.pdfSrc$.next(this.pdfSrc);
+  }
+
+  viewDetailPDF(index: number) {
+    const dialogRef = this.dialog.open(PdfViewerComponent, {
+      data: this.pdfSrc[index]
+    });
+
+    dialogRef.afterClosed().subscribe();
   }
 
   /**
@@ -68,7 +102,8 @@ export class EnterTenantComponent implements OnInit {
         const reader = new FileReader();
 
         reader.onloadend = (e: any) => {
-          this.pdfSrc.push({ source: e.target.result, name: '' });
+          this.addCertificate($pdf.files[i]);
+          this.pdfSrc.push(e.target.result);
           this.pdfSrc$.next(this.pdfSrc);
         };
 
@@ -120,7 +155,7 @@ export class EnterTenantComponent implements OnInit {
   setPassword(password: string, index: number) {
     let newSrc;
 
-    const pdfSrc = this.pdfSrc[index].source;
+    const pdfSrc = this.pdfSrc[index];
 
     if (pdfSrc instanceof ArrayBuffer) {
       newSrc = { data: pdfSrc };
@@ -132,7 +167,7 @@ export class EnterTenantComponent implements OnInit {
 
     newSrc.password = password;
 
-    this.pdfSrc[index].source = newSrc;
+    this.pdfSrc[index] = newSrc;
     this.pdfSrc$.next(this.pdfSrc);
   }
 

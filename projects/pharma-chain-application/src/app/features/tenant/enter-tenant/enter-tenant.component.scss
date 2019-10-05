@@ -19,11 +19,14 @@ mat-slider {
 }
 
 .buttons {
-  margin: 20px 0px;
+  margin: 30px 0px;
+
+  button {
+    width: 30%;
+  }
 }
 
-.progress-bar-container {
-}
+.progress-bar-container {}
 
 .pdfViewer-container {
   display: flex;
@@ -39,7 +42,11 @@ mat-slider {
     display: block;
 
     ::ng-deep {
-      .page, .canvasWrapper, canvas, .textLayer {
+
+      .page,
+      .canvasWrapper,
+      canvas,
+      .textLayer {
         width: 100% !important;
         height: 100% !important;
       }
@@ -67,4 +74,12 @@ mat-slider {
   position: absolute;
   top: -8px;
   right: 0px;
+}
+
+.option-input {
+  position: absolute;
+  left: 0;
+  bottom: -14px;
+  font-size: 11px;
+  color: #03A9F4;
 }

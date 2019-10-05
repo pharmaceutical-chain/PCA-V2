@@ -21,7 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatSliderModule, MatProgressBarModule } from '@angular/material/';
+import { MatSliderModule, MatProgressBarModule, MatDialogModule } from '@angular/material/';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 
@@ -62,6 +62,9 @@ import { BigInputComponent } from './big-input/big-input/big-input.component';
 import { BigInputActionComponent } from './big-input/big-input-action/big-input-action.component';
 import { RtlSupportDirective } from './rtl-support/rtl-support.directive';
 
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -86,13 +89,16 @@ import { RtlSupportDirective } from './rtl-support/rtl-support.directive';
     MatSnackBarModule,
     MatSlideToggleModule,
     MatDividerModule,
+    MatDialogModule,
 
-    FontAwesomeModule
+    FontAwesomeModule,
+    PdfViewerModule
   ],
   declarations: [
     BigInputComponent,
     BigInputActionComponent,
-    RtlSupportDirective
+    RtlSupportDirective,
+    PdfViewerComponent
   ],
   exports: [
     CommonModule,
@@ -128,6 +134,9 @@ import { RtlSupportDirective } from './rtl-support/rtl-support.directive';
     BigInputComponent,
     BigInputActionComponent,
     RtlSupportDirective
+  ],
+  entryComponents: [
+    PdfViewerComponent
   ]
 })
 export class SharedModule {
