@@ -1,1 +1,93 @@
-<p [ngClass]="routeAnimationsElements">overview-tenant works!</p>
+<div class="container col-md-8">
+  <div class="tool-group">
+    <div class="row">
+      <div class="col-4">
+        <mat-form-field style="width: 100%;">
+          <mat-label>Sort by</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let option of sortOptions">{{option}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-8" style="padding-top: 8px">
+        <pca-big-input placeholder="Business name or codes">
+          <pca-big-input-action fontSet="fas" fontIcon="fa-search" faIcon="search" color="accent" matTooltip="Search"
+            matTooltipPosition="before">
+          </pca-big-input-action>
+        </pca-big-input>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- (selectedIndexChange)="selected.setValue($event)" -->
+      <mat-tab-group mat-stretch-tabs class="col">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <!-- <mat-icon class="example-tab-icon">thumb_up</mat-icon> -->
+            Manufacturers
+          </ng-template>
+
+          <!-- Tenant list -->
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let tenant of tenants">
+              <mat-expansion-panel-header>
+                <mat-panel-title>{{tenant.name | slice:0:50}}<span *ngIf="tenant.name.length > 50">...</span>
+                </mat-panel-title>
+                <mat-panel-description>Issued date: {{tenant.issuedDate}}</mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="content-tenant">
+                <div class="row row-data">
+                  <div class="col-2 data-label">Business name</div>
+                  <div class="col-9">{{tenant.name}}</div>
+                </div>
+                <div class="row row-data">
+                  <div class="col-2 data-label">Business type</div>
+                  <div class="col-9">{{tenant.type}}</div>
+                </div>
+                <div class="row row-data">
+                  <div class="col-2 data-label">Address</div>
+                  <div class="col-9">{{tenant.addresses}}</div>
+                </div>
+                <div class="row row-data">
+                  <div class="col-2 data-label">Tax code</div>
+                  <div class="col-9">{{tenant.taxCode}}</div>
+                </div>
+                <div class="row row-data">
+                  <div class="col-2 data-label">Registrated code</div>
+                  <div class="col-9">{{tenant.registrationCode}}</div>
+                </div>
+                <div class="row row-data">
+                  <div class="col-2 data-label">GMP/GSP/GLP</div>
+                  <div class="col-9">{{tenant.goodPractices}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-3" style="padding-top: 8px" *ngFor="let cert of tenant.certificates">
+                    <img style="width: 100%;" src="{{cert.file}}">
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <!-- <mat-icon class="example-tab-icon">thumb_up</mat-icon> -->
+            Distributors
+          </ng-template>
+          Content 2
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <!-- <mat-icon class="example-tab-icon">thumb_up</mat-icon> -->
+            Retailers
+          </ng-template>
+
+          Content 3
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

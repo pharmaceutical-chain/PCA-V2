@@ -21,7 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatSliderModule, MatProgressBarModule, MatDialogModule } from '@angular/material/';
+import { MatSliderModule, MatProgressBarModule, MatDialogModule, MatExpansionModule } from '@angular/material/';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 
@@ -50,7 +50,8 @@ import {
   faWindowMaximize,
   faStream,
   faBook,
-  faAngleDoubleRight
+  faAngleDoubleRight,
+  faSearch
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faGithub,
@@ -128,6 +129,7 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatProgressBarModule,
+    MatExpansionModule,
 
     FontAwesomeModule,
 
@@ -168,7 +170,8 @@ export class SharedModule {
       faWindowMaximize,
       faStream,
       faBook,
-      faAngleDoubleRight
+      faAngleDoubleRight,
+      faSearch
     );
   }
 }
