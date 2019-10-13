@@ -1,22 +1,56 @@
 @import '../../../../styles-variables';
 
-mat-tab-group {
-  ::ng-deep {
-    .mat-tab-header-pagination {
-      display: none !important;
+.overview-tenant {
+  .main-heading {
+    text-transform: uppercase;
+    margin: 0 0 20px 0;
+    text-align: center;
+  }
+
+  mat-tab-group {
+    ::ng-deep {
+      .mat-tab-header-pagination {
+        display: none !important;
+      }
+    }
+
+    mat-panel-description {
+      flex-grow: 0;
     }
   }
 
-  mat-panel-description {
-    flex-grow: 0;
+  .row-data {
+    display: -webkit-box;
+
+    .data-label {
+      text-align: right;
+      color: gray;
+    }
   }
-}
 
-.row-data {
-  display: -webkit-box;
+  .paginator-container {
+    padding-top: 32px;
 
-  .data-label {
-    text-align: right;
-    color: gray;
+    mat-paginator {
+      background-color: #fafafa;
+
+      ::ng-deep {
+        .mat-paginator-navigation-previous {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .current-page-container {
+      position: absolute;
+      right: 100px;
+      bottom: -5px;
+      width: 16px;
+      text-align: center;
+
+      input {
+        font-size: 12px;
+      }
+    }
   }
 }
