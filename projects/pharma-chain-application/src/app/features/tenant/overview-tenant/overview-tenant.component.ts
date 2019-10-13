@@ -20,13 +20,17 @@ export class OverviewTenantComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
   sortOptions = ['Business name', 'Issued date'];
+  sort = 'name';
+  filter = 'Manufacturer';
 
   tenants = [
     {
+      id: '1',
       name: 'Công ty Cổ phần Thiết bị Y tế Medinsco',
       issuedDate: '2019/10/10',
       taxCode: '122314342',
       registrationCode: '147 / ĐKKDĐ-BYT',
+      txh: '0x2ca85229c49047d20cf7de8e3686484a0109df05e2a8415114d84676ebd7d574',
       type: 'Manufacturer',
       addresses: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
       goodPractices: '(1) 685 / GCN-QLD (GSP); (2) 685 / GCN-QLD (GSP); (3) 685 / GCN-QLD (GSP); ',
@@ -46,10 +50,12 @@ export class OverviewTenantComponent implements OnInit {
       ]
     },
     {
+      id: '2',
       name: 'Công ty Cổ phần Thiết bị Y tế Medinsco Medinsco Medinsco Medinsco Medinsco',
       issuedDate: '2019/10/10',
       taxCode: '122314342',
       registrationCode: '147 / ĐKKDĐ-BYT',
+      txh: '0x2ca85229c49047d20cf7de8e3686484a0109df05e2a8415114d84676ebd7d574',
       type: 'Manufacturer',
       addresses: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
       goodPractices: '(1) 685 / GCN-QLD (GSP); ',
@@ -61,10 +67,12 @@ export class OverviewTenantComponent implements OnInit {
       ]
     },
     {
+      id: '3',
       name: 'Công ty Cổ phần Thiết bị Y tế Medinsco Medinsco Medinsco Medinsco Medinsco',
       issuedDate: '2019/10/10',
       taxCode: '122314342',
       registrationCode: '147 / ĐKKDĐ-BYT',
+      txh: '0x2ca85229c49047d20cf7de8e3686484a0109df05e2a8415114d84676ebd7d574',
       type: 'Manufacturer',
       addresses: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
       goodPractices: '(1) 685 / GCN-QLD (GSP); ',
@@ -76,10 +84,12 @@ export class OverviewTenantComponent implements OnInit {
       ]
     },
     {
+      id: '4',
       name: 'Công ty Cổ phần Thiết bị Y tế Medinsco Medinsco Medinsco Medinsco Medinsco',
       issuedDate: '2019/10/10',
       taxCode: '122314342',
       registrationCode: '147 / ĐKKDĐ-BYT',
+      txh: '0x2ca85229c49047d20cf7de8e3686484a0109df05e2a8415114d84676ebd7d574',
       type: 'Manufacturer',
       addresses: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
       goodPractices: '(1) 685 / GCN-QLD (GSP); ',
@@ -116,6 +126,11 @@ export class OverviewTenantComponent implements OnInit {
     console.log(event);
     this.currentPageNumberControl.setValue(event.pageIndex + 1);
     this.pageSize = event.pageSize;
+  }
+
+  onClickTransactionHash(txh: string) {
+    const url = `https://etherscan.io/tx/${txh}`;
+    window.open(url, '_blank');
   }
 
 }

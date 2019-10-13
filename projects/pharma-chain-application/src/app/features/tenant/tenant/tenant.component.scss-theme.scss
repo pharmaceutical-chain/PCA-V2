@@ -1,0 +1,57 @@
+@import '~@angular/material/theming';
+
+@mixin pca-tenant-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  pca-tenant {
+    pca-overview-tenant {
+      pca-big-input {
+        .big-input {
+          background-color: mat-color($background, background);
+
+          input {
+            background-color: mat-color($background, background);
+          }
+        }
+
+        .has-focus {
+          fa-icon {
+            color: mat-color($accent) !important;
+          }
+        }
+      }
+
+      mat-paginator {
+        background-color: mat-color($background, background) !important;
+      }
+
+      .txh-link {
+        color: mat-color($accent);
+      }
+
+      .mat-tab-label-active {
+        .mat-tab-label-content {
+          color: mat-color($primary);
+        }
+      }
+    }
+
+    pca-enter-tenant {
+      .option-input {
+        color: mat-color($accent);
+      }
+
+      .remove-pdf-icon {
+        color: mat-color($primary);
+
+        &:hover {
+          color: mat-color($warn);
+        }
+      }
+    }
+  }
+}

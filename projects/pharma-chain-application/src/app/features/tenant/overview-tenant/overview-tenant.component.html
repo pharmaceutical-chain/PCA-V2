@@ -68,6 +68,11 @@
                 <div class="col-9">{{tenant.registrationCode}}</div>
               </div>
               <div class="row row-data">
+                <div class="col-2 data-label">Transaction hash</div>
+                <div class="col-9 txh-link" color="accent" (click)="onClickTransactionHash(tenant.txh)">{{tenant.txh}}
+                </div>
+              </div>
+              <div class="row row-data">
                 <div class="col-2 data-label">GMP/GSP/GLP</div>
                 <div class="col-9">{{tenant.goodPractices}}</div>
               </div>
@@ -76,6 +81,14 @@
                   <img style="width: 100%;" src="{{cert.file}}">
                 </div>
               </div>
+            </div>
+            <div class="function-tenant-container">
+              <button mat-mini-fab color="primary" class="function">
+                <fa-icon icon="edit"></fa-icon>
+              </button>
+              <button mat-mini-fab color="warn" class="function">
+                <fa-icon icon="trash"></fa-icon>
+              </button>
             </div>
           </mat-expansion-panel>
         </mat-accordion>

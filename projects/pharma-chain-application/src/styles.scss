@@ -23,6 +23,7 @@
 @import './app/features/examples/theming/parent/parent.component.scss-theme';
 @import './app/features/examples/theming/child/child.component.scss-theme';
 @import './app/features/examples/examples/examples.component.scss-theme';
+@import './app/features/tenant/tenant/tenant.component.scss-theme.scss';
 
 @mixin custom-components-theme($theme) {
   @include pca-styles-reset-theme($theme);
@@ -35,6 +36,7 @@
   @include pca-parent-component-theme($theme);
   @include pca-child-component-theme($theme);
   @include pca-examples-component-theme($theme);
+  @include pca-tenant-component-theme($theme);
 }
 
 .default-theme {
