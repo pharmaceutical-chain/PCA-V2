@@ -57,19 +57,29 @@
           <!-- Address -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.tenants.form.address' | translate }}"
-                formControlName="addresses">
-              <mat-error *ngIf="form.get('addresses').invalid">
-                {{ 'pca.features.tenants.form.address' | translate }}
+              <input matInput placeholder="{{ 'pca.features.tenants.form.primaryAddress' | translate }}"
+                formControlName="primaryAddress">
+              <mat-error *ngIf="form.get('primaryAddress').invalid">
+                {{ 'pca.features.tenants.form.primaryAddress' | translate }}
                 {{ 'pca.features.tenants.form.error.required' | translate }}
               </mat-error>
+
+              <fa-icon *ngIf="form.get('primaryAddress').valid" class="add-address-icon" icon="plus"
+                (click)="addBranchAddress()"></fa-icon>
+            </mat-form-field>
+          </div>
+          <div class="row" *ngFor="let branch of branchAddressFormArray.controls">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.tenants.form.branchAddress' | translate }}"
+                [formControl]="branch">
             </mat-form-field>
           </div>
 
           <!-- Import button -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.tenants.form.certificates' | translate }}" formControlName="goodPractices">
+              <input matInput placeholder="{{ 'pca.features.tenants.form.certificates' | translate }}"
+                formControlName="goodPractices">
               <span class="option-input">({{ 'pca.features.tenants.form.option' | translate }})</span>
               <input #file (change)="onFileSelected()" type="file" id="file" accept="application/pdf"
                 multiple="multiple" style="display:none">
@@ -90,7 +100,8 @@
             <div *ngFor="let pdfSrc of (pdfSrc$ | async); let i=index" class="pdfViewer-item" [formGroupName]="i"
               [ngClass]="routeAnimationsElements">
               <mat-form-field *ngIf="currentPageRendered[i]" class="col">
-                <input matInput placeholder="{{ 'pca.features.tenants.form.certificateId' | translate }}" formControlName="name">
+                <input matInput placeholder="{{ 'pca.features.tenants.form.certificateId' | translate }}"
+                  formControlName="name">
                 <fa-icon class="remove-pdf-icon" icon="times" (click)="removeCertificate(i)"></fa-icon>
                 <mat-error *ngIf="certificatesFormArray.at(i)?.invalid">
                   {{ 'pca.features.tenants.form.certificateId' | translate }}

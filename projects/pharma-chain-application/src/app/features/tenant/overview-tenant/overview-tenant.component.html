@@ -34,8 +34,7 @@
     <mat-tab-group mat-stretch-tabs class="col">
       <mat-tab>
         <ng-template mat-tab-label>
-          <!-- <mat-icon class="example-tab-icon">thumb_up</mat-icon> -->
-          Manufacturers
+          <span matBadge="4" matBadgeOverlap="false">Manufacturers</span>
         </ng-template>
 
         <!-- Tenant list -->
@@ -44,7 +43,7 @@
             <mat-expansion-panel-header>
               <mat-panel-title>{{tenant.name | slice:0:50}}<span *ngIf="tenant.name.length > 50">...</span>
               </mat-panel-title>
-              <mat-panel-description>Issued date: {{tenant.issuedDate}}</mat-panel-description>
+              <mat-panel-description>Created date: {{tenant.issuedDate}}</mat-panel-description>
             </mat-expansion-panel-header>
             <div class="content-tenant">
               <div class="row row-data">
@@ -56,8 +55,14 @@
                 <div class="col-9">{{tenant.type}}</div>
               </div>
               <div class="row row-data">
-                <div class="col-2 data-label">Address</div>
-                <div class="col-9">{{tenant.addresses}}</div>
+                <div class="col-2 data-label">Primary address</div>
+                <div class="col-9">{{tenant.primaryAddress}}</div>
+              </div>
+              <div class="row row-data">
+                <div class="col-2 data-label">Branch address</div>
+                <div class="col-9">
+                  <span *ngFor="let branch of tenant.branchAddress; let i=index">({{i+1}}) {{branch}}; </span>
+                </div>
               </div>
               <div class="row row-data">
                 <div class="col-2 data-label">Tax code</div>
@@ -96,16 +101,14 @@
 
       <mat-tab>
         <ng-template mat-tab-label>
-          <!-- <mat-icon class="example-tab-icon">thumb_up</mat-icon> -->
-          Distributors
+          <span matBadge="4" matBadgeOverlap="false">Distributors</span>
         </ng-template>
         Content 2
       </mat-tab>
 
       <mat-tab>
         <ng-template mat-tab-label>
-          <!-- <mat-icon class="example-tab-icon">thumb_up</mat-icon> -->
-          Retailers
+          <span matBadge="4" matBadgeOverlap="false">Retailers</span>
         </ng-template>
 
         Content 3

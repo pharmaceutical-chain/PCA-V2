@@ -19,7 +19,7 @@ export class OverviewTenantComponent implements OnInit {
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
-  sortOptions = ['Business name', 'Issued date'];
+  sortOptions = ['Business name', 'Created date'];
   sort = 'name';
   filter = 'Manufacturer';
 
@@ -32,7 +32,8 @@ export class OverviewTenantComponent implements OnInit {
       registrationCode: '147 / ĐKKDĐ-BYT',
       txh: '0x2ca85229c49047d20cf7de8e3686484a0109df05e2a8415114d84676ebd7d574',
       type: 'Manufacturer',
-      addresses: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
+      primaryAddress: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
+      branchAddress: ['Kho K4 số 118 đường Nguyễn Văn Trỗi', 'Kho K4 số 118 đường Nguyễn Văn Trỗi'],
       goodPractices: '(1) 685 / GCN-QLD (GSP); (2) 685 / GCN-QLD (GSP); (3) 685 / GCN-QLD (GSP); ',
       certificates: [
         {
@@ -57,7 +58,8 @@ export class OverviewTenantComponent implements OnInit {
       registrationCode: '147 / ĐKKDĐ-BYT',
       txh: '0x2ca85229c49047d20cf7de8e3686484a0109df05e2a8415114d84676ebd7d574',
       type: 'Manufacturer',
-      addresses: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
+      primaryAddress: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
+      branchAddress: ['Kho K4 số 118 đường Nguyễn Văn Trỗi', 'Kho K4 số 118 đường Nguyễn Văn Trỗi'],
       goodPractices: '(1) 685 / GCN-QLD (GSP); ',
       certificates: [
         {
@@ -74,7 +76,8 @@ export class OverviewTenantComponent implements OnInit {
       registrationCode: '147 / ĐKKDĐ-BYT',
       txh: '0x2ca85229c49047d20cf7de8e3686484a0109df05e2a8415114d84676ebd7d574',
       type: 'Manufacturer',
-      addresses: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
+      primaryAddress: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
+      branchAddress: ['Kho K4 số 118 đường Nguyễn Văn Trỗi', 'Kho K4 số 118 đường Nguyễn Văn Trỗi'],
       goodPractices: '(1) 685 / GCN-QLD (GSP); ',
       certificates: [
         {
@@ -91,7 +94,8 @@ export class OverviewTenantComponent implements OnInit {
       registrationCode: '147 / ĐKKDĐ-BYT',
       txh: '0x2ca85229c49047d20cf7de8e3686484a0109df05e2a8415114d84676ebd7d574',
       type: 'Manufacturer',
-      addresses: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
+      primaryAddress: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
+      branchAddress: ['Kho K4 số 118 đường Nguyễn Văn Trỗi', 'Kho K4 số 118 đường Nguyễn Văn Trỗi'],
       goodPractices: '(1) 685 / GCN-QLD (GSP); ',
       certificates: [
         {

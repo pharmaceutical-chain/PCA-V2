@@ -23,7 +23,8 @@ export class EnterTenantComponent implements OnInit {
     taxCode: ['', [Validators.required]],
     registrationCode: ['', [Validators.required]],
     type: ['', [Validators.required]],
-    addresses: ['', [Validators.required]],
+    primaryAddress: ['', [Validators.required]],
+    branchAddress: this.fb.array([]),
     goodPractices: [''],
     certificates: this.fb.array([])
   });
@@ -48,6 +49,10 @@ export class EnterTenantComponent implements OnInit {
 
   submit() {
     console.log(this.form.value);
+  }
+
+  get branchAddressFormArray(): FormArray {
+    return this.form.get('branchAddress') as FormArray;
   }
 
   get certificatesFormArray(): FormArray {
@@ -87,6 +92,10 @@ export class EnterTenantComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe();
+  }
+
+  addBranchAddress() {
+    this.branchAddressFormArray.push(this.fb.control(''));
   }
 
   /**
