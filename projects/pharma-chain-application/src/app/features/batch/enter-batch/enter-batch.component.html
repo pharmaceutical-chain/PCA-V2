@@ -1,1 +1,133 @@
-<p>enter-batch works!</p>
+<div class="container enter-tenant" rtl>
+  <div class="row">
+    <div class="col">
+      <h1 class="main-heading">{{ 'pca.features.tenant.form.title' | translate }}</h1>
+    </div>
+  </div>
+  <form [formGroup]="form">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <mat-card>
+          <!-- Business name -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.tenant.form.name' | translate }}" formControlName="name">
+              <mat-error *ngIf="form.get('name').invalid">
+                {{ 'pca.features.tenant.form.name' | translate }}
+                {{ 'pca.features.tenant.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Business register certificate code, Tax code -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.tenant.form.tax' | translate }}" formControlName="taxCode">
+              <mat-error *ngIf="form.get('taxCode').invalid">
+                {{ 'pca.features.tenant.form.tax' | translate }}
+                {{ 'pca.features.tenant.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.tenant.form.registrationCode' | translate }}"
+                formControlName="registrationCode">
+              <mat-error *ngIf="form.get('registrationCode').invalid">
+                {{ 'pca.features.tenant.form.registrationCode' | translate }}
+                {{ 'pca.features.tenant.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Type of business -->
+          <div class="row">
+            <mat-form-field class="col-6" [ngClass]="routeAnimationsElements">
+              <mat-label>{{ 'pca.features.tenant.form.type' | translate }}</mat-label>
+              <mat-select formControlName="type">
+                <mat-option *ngFor="let type of types" [value]="type">
+                  {{type}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('type').invalid">
+                {{ 'pca.features.tenant.form.type' | translate }}
+                {{ 'pca.features.tenant.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Address -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.tenant.form.primaryAddress' | translate }}"
+                formControlName="primaryAddress">
+              <mat-error *ngIf="form.get('primaryAddress').invalid">
+                {{ 'pca.features.tenant.form.primaryAddress' | translate }}
+                {{ 'pca.features.tenant.form.error.required' | translate }}
+              </mat-error>
+
+              <fa-icon *ngIf="form.get('primaryAddress').valid" class="add-address-icon" icon="plus"
+                (click)="addBranchAddress()"></fa-icon>
+            </mat-form-field>
+          </div>
+          <div class="row" *ngFor="let branch of branchAddressFormArray.controls">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.tenant.form.branchAddress' | translate }}"
+                [formControl]="branch">
+            </mat-form-field>
+          </div>
+
+          <!-- Import button -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.tenant.form.certificates' | translate }}"
+                formControlName="goodPractices">
+              <span class="option-input">({{ 'pca.features.tenant.form.option' | translate }})</span>
+              <input #file (change)="onFileSelected()" type="file" id="file" accept="application/pdf"
+                multiple="multiple" style="display:none">
+              <button (click)="file.click()" type="button" mat-flat-button color="accent" class="import-button">
+                {{ 'pca.features.tenant.form.import' | translate }}
+              </button>
+            </mat-form-field>
+          </div>
+
+          <!-- Pdf loading progress -->
+          <div class="row" *ngIf="isLoading" [ngClass]="routeAnimationsElements" class="progress-bar-container">
+            <mat-progress-bar mode="indeterminate">
+            </mat-progress-bar>
+          </div>
+
+          <!-- Pdfviewer -->
+          <div class="row pdfViewer-container" formArrayName="certificates">
+            <div *ngFor="let pdfSrc of (pdfSrc$ | async); let i=index" class="pdfViewer-item" [formGroupName]="i"
+              [ngClass]="routeAnimationsElements">
+              <mat-form-field *ngIf="currentPageRendered[i]" class="col">
+                <input matInput placeholder="{{ 'pca.features.tenant.form.certificateId' | translate }}"
+                  formControlName="name">
+                <fa-icon class="remove-pdf-icon" icon="times" (click)="removeCertificate(i)"></fa-icon>
+                <mat-error *ngIf="certificatesFormArray.at(i)?.invalid">
+                  {{ 'pca.features.tenant.form.certificateId' | translate }}
+                  {{ 'pca.features.tenant.form.error.required' | translate }}
+                </mat-error>
+              </mat-form-field>
+              <pdf-viewer [src]="pdfSrc" [original-size]="false" [autoresize]="true" [show-all]="false"
+                [external-link-target]="'blank'" (page-rendered)="pageRendered($event,i)" (error)="onError($event,i)"
+                (after-load-complete)="afterLoadComplete($event,i)" (click)="viewDetailPDF(i)">
+              </pdf-viewer>
+            </div>
+          </div>
+
+          <!-- Group button -->
+          <div class="row buttons d-flex justify-content-between pad">
+            <button class="w-100" mat-stroked-button color="primary" [ngClass]="routeAnimationsElements"
+              [routerLink]="['/feature-list']">
+              {{ 'pca.features.tenant.form.cancel' | translate }}
+            </button>
+            <button class="w-100" mat-raised-button color="primary" [ngClass]="routeAnimationsElements"
+              (click)="submit()">
+              {{ 'pca.features.tenant.form.submit' | translate }}
+            </button>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </form>
+</div>

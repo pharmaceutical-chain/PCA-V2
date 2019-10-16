@@ -12,6 +12,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { BatchEffects } from './batch.effects';
 import { OverviewBatchComponent } from './overview-batch/overview-batch.component';
 import { EnterBatchComponent } from './enter-batch/enter-batch.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(
@@ -27,6 +28,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CommonModule,
     SharedModule,
     BatchRoutingModule,
+    PdfViewerModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

@@ -1,0 +1,77 @@
+@import '~@angular/material/theming';
+
+@mixin pca-batch-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  pca-batch {
+    pca-overview-batch {
+      pca-big-input {
+        .big-input {
+          background-color: mat-color($background, background);
+
+          input {
+            background-color: mat-color($background, background);
+          }
+        }
+
+        .has-focus {
+          fa-icon {
+            color: mat-color($accent) !important;
+          }
+        }
+      }
+
+      mat-paginator {
+        background-color: mat-color($background, background) !important;
+      }
+
+      .txh-link {
+        color: mat-color($accent);
+      }
+
+      .mat-tab-label-active {
+        .mat-tab-label-content {
+          color: mat-color($primary);
+
+          span.mat-badge-active {
+            background-color: mat-color($primary);
+          }
+        }
+      }
+
+      span.mat-badge-content {
+        background-color: mat-color($foreground, text);
+      }
+    }
+
+    pca-enter-batch {
+      .option-input {
+        color: mat-color($accent);
+      }
+
+      .remove-pdf-icon {
+        color: mat-color($foreground, text, 0.54);
+
+        &:hover {
+          color: mat-color($warn);
+        }
+      }
+
+      .add-address-icon {
+        color: mat-color($foreground, text, 0.54);
+
+        &:hover {
+          color: mat-color($accent);
+        }
+      }
+
+      input[formControlName=primaryAddress]:focus + .add-address-icon {
+        color: mat-color($primary);
+      }
+    }
+  }
+}
