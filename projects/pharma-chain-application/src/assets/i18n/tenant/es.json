@@ -1,0 +1,18 @@
+{
+  "pca.features.tenant.enter": "Enter tenant",
+  "pca.features.tenant.overview": "Overview tenants",
+  "pca.features.tenant.form.title": "Business information form",
+  "pca.features.tenant.form.name": "Business name",
+  "pca.features.tenant.form.tax": "Tax code",
+  "pca.features.tenant.form.registrationCode": "Business registration code",
+  "pca.features.tenant.form.type": "Business type",
+  "pca.features.tenant.form.primaryAddress": "Primary address",
+  "pca.features.tenant.form.branchAddress": "Branch address",
+  "pca.features.tenant.form.certificates": "GMP/GSP/GLP",
+  "pca.features.tenant.form.option": "option",
+  "pca.features.tenant.form.import": "Import",
+  "pca.features.tenant.form.certificateId": "Certificate Id",
+  "pca.features.tenant.form.cancel": "Cancel",
+  "pca.features.tenant.form.submit": "Submit",
+  "pca.features.tenant.form.error.required": "is required"
+}

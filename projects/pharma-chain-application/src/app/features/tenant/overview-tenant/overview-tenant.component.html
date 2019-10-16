@@ -7,7 +7,7 @@
   </div>
 
   <!-- Tools -->
-  <div class="tool-group">
+  <div class="tool-group" [ngClass]="routeAnimationsElements">
     <div class="row">
       <div class="col-4">
         <mat-form-field style="width: 100%;">
@@ -29,7 +29,7 @@
   </div>
 
   <!-- Data -->
-  <div class="row" style="padding-top: 16px;">
+  <div class="row" style="padding-top: 16px;" [ngClass]="routeAnimationsElements">
     <!-- (selectedIndexChange)="selected.setValue($event)" -->
     <mat-tab-group mat-stretch-tabs class="col">
       <mat-tab>
@@ -39,7 +39,7 @@
 
         <!-- Tenant list -->
         <mat-accordion>
-          <mat-expansion-panel *ngFor="let tenant of tenants">
+          <mat-expansion-panel *ngFor="let tenant of tenants" [ngClass]="routeAnimationsElements">
             <mat-expansion-panel-header>
               <mat-panel-title>{{tenant.name | slice:0:50}}<span *ngIf="tenant.name.length > 50">...</span>
               </mat-panel-title>
@@ -117,7 +117,7 @@
   </div>
 
   <!-- Paginator -->
-  <div class="paginator-container">
+  <div class="paginator-container" [ngClass]="routeAnimationsElements">
     <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
       [showFirstLastButtons]="true" [pageIndex]="currentPageIndex" (page)="pageEvent($event)">
     </mat-paginator>

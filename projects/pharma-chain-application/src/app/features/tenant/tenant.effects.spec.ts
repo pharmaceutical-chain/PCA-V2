@@ -9,7 +9,7 @@ import { TitleService } from '../../core/core.module';
 
 import { actionSettingsChangeLanguage } from '../../core/settings/settings.actions';
 
-import { TenantsEffects } from './tenants.effects';
+import { TenantEffects } from './tenant.effects';
 import { State } from '../examples/examples.state';
 
 const scheduler = new TestScheduler((actual, expected) =>
@@ -42,7 +42,7 @@ describe('SettingsEffects', () => {
   describe('setTranslateServiceLanguage', () => {
     it('should not dispatch action', () => {
       const actions = new Actions<any>();
-      const effect = new TenantsEffects(
+      const effect = new TenantEffects(
         actions,
         store,
         translateService,
@@ -57,7 +57,7 @@ describe('SettingsEffects', () => {
   describe('setTitle', () => {
     it('should not dispatch action', () => {
       const actions = new Actions<any>();
-      const effect = new TenantsEffects(
+      const effect = new TenantEffects(
         actions,
         store,
         translateService,
@@ -78,7 +78,7 @@ describe('SettingsEffects', () => {
         const routerEvent = new ActivationEnd(router.routerState.snapshot);
         router.events = cold('a', { a: routerEvent });
 
-        const effect = new TenantsEffects(
+        const effect = new TenantEffects(
           actions,
           store,
           translateService,

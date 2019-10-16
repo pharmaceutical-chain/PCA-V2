@@ -13,13 +13,13 @@ import { EnterTenantComponent } from './enter-tenant/enter-tenant.component';
 import { TenantComponent } from './tenant/tenant.component';
 import { OverviewTenantComponent } from './overview-tenant/overview-tenant.component';
 import { EffectsModule } from '@ngrx/effects';
-import { TenantsEffects } from './tenants.effects';
+import { TenantEffects } from './tenant.effects';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(
     http,
-    `${environment.i18nPrefix}/assets/i18n/tenants/`,
+    `${environment.i18nPrefix}/assets/i18n/tenant/`,
     '.json'
   );
 }
@@ -40,7 +40,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       isolate: true
     }),
     EffectsModule.forFeature([
-      TenantsEffects,
+      TenantEffects,
     ])
   ]
 })

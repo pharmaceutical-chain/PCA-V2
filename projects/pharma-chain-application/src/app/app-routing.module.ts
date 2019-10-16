@@ -31,6 +31,18 @@ const routes: Routes = [
     import('./features/tenant/tenant.module').then(m => m.TenantModule)
   },
   {
+    path: 'batch',
+    canActivate: [AdminGuard],
+    loadChildren: () =>
+    import('./features/batch/batch.module').then(m => m.BatchModule)
+  },
+  {
+    path: 'transfer',
+    canActivate: [AdminGuard],
+    loadChildren: () =>
+    import('./features/transfer/transfer.module').then(m => m.TransferModule)
+  },
+  {
     path: 'settings',
     canActivate: [AuthGuard],
     loadChildren: () =>

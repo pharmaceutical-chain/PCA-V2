@@ -14,7 +14,7 @@ import {
 import { actionSettingsChangeLanguage } from '../../core/settings/settings.actions';
 
 @Injectable()
-export class TenantsEffects {
+export class BatchEffects {
   constructor(
     private actions$: Actions,
     private store: Store<AppState>,
