@@ -6,6 +6,7 @@
   "pca.features.tenant.form.tax": "Tax code",
   "pca.features.tenant.form.registrationCode": "Business registration code",
   "pca.features.tenant.form.type": "Business type",
+  "pca.features.tenant.form.phoneNumber": "Phone number",
   "pca.features.tenant.form.primaryAddress": "Primary address",
   "pca.features.tenant.form.branchAddress": "Branch address",
   "pca.features.tenant.form.certificates": "GMP/GSP/GLP",

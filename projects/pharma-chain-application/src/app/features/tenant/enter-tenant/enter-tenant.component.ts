@@ -23,6 +23,7 @@ export class EnterTenantComponent implements OnInit {
     taxCode: ['', [Validators.required]],
     registrationCode: ['', [Validators.required]],
     type: ['', [Validators.required]],
+    phoneNumber: [''],
     primaryAddress: ['', [Validators.required]],
     branchAddress: this.fb.array([]),
     goodPractices: [''],
