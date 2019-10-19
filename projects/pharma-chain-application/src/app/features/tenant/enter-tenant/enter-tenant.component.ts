@@ -1,6 +1,8 @@
+import { Router } from '@angular/router';
+import { TenantService } from './../tenant.service';
 import { PdfViewerComponent } from './../../../shared/pdf-viewer/pdf-viewer.component';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
+import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { PDFDocumentProxy, PDFProgressData } from 'ng2-pdf-viewer';
 import { BehaviorSubject } from 'rxjs';
@@ -40,7 +42,10 @@ export class EnterTenantComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private tenantService: TenantService,
+    private router: Router,
+    private readonly notificationService: NotificationService
   ) {
   }
 
@@ -49,7 +54,20 @@ export class EnterTenantComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.form.value);
+    if (this.form.valid) {
+      this.tenantService.createTenant(this.form.value).subscribe(res => {
+        if (res) {
+          this.notificationService.success('Enter tenant successfully!');
+          setTimeout(() => {
+            this.router.navigate(['/tenant/overview-tenant']).then(() => {
+              setTimeout(() => {
+                this.notificationService.info('We are mining into blockchain...');
+              }, 1000);
+            });
+          }, 1000);
+        }
+      });
+    }
   }
 
   get branchAddressFormArray(): FormArray {

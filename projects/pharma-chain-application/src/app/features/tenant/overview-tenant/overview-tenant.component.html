@@ -34,64 +34,92 @@
     <mat-tab-group mat-stretch-tabs class="col">
       <mat-tab>
         <ng-template mat-tab-label>
-          <span matBadge="4" matBadgeOverlap="false">Manufacturers</span>
+          <span matBadge="{{(tenants | async)?.length}}" matBadgeOverlap="false">Manufacturers</span>
         </ng-template>
 
         <!-- Tenant list -->
         <mat-accordion>
-          <mat-expansion-panel *ngFor="let tenant of tenants" [ngClass]="routeAnimationsElements">
+          <mat-expansion-panel *ngFor="let tenant of tenants | async" [ngClass]="routeAnimationsElements">
             <mat-expansion-panel-header>
               <mat-panel-title>{{tenant.name | slice:0:50}}<span *ngIf="tenant.name.length > 50">...</span>
               </mat-panel-title>
-              <mat-panel-description>Created date: {{tenant.issuedDate}}</mat-panel-description>
+              <mat-panel-description>
+                <span *ngIf="tenant.transactionStatus === 'Success'">Created date: {{ tenant.dateCreated | slice:0:10 }}</span>
+                <span *ngIf="tenant.transactionStatus !== 'Success'">Pending...</span>
+              </mat-panel-description>
             </mat-expansion-panel-header>
             <div class="content-tenant">
+              <!-- Business name -->
               <div class="row row-data">
                 <div class="col-2 data-label">Business name</div>
                 <div class="col-9">{{tenant.name}}</div>
               </div>
+              <!-- Business type -->
               <div class="row row-data">
                 <div class="col-2 data-label">Business type</div>
                 <div class="col-9">{{tenant.type}}</div>
               </div>
-              <div class="row row-data">
-                <div class="col-2 data-label">Primary address</div>
-                <div class="col-9">{{tenant.primaryAddress}}</div>
-              </div>
-              <div class="row row-data">
-                <div class="col-2 data-label">Branch address</div>
-                <div class="col-9">
-                  <span *ngFor="let branch of tenant.branchAddress; let i=index">({{i+1}}) {{branch}}; </span>
-                </div>
-              </div>
+              <!-- Tax code -->
               <div class="row row-data">
                 <div class="col-2 data-label">Tax code</div>
                 <div class="col-9">{{tenant.taxCode}}</div>
               </div>
+              <!-- Registration code -->
               <div class="row row-data">
                 <div class="col-2 data-label">Registrated code</div>
                 <div class="col-9">{{tenant.registrationCode}}</div>
               </div>
+              <!-- Phone number -->
+              <div *ngIf="tenant.phoneNumber !== ''" class="row row-data">
+                <div class="col-2 data-label">Phone number</div>
+                <div class="col-9">{{tenant.phoneNumber}}</div>
+              </div>
+              <!-- Primary address -->
               <div class="row row-data">
-                <div class="col-2 data-label">Transaction hash</div>
-                <div class="col-9 txh-link" color="accent" (click)="onClickTransactionHash(tenant.txh)">{{tenant.txh}}
+                <div class="col-2 data-label">Primary address</div>
+                <div class="col-9">{{tenant.primaryAddress}}</div>
+              </div>
+              <!-- Branch address -->
+              <div class="row row-data">
+                <div class="col-2 data-label">Branch address</div>
+                <div class="col-9">
+                  <span *ngFor="let branch of branchAddress; let i=index">({{i+1}}) {{branch}}; </span>
                 </div>
               </div>
+              <!-- Contract address -->
+              <div class="row row-data">
+                <div class="col-2 data-label">Contract address</div>
+                <div *ngIf="tenant.contractAddress" class="col-9 txh-link"
+                  (click)="onClickContracAddress(tenant.contractAddress)">
+                  {{tenant.contractAddress}}
+                </div>
+                <div *ngIf="!tenant.contractAddress" class="col-9 txh-link">
+                  Pending...
+                </div>
+              </div>
+              <!-- Transaction hash -->
+              <div class="row row-data">
+                <div class="col-2 data-label">Transaction hash</div>
+                <div class="col-9 txh-link" (click)="onClickTransactionHash(tenant.txh)">{{tenant.transactionHash}}
+                </div>
+              </div>
+              <!-- Certificates -->
               <div class="row row-data">
                 <div class="col-2 data-label">GMP/GSP/GLP</div>
-                <div class="col-9">{{tenant.goodPractices}}</div>
+                <div class="col-9">{{goodPractices}}</div>
               </div>
               <div class="row">
-                <div class="col-3" style="padding-top: 8px" *ngFor="let cert of tenant.certificates">
+                <div class="col-3" style="padding-top: 8px" *ngFor="let cert of certificates">
                   <img style="width: 100%;" src="{{cert.file}}">
                 </div>
               </div>
             </div>
+            <!-- Action button -->
             <div class="function-tenant-container">
               <button mat-mini-fab color="primary" class="function">
                 <fa-icon icon="edit"></fa-icon>
               </button>
-              <button mat-mini-fab color="warn" class="function">
+              <button mat-mini-fab color="warn" class="function" (click)="onClickDelete(tenant.id)">
                 <fa-icon icon="trash"></fa-icon>
               </button>
             </div>

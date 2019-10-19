@@ -1,7 +1,11 @@
+import { ITenant_GET } from './../../../shared/utils/tenants.interface';
+import { TenantService } from './../tenant.service';
 import { FormBuilder } from '@angular/forms';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
 import { PageEvent } from '@angular/material';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'pca-overview-tenant',
@@ -13,7 +17,7 @@ export class OverviewTenantComponent implements OnInit {
 
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
-  currentPageNumberControl = this._fb.control(1, { updateOn: 'blur' });
+  currentPageNumberControl = this.fb.control(1, { updateOn: 'blur' });
   currentPageIndex = 0;
   length = 100;
   pageSize = 10;
@@ -23,92 +27,32 @@ export class OverviewTenantComponent implements OnInit {
   sort = 'name';
   filter = 'Manufacturer';
 
-  tenants = [
+  branchAddress = ['Kho K4 số 118 đường Nguyễn Văn Trỗi', 'Kho K4 số 118 đường Nguyễn Văn Trỗi'];
+  goodPractices = '(1) 685 / GCN-QLD (GSP); (2) 685 / GCN-QLD (GSP); (3) 685 / GCN-QLD (GSP); ';
+  certificates = [
     {
-      id: '1',
-      name: 'Công ty Cổ phần Thiết bị Y tế Medinsco',
-      issuedDate: '2019/10/10',
-      taxCode: '122314342',
-      registrationCode: '147 / ĐKKDĐ-BYT',
-      txh: '0x2ca85229c49047d20cf7de8e3686484a0109df05e2a8415114d84676ebd7d574',
-      type: 'Manufacturer',
-      primaryAddress: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
-      branchAddress: ['Kho K4 số 118 đường Nguyễn Văn Trỗi', 'Kho K4 số 118 đường Nguyễn Văn Trỗi'],
-      goodPractices: '(1) 685 / GCN-QLD (GSP); (2) 685 / GCN-QLD (GSP); (3) 685 / GCN-QLD (GSP); ',
-      certificates: [
-        {
-          name: '685 / GCN-QLD (GSP)',
-          file: 'https://5.imimg.com/data5/WV/RS/MY-42249117/gmp-good-manufacturing-practice-certification-consultancy-service-500x500.jpg'
-        },
-        {
-          name: '685 / GCN-QLD (GSP)',
-          file: 'https://5.imimg.com/data5/WV/RS/MY-42249117/gmp-good-manufacturing-practice-certification-consultancy-service-500x500.jpg'
-        },
-        {
-          name: '685 / GCN-QLD (GSP)',
-          file: 'https://5.imimg.com/data5/WV/RS/MY-42249117/gmp-good-manufacturing-practice-certification-consultancy-service-500x500.jpg'
-        }
-      ]
+      name: '685 / GCN-QLD (GSP)',
+      file: 'https://5.imimg.com/data5/WV/RS/MY-42249117/gmp-good-manufacturing-practice-certification-consultancy-service-500x500.jpg'
     },
     {
-      id: '2',
-      name: 'Công ty Cổ phần Thiết bị Y tế Medinsco Medinsco Medinsco Medinsco Medinsco',
-      issuedDate: '2019/10/10',
-      taxCode: '122314342',
-      registrationCode: '147 / ĐKKDĐ-BYT',
-      txh: '0x2ca85229c49047d20cf7de8e3686484a0109df05e2a8415114d84676ebd7d574',
-      type: 'Manufacturer',
-      primaryAddress: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
-      branchAddress: ['Kho K4 số 118 đường Nguyễn Văn Trỗi', 'Kho K4 số 118 đường Nguyễn Văn Trỗi'],
-      goodPractices: '(1) 685 / GCN-QLD (GSP); ',
-      certificates: [
-        {
-          name: '685 / GCN-QLD (GSP)',
-          file: 'https://5.imimg.com/data5/WV/RS/MY-42249117/gmp-good-manufacturing-practice-certification-consultancy-service-500x500.jpg'
-        }
-      ]
+      name: '685 / GCN-QLD (GSP)',
+      file: 'https://5.imimg.com/data5/WV/RS/MY-42249117/gmp-good-manufacturing-practice-certification-consultancy-service-500x500.jpg'
     },
     {
-      id: '3',
-      name: 'Công ty Cổ phần Thiết bị Y tế Medinsco Medinsco Medinsco Medinsco Medinsco',
-      issuedDate: '2019/10/10',
-      taxCode: '122314342',
-      registrationCode: '147 / ĐKKDĐ-BYT',
-      txh: '0x2ca85229c49047d20cf7de8e3686484a0109df05e2a8415114d84676ebd7d574',
-      type: 'Manufacturer',
-      primaryAddress: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
-      branchAddress: ['Kho K4 số 118 đường Nguyễn Văn Trỗi', 'Kho K4 số 118 đường Nguyễn Văn Trỗi'],
-      goodPractices: '(1) 685 / GCN-QLD (GSP); ',
-      certificates: [
-        {
-          name: '685 / GCN-QLD (GSP)',
-          file: 'https://5.imimg.com/data5/WV/RS/MY-42249117/gmp-good-manufacturing-practice-certification-consultancy-service-500x500.jpg'
-        }
-      ]
-    },
-    {
-      id: '4',
-      name: 'Công ty Cổ phần Thiết bị Y tế Medinsco Medinsco Medinsco Medinsco Medinsco',
-      issuedDate: '2019/10/10',
-      taxCode: '122314342',
-      registrationCode: '147 / ĐKKDĐ-BYT',
-      txh: '0x2ca85229c49047d20cf7de8e3686484a0109df05e2a8415114d84676ebd7d574',
-      type: 'Manufacturer',
-      primaryAddress: 'Kho K4 số 118 đường Nguyễn Văn Trỗi, phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội',
-      branchAddress: ['Kho K4 số 118 đường Nguyễn Văn Trỗi', 'Kho K4 số 118 đường Nguyễn Văn Trỗi'],
-      goodPractices: '(1) 685 / GCN-QLD (GSP); ',
-      certificates: [
-        {
-          name: '685 / GCN-QLD (GSP)',
-          file: 'https://5.imimg.com/data5/WV/RS/MY-42249117/gmp-good-manufacturing-practice-certification-consultancy-service-500x500.jpg'
-        }
-      ]
+      name: '685 / GCN-QLD (GSP)',
+      file: 'https://5.imimg.com/data5/WV/RS/MY-42249117/gmp-good-manufacturing-practice-certification-consultancy-service-500x500.jpg'
     }
-  ];
+  ]
 
-  constructor(private _fb: FormBuilder) { }
+  tenants: Observable<ITenant_GET[]>;
+
+  constructor(private fb: FormBuilder,
+    private tenantService: TenantService) { }
 
   ngOnInit() {
+    this.tenants = this.tenantService.getTenants().pipe(
+      tap(res => console.log(res))
+    );
   }
 
   // Trigger blur page number input
@@ -135,6 +79,15 @@ export class OverviewTenantComponent implements OnInit {
   onClickTransactionHash(txh: string) {
     const url = `https://etherscan.io/tx/${txh}`;
     window.open(url, '_blank');
+  }
+
+  onClickContracAddress(address: string) {
+    const url = `https://ropsten.etherscan.io/address/${address}#code`;
+    window.open(url, '_blank');
+  }
+
+  onClickDelete(tenantId: string) {
+    this.tenantService.deleteTenant(tenantId).subscribe(res => console.log(res));
   }
 
 }
