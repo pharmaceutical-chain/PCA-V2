@@ -10,7 +10,7 @@
   "pca.features.batch.form.ingredientConcentrationPlaceholder": "Paracetamol - 250mg",
   "pca.features.batch.form.packingSpecification": "Packing specification",
   "pca.features.batch.form.packingSpecificationPlaceholder": "Hộp 24 gói x 1,5g thuốc bột",
-  "pca.features.batch.form.quantity": "Quantity",
+  "pca.features.batch.form.quantity": "Quantity (Total - Unit)",
   "pca.features.batch.form.priceDeclared": "Price declared (Price / Unit)",
   "pca.features.batch.form.manufacturingDate": "Manufacturing date",
   "pca.features.batch.form.expiryDate": "Expiry date",
