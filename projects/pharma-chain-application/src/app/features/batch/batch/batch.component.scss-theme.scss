@@ -61,16 +61,12 @@
         }
       }
 
-      .add-address-icon {
+      mat-slide-toggle .mat-slide-toggle-content {
         color: mat-color($foreground, text, 0.54);
-
-        &:hover {
-          color: mat-color($accent);
-        }
       }
 
-      input[formControlName=primaryAddress]:focus + .add-address-icon {
-        color: mat-color($primary);
+      mat-slide-toggle.mat-checked .mat-slide-toggle-content {
+        color: mat-color($foreground, text, 0.87);
       }
     }
   }

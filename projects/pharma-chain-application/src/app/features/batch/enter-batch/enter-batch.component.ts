@@ -1,10 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
 import { Validators, FormBuilder, FormArray } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PDFDocumentProxy, PDFProgressData } from 'pdfjs-dist';
 import { MatDialog } from '@angular/material';
 import { PdfViewerComponent } from '../../../shared/pdf-viewer/pdf-viewer.component';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'pca-enter-batch',
@@ -16,12 +17,14 @@ export class EnterBatchComponent implements OnInit {
 
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
-  dosageForms = ['Manufacturer', 'Distributor', 'Retailer'];
+  dosageFormOptions = ['Viên nén (Tablet)', 'Viên nang (Capsule)', 'Dược phẩm dạng bột (Powder)', 'Viên sủi (Effervescent tablet)', 'Dung dịch (Solution)', 'Thuốc tiêm (Injection)'];
+  filteredOptions: Observable<string[]>;
+
 
   form = this.fb.group({
     registerCode: ['', [Validators.required]],
     batchNumber: ['', [Validators.required]],
-    isPrescriptionMedicine: [true, [Validators.required]],
+    isPrescriptionMedicine: [true],
     dosageForms: ['', [Validators.required]],
     ingredientConcentration: ['', [Validators.required]],
     packingSpecification: ['', [Validators.required]],
@@ -48,7 +51,18 @@ export class EnterBatchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.certificatesFormArray.valueChanges.subscribe(() => this.form.get('goodPractices').setValue(this.certificateNames));
+    this.certificatesFormArray.valueChanges.subscribe(() => this.form.get('censorshipCertificateNames').setValue(this.certificateNames));
+
+    this.filteredOptions = this.form.get('dosageForms').valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.dosageFormOptions.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   submit() {

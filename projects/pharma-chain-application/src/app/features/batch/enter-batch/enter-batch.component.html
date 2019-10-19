@@ -29,35 +29,35 @@
             </mat-form-field>
           </div>
 
-          <!-- Prescription medicine, Dosageforms -->
+          <!-- Dosageforms, Prescription medicine -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.batch.form.isPrescriptionMedicine' | translate }}"
-                formControlName="isPrescriptionMedicine">
-              <mat-error *ngIf="form.get('isPrescriptionMedicine').invalid">
-                {{ 'pca.features.batch.form.isPrescriptionMedicine' | translate }}
-                {{ 'pca.features.batch.form.error.required' | translate }}
-              </mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <mat-label>{{ 'pca.features.batch.form.dosageForms' | translate }}</mat-label>
-              <mat-select formControlName="dosageForms">
-                <mat-option *ngFor="let form of dosageForms" [value]="form">
-                  {{form}}
+              <input matInput type="text" placeholder="{{ 'pca.features.batch.form.dosageForms' | translate }}"
+                formControlName="dosageForms" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{option}}
                 </mat-option>
-              </mat-select>
+              </mat-autocomplete>
               <mat-error *ngIf="form.get('dosageForms').invalid">
                 {{ 'pca.features.batch.form.dosageForms' | translate }}
                 {{ 'pca.features.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
+
+            <div class="col" style="align-self: center;" [ngClass]="routeAnimationsElements">
+              <mat-slide-toggle [color]="primary" [checked]="form.get('isPrescriptionMedicine').value"
+                formControlName="isPrescriptionMedicine">
+                {{ 'pca.features.batch.form.isPrescriptionMedicine' | translate }}
+              </mat-slide-toggle>
+            </div>
           </div>
 
-          <!-- Ingredient concentration -->
+          <!-- Active Ingredient - Concentration -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.batch.form.ingredientConcentration' | translate }}"
+              <mat-label>{{ 'pca.features.batch.form.ingredientConcentration' | translate }}</mat-label>
+              <input matInput placeholder="{{ 'pca.features.batch.form.ingredientConcentrationPlaceholder' | translate }}"
                 formControlName="ingredientConcentration">
               <mat-error *ngIf="form.get('ingredientConcentration').invalid">
                 {{ 'pca.features.batch.form.ingredientConcentration' | translate }}
@@ -69,7 +69,8 @@
           <!-- Packing specification -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.batch.form.packingSpecification' | translate }}"
+              <mat-label>{{ 'pca.features.batch.form.packingSpecification' | translate }}</mat-label>
+              <input matInput placeholder="{{ 'pca.features.batch.form.packingSpecificationPlaceholder' | translate }}"
                 formControlName="packingSpecification">
               <mat-error *ngIf="form.get('packingSpecification').invalid">
                 {{ 'pca.features.batch.form.packingSpecification' | translate }}
@@ -101,15 +102,18 @@
           <!-- Manufacturing date, Expiry date -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.batch.form.manufacturingDate' | translate }}"
+              <mat-label>{{ 'pca.features.batch.form.manufacturingDate' | translate }}</mat-label>
+              <input matInput placeholder="{{ 'pca.features.batch.form.datePlaceholder' | translate }}"
                 formControlName="manufacturingDate">
               <mat-error *ngIf="form.get('manufacturingDate').invalid">
                 {{ 'pca.features.batch.form.manufacturingDate' | translate }}
                 {{ 'pca.features.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
+
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.batch.form.expiryDate' | translate }}"
+                <mat-label>{{ 'pca.features.batch.form.expiryDate' | translate }}</mat-label>
+              <input matInput placeholder="{{ 'pca.features.batch.form.datePlaceholder' | translate }}"
                 formControlName="expiryDate">
               <mat-error *ngIf="form.get('expiryDate').invalid">
                 {{ 'pca.features.batch.form.expiryDate' | translate }}
