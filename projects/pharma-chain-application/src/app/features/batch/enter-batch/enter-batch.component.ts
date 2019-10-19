@@ -16,16 +16,20 @@ export class EnterBatchComponent implements OnInit {
 
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
-  types = ['Manufacturer', 'Distributor', 'Retailer'];
+  dosageForms = ['Manufacturer', 'Distributor', 'Retailer'];
 
   form = this.fb.group({
-    name: ['', [Validators.required]],
-    taxCode: ['', [Validators.required]],
-    registrationCode: ['', [Validators.required]],
-    type: ['', [Validators.required]],
-    primaryAddress: ['', [Validators.required]],
-    branchAddress: this.fb.array([]),
-    goodPractices: [''],
+    registerCode: ['', [Validators.required]],
+    batchNumber: ['', [Validators.required]],
+    isPrescriptionMedicine: [true, [Validators.required]],
+    dosageForms: ['', [Validators.required]],
+    ingredientConcentration: ['', [Validators.required]],
+    packingSpecification: ['', [Validators.required]],
+    quantity: ['', [Validators.required]],
+    priceDeclared: ['', [Validators.required]],
+    manufacturingDate: ['', [Validators.required]],
+    expiryDate: ['', [Validators.required]],
+    censorshipCertificateNames: [''],
     certificates: this.fb.array([])
   });
 

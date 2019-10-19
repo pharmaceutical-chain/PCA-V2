@@ -40,7 +40,7 @@
 
           <!-- Type of business -->
           <div class="row">
-            <mat-form-field class="col-6" [ngClass]="routeAnimationsElements">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <mat-label>{{ 'pca.features.tenant.form.type' | translate }}</mat-label>
               <mat-select formControlName="type">
                 <mat-option *ngFor="let type of types" [value]="type">
@@ -52,7 +52,7 @@
                 {{ 'pca.features.tenant.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
-            <mat-form-field class="col-6" [ngClass]="routeAnimationsElements">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <input matInput placeholder="{{ 'pca.features.tenant.form.phoneNumber' | translate }}"
                 formControlName="phoneNumber">
               <span class="option-input">({{ 'pca.features.tenant.form.option' | translate }})</span>

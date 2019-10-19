@@ -1,4 +1,22 @@
 {
   "pca.features.batch.enter": "Enter batch",
-  "pca.features.batch.overview": "Overview batches"
+  "pca.features.batch.overview": "Overview batches",
+  "pca.features.batch.form.formName": "Medicine batch form",
+  "pca.features.batch.form.registerCode": "Register code",
+  "pca.features.batch.form.batchNumber": "Batch number",
+  "pca.features.batch.form.isPrescriptionMedicine": "isPrescriptionMedicine",
+  "pca.features.batch.form.dosageForms": "Dosage forms",
+  "pca.features.batch.form.ingredientConcentration": "Ingredient concentration",
+  "pca.features.batch.form.packingSpecification": "Packing specification",
+  "pca.features.batch.form.quantity": "Quantity",
+  "pca.features.batch.form.priceDeclared": "Price declared",
+  "pca.features.batch.form.manufacturingDate": "Manufacturing date",
+  "pca.features.batch.form.expiryDate": "Expiry date",
+  "pca.features.batch.form.censorshipCertificateNames": "Censorship certificate names",
+  "pca.features.batch.form.option": "option",
+  "pca.features.batch.form.import": "Import",
+  "pca.features.batch.form.certificateId": "Certificate Id",
+  "pca.features.batch.form.cancel": "Cancel",
+  "pca.features.batch.form.submit": "Submit",
+  "pca.features.batch.form.error.required": "is required"
 }
