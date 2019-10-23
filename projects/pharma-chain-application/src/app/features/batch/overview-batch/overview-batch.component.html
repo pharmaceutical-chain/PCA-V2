@@ -1,1 +1,41 @@
-<p>overview-batch works!</p>
+<div class="container col-md-8 overview-tenant">
+  <!-- Header -->
+  <div class="row">
+    <div class="col">
+      <h1 class="main-heading">Overview Batches</h1>
+    </div>
+  </div>
+
+  <!-- Tools -->
+  <div class="tool-group" [ngClass]="routeAnimationsElements">
+    <div class="row">
+      <div class="col-4">
+        <mat-form-field style="width: 100%;">
+          <mat-label>Sort by</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let option of sortOptions">{{option}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-8" style="padding-top: 8px">
+        <pca-big-input placeholder="Business name or codes">
+          <pca-big-input-action fontSet="fas" fontIcon="fa-search" faIcon="search" color="accent" matTooltip="Search"
+            matTooltipPosition="before">
+          </pca-big-input-action>
+        </pca-big-input>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paginator -->
+  <div class="paginator-container" [ngClass]="routeAnimationsElements">
+    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+      [showFirstLastButtons]="true" [pageIndex]="currentPageIndex" (page)="pageEvent($event)">
+    </mat-paginator>
+    <mat-form-field class="current-page-container">
+      <input #pageNumberInput matInput [formControl]="currentPageNumberControl" (blur)="onblur()"
+        (keydown.enter)="pageNumberInput.blur()">
+    </mat-form-field>
+  </div>
+</div>
