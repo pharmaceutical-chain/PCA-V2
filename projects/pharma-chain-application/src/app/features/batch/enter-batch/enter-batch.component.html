@@ -46,7 +46,7 @@
             </mat-form-field>
 
             <div class="col" style="align-self: center;" [ngClass]="routeAnimationsElements">
-              <mat-slide-toggle [color]="primary" [checked]="form.get('isPrescriptionMedicine').value"
+              <mat-slide-toggle color="primary" [checked]="form.get('isPrescriptionMedicine').value"
                 formControlName="isPrescriptionMedicine">
                 {{ 'pca.features.batch.form.isPrescriptionMedicine' | translate }}
               </mat-slide-toggle>
