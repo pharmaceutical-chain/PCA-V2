@@ -22,16 +22,13 @@ export class EnterMedicineComponent implements OnInit {
 
 
   form = this.fb.group({
-    registerCode: ['', [Validators.required]],
-    batchNumber: ['', [Validators.required]],
+    registrationCode: ['', [Validators.required]],
+    commercialName: ['', [Validators.required]],
     isPrescriptionMedicine: [true],
-    dosageForms: ['', [Validators.required]],
+    dosageForm: ['', [Validators.required]],
     ingredientConcentration: ['', [Validators.required]],
     packingSpecification: ['', [Validators.required]],
-    quantity: ['', [Validators.required]],
-    priceDeclared: ['', [Validators.required]],
-    manufacturingDate: ['', [Validators.required]],
-    expiryDate: ['', [Validators.required]],
+    declaredPrice: ['', [Validators.required]],
     censorshipCertificateNames: [''],
     certificates: this.fb.array([])
   });
@@ -53,7 +50,7 @@ export class EnterMedicineComponent implements OnInit {
   ngOnInit() {
     this.certificatesFormArray.valueChanges.subscribe(() => this.form.get('censorshipCertificateNames').setValue(this.certificateNames));
 
-    this.filteredOptions = this.form.get('dosageForms').valueChanges
+    this.filteredOptions = this.form.get('dosageForm').valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value))
