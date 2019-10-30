@@ -1,1 +1,180 @@
-<p>enter-medicine works!</p>
+<div class="container enter-tenant" rtl>
+  <div class="row">
+    <div class="col">
+      <h1 class="main-heading">{{ 'pca.features.batch.form.formName' | translate }}</h1>
+    </div>
+  </div>
+  <form [formGroup]="form">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <mat-card>
+          <!-- Register code, Batch number -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.batch.form.registerCode' | translate }}"
+                formControlName="registerCode">
+              <mat-error *ngIf="form.get('registerCode').invalid">
+                {{ 'pca.features.batch.form.registerCode' | translate }}
+                {{ 'pca.features.batch.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.batch.form.batchNumber' | translate }}"
+                formControlName="batchNumber">
+              <mat-error *ngIf="form.get('batchNumber').invalid">
+                {{ 'pca.features.batch.form.batchNumber' | translate }}
+                {{ 'pca.features.batch.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Dosageforms, Prescription medicine -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput type="text" placeholder="{{ 'pca.features.batch.form.dosageForms' | translate }}"
+                formControlName="dosageForms" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="form.get('dosageForms').invalid">
+                {{ 'pca.features.batch.form.dosageForms' | translate }}
+                {{ 'pca.features.batch.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+
+            <div class="col" style="align-self: center;" [ngClass]="routeAnimationsElements">
+              <mat-slide-toggle color="primary" [checked]="form.get('isPrescriptionMedicine').value"
+                formControlName="isPrescriptionMedicine">
+                {{ 'pca.features.batch.form.isPrescriptionMedicine' | translate }}
+              </mat-slide-toggle>
+            </div>
+          </div>
+
+          <!-- Active Ingredient - Concentration -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <mat-label>{{ 'pca.features.batch.form.ingredientConcentration' | translate }}</mat-label>
+              <input matInput placeholder="{{ 'pca.features.batch.form.ingredientConcentrationPlaceholder' | translate }}"
+                formControlName="ingredientConcentration">
+              <mat-error *ngIf="form.get('ingredientConcentration').invalid">
+                {{ 'pca.features.batch.form.ingredientConcentration' | translate }}
+                {{ 'pca.features.batch.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Packing specification -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <mat-label>{{ 'pca.features.batch.form.packingSpecification' | translate }}</mat-label>
+              <input matInput placeholder="{{ 'pca.features.batch.form.packingSpecificationPlaceholder' | translate }}"
+                formControlName="packingSpecification">
+              <mat-error *ngIf="form.get('packingSpecification').invalid">
+                {{ 'pca.features.batch.form.packingSpecification' | translate }}
+                {{ 'pca.features.batch.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Quantity, Price declared -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.batch.form.quantity' | translate }}"
+                formControlName="quantity">
+              <mat-error *ngIf="form.get('quantity').invalid">
+                {{ 'pca.features.batch.form.quantity' | translate }}
+                {{ 'pca.features.batch.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.batch.form.priceDeclared' | translate }}"
+                formControlName="priceDeclared">
+              <mat-error *ngIf="form.get('priceDeclared').invalid">
+                {{ 'pca.features.batch.form.priceDeclared' | translate }}
+                {{ 'pca.features.batch.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Manufacturing date, Expiry date -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <mat-label>{{ 'pca.features.batch.form.manufacturingDate' | translate }}</mat-label>
+              <input matInput placeholder="{{ 'pca.features.batch.form.datePlaceholder' | translate }}"
+                formControlName="manufacturingDate">
+              <mat-error *ngIf="form.get('manufacturingDate').invalid">
+                {{ 'pca.features.batch.form.manufacturingDate' | translate }}
+                {{ 'pca.features.batch.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+                <mat-label>{{ 'pca.features.batch.form.expiryDate' | translate }}</mat-label>
+              <input matInput placeholder="{{ 'pca.features.batch.form.datePlaceholder' | translate }}"
+                formControlName="expiryDate">
+              <mat-error *ngIf="form.get('expiryDate').invalid">
+                {{ 'pca.features.batch.form.expiryDate' | translate }}
+                {{ 'pca.features.batch.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Import button -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.batch.form.censorshipCertificateNames' | translate }}"
+                formControlName="censorshipCertificateNames">
+              <span class="option-input">({{ 'pca.features.batch.form.option' | translate }})</span>
+              <input #file (change)="onFileSelected()" type="file" id="file" accept="application/pdf"
+                multiple="multiple" style="display:none">
+              <button (click)="file.click()" type="button" mat-flat-button color="accent" class="import-button">
+                {{ 'pca.features.batch.form.import' | translate }}
+              </button>
+            </mat-form-field>
+          </div>
+
+          <!-- Pdf loading progress -->
+          <div class="row" *ngIf="isLoading" [ngClass]="routeAnimationsElements" class="progress-bar-container">
+            <mat-progress-bar mode="indeterminate">
+            </mat-progress-bar>
+          </div>
+
+          <!-- Pdfviewer -->
+          <div class="row pdfViewer-container" formArrayName="certificates">
+            <div *ngFor="let pdfSrc of (pdfSrc$ | async); let i=index" class="pdfViewer-item" [formGroupName]="i"
+              [ngClass]="routeAnimationsElements">
+              <mat-form-field *ngIf="currentPageRendered[i]" class="col">
+                <input matInput placeholder="{{ 'pca.features.batch.form.certificateId' | translate }}"
+                  formControlName="name">
+                <fa-icon class="remove-pdf-icon" icon="times" (click)="removeCertificate(i)"></fa-icon>
+                <mat-error *ngIf="certificatesFormArray.at(i)?.invalid">
+                  {{ 'pca.features.batch.form.certificateId' | translate }}
+                  {{ 'pca.features.batch.form.error.required' | translate }}
+                </mat-error>
+              </mat-form-field>
+              <pdf-viewer [src]="pdfSrc" [original-size]="false" [autoresize]="true" [show-all]="false"
+                [external-link-target]="'blank'" (page-rendered)="pageRendered($event,i)" (error)="onError($event,i)"
+                (after-load-complete)="afterLoadComplete($event,i)" (click)="viewDetailPDF(i)">
+              </pdf-viewer>
+            </div>
+          </div>
+
+          <!-- Group button -->
+          <div class="row buttons d-flex justify-content-between pad">
+            <button class="w-100" mat-stroked-button color="primary" [ngClass]="routeAnimationsElements"
+              [routerLink]="['/feature-list']">
+              {{ 'pca.features.batch.form.cancel' | translate }}
+            </button>
+            <button class="w-100" mat-raised-button color="primary" [ngClass]="routeAnimationsElements"
+              (click)="submit()">
+              {{ 'pca.features.batch.form.submit' | translate }}
+            </button>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </form>
+</div>

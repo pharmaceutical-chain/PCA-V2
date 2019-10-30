@@ -8,18 +8,9 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <mat-card>
-          <!-- Register code, Batch number -->
+          <!-- Batch number -->
           <div class="row">
-            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.batch.form.registerCode' | translate }}"
-                formControlName="registerCode">
-              <mat-error *ngIf="form.get('registerCode').invalid">
-                {{ 'pca.features.batch.form.registerCode' | translate }}
-                {{ 'pca.features.batch.form.error.required' | translate }}
-              </mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+            <mat-form-field class="col-6" [ngClass]="routeAnimationsElements">
               <input matInput placeholder="{{ 'pca.features.batch.form.batchNumber' | translate }}"
                 formControlName="batchNumber">
               <mat-error *ngIf="form.get('batchNumber').invalid">
@@ -29,57 +20,24 @@
             </mat-form-field>
           </div>
 
-          <!-- Dosageforms, Prescription medicine -->
+          <!-- Medicine -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput type="text" placeholder="{{ 'pca.features.batch.form.dosageForms' | translate }}"
-                formControlName="dosageForms" [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete">
+              <input matInput type="text" placeholder="{{ 'pca.features.batch.form.medicine' | translate }}"
+                formControlName="medicineId" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                 <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                  {{option}}
+                  {{option.name}}
                 </mat-option>
               </mat-autocomplete>
-              <mat-error *ngIf="form.get('dosageForms').invalid">
-                {{ 'pca.features.batch.form.dosageForms' | translate }}
-                {{ 'pca.features.batch.form.error.required' | translate }}
-              </mat-error>
-            </mat-form-field>
-
-            <div class="col" style="align-self: center;" [ngClass]="routeAnimationsElements">
-              <mat-slide-toggle color="primary" [checked]="form.get('isPrescriptionMedicine').value"
-                formControlName="isPrescriptionMedicine">
-                {{ 'pca.features.batch.form.isPrescriptionMedicine' | translate }}
-              </mat-slide-toggle>
-            </div>
-          </div>
-
-          <!-- Active Ingredient - Concentration -->
-          <div class="row">
-            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <mat-label>{{ 'pca.features.batch.form.ingredientConcentration' | translate }}</mat-label>
-              <input matInput placeholder="{{ 'pca.features.batch.form.ingredientConcentrationPlaceholder' | translate }}"
-                formControlName="ingredientConcentration">
-              <mat-error *ngIf="form.get('ingredientConcentration').invalid">
-                {{ 'pca.features.batch.form.ingredientConcentration' | translate }}
+              <mat-error *ngIf="form.get('medicineId').invalid">
+                {{ 'pca.features.batch.form.medicine' | translate }}
                 {{ 'pca.features.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
 
-          <!-- Packing specification -->
-          <div class="row">
-            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <mat-label>{{ 'pca.features.batch.form.packingSpecification' | translate }}</mat-label>
-              <input matInput placeholder="{{ 'pca.features.batch.form.packingSpecificationPlaceholder' | translate }}"
-                formControlName="packingSpecification">
-              <mat-error *ngIf="form.get('packingSpecification').invalid">
-                {{ 'pca.features.batch.form.packingSpecification' | translate }}
-                {{ 'pca.features.batch.form.error.required' | translate }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <!-- Quantity, Price declared -->
+          <!-- Quantity, Unit -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <input matInput placeholder="{{ 'pca.features.batch.form.quantity' | translate }}"
@@ -90,10 +48,9 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.batch.form.priceDeclared' | translate }}"
-                formControlName="priceDeclared">
-              <mat-error *ngIf="form.get('priceDeclared').invalid">
-                {{ 'pca.features.batch.form.priceDeclared' | translate }}
+              <input matInput placeholder="{{ 'pca.features.batch.form.unit' | translate }}" formControlName="unit">
+              <mat-error *ngIf="form.get('unit').invalid">
+                {{ 'pca.features.batch.form.unit' | translate }}
                 {{ 'pca.features.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
@@ -103,8 +60,11 @@
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <mat-label>{{ 'pca.features.batch.form.manufacturingDate' | translate }}</mat-label>
-              <input matInput placeholder="{{ 'pca.features.batch.form.datePlaceholder' | translate }}"
+              <input matInput [matDatepicker]="mfgPicker"
+                placeholder="{{ 'pca.features.batch.form.datePlaceholder' | translate }}"
                 formControlName="manufacturingDate">
+              <mat-datepicker-toggle matSuffix [for]="mfgPicker"></mat-datepicker-toggle>
+              <mat-datepicker #mfgPicker></mat-datepicker>
               <mat-error *ngIf="form.get('manufacturingDate').invalid">
                 {{ 'pca.features.batch.form.manufacturingDate' | translate }}
                 {{ 'pca.features.batch.form.error.required' | translate }}
@@ -112,9 +72,11 @@
             </mat-form-field>
 
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-                <mat-label>{{ 'pca.features.batch.form.expiryDate' | translate }}</mat-label>
-              <input matInput placeholder="{{ 'pca.features.batch.form.datePlaceholder' | translate }}"
-                formControlName="expiryDate">
+              <mat-label>{{ 'pca.features.batch.form.expiryDate' | translate }}</mat-label>
+              <input matInput [matDatepicker]="expPicker"
+                placeholder="{{ 'pca.features.batch.form.datePlaceholder' | translate }}" formControlName="expiryDate">
+              <mat-datepicker-toggle matSuffix [for]="expPicker"></mat-datepicker-toggle>
+              <mat-datepicker #expPicker></mat-datepicker>
               <mat-error *ngIf="form.get('expiryDate').invalid">
                 {{ 'pca.features.batch.form.expiryDate' | translate }}
                 {{ 'pca.features.batch.form.error.required' | translate }}

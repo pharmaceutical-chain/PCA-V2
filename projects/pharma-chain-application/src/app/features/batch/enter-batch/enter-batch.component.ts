@@ -7,6 +7,11 @@ import { MatDialog } from '@angular/material';
 import { PdfViewerComponent } from '../../../shared/pdf-viewer/pdf-viewer.component';
 import { startWith, map } from 'rxjs/operators';
 
+interface MedicineOption {
+  id: string;
+  name: string;
+}
+
 @Component({
   selector: 'pca-enter-batch',
   templateUrl: './enter-batch.component.html',
@@ -17,19 +22,15 @@ export class EnterBatchComponent implements OnInit {
 
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
-  dosageFormOptions = ['Viên nén (Tablet)', 'Viên nang (Capsule)', 'Dược phẩm dạng bột (Powder)', 'Viên sủi (Effervescent tablet)', 'Dung dịch (Solution)', 'Thuốc tiêm (Injection)'];
-  filteredOptions: Observable<string[]>;
+  medicineOptions: Array<MedicineOption> = [{ id: '1', name: 'Sủi đau đầu / Paracetamol - 250mg' }, { id: '2', name: 'Casoran / Cao hoa hoè - 160mg' }];
+  filteredOptions: Observable<Array<MedicineOption>>;
 
 
   form = this.fb.group({
-    registerCode: ['', [Validators.required]],
     batchNumber: ['', [Validators.required]],
-    isPrescriptionMedicine: [true],
-    dosageForms: ['', [Validators.required]],
-    ingredientConcentration: ['', [Validators.required]],
-    packingSpecification: ['', [Validators.required]],
+    medicineId: ['', [Validators.required]],
     quantity: ['', [Validators.required]],
-    priceDeclared: ['', [Validators.required]],
+    unit: ['', [Validators.required]],
     manufacturingDate: ['', [Validators.required]],
     expiryDate: ['', [Validators.required]],
     censorshipCertificateNames: [''],
@@ -53,19 +54,30 @@ export class EnterBatchComponent implements OnInit {
   ngOnInit() {
     this.certificatesFormArray.valueChanges.subscribe(() => this.form.get('censorshipCertificateNames').setValue(this.certificateNames));
 
-    this.filteredOptions = this.form.get('dosageForms').valueChanges
+    this.filteredOptions = this.form.get('medicineId').valueChanges
       .pipe(
         startWith(''),
-        map(value => this._filter(value))
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this._filter(name) : this.medicineOptions.slice())
       );
   }
 
-  private _filter(value: string): string[] {
+  displayFn(option?: MedicineOption): string | undefined {
+    return option ? option.name : undefined;
+  }
+
+  private _filter(value: string): Array<MedicineOption> {
     const filterValue = value.toLowerCase();
-    return this.dosageFormOptions.filter(option => option.toLowerCase().includes(filterValue));
+    return this.medicineOptions.filter(option => option.name.toLowerCase().indexOf(filterValue) !== -1);
   }
 
   submit() {
+    if (this.form.valid) {
+      this.form.get('medicineId').setValue(this.form.get('medicineId').value.id, { emitModelToViewChange: false });
+      this.form.get('manufacturingDate').setValue((this.form.get('manufacturingDate').value as Date).toLocaleDateString(), { emitModelToViewChange: false });
+      this.form.get('expiryDate').setValue((this.form.get('expiryDate').value as Date).toLocaleDateString(), { emitModelToViewChange: false });
+    }
+
     console.log(this.form.value);
   }
 
