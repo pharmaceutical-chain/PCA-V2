@@ -17,14 +17,21 @@ export const features: Feature[] = [
     total: '22'
   },
   {
-    name: 'Overview medicine batches',
+    name: 'Overview medicines',
+    icon: '',
+    link: '/medicine/overview-medicine',
+    roles: ['admin', 'manufacturer', 'distributor', 'retailer'],
+    total: '13'
+  },
+  {
+    name: 'Overview batches',
     icon: '',
     link: '/batch/overview-batch',
     roles: ['admin', 'manufacturer', 'distributor', 'retailer'],
     total: '77'
   },
   {
-    name: 'Overview medicine transfers',
+    name: 'Overview transfers',
     icon: '',
     link: '/transfer/overview-transfer',
     roles: ['admin', 'manufacturer', 'distributor', 'retailer'],
@@ -37,13 +44,19 @@ export const features: Feature[] = [
     roles: ['admin']
   },
   {
-    name: 'Enter medicine batch',
+    name: 'Enter medicine',
+    icon: '',
+    link: '/medicine/enter-medicine',
+    roles: ['admin', 'manufacturer']
+  },
+  {
+    name: 'Enter batch',
     icon: '',
     link: '/batch/enter-batch',
     roles: ['admin', 'manufacturer']
   },
   {
-    name: 'Enter medicine transfer',
+    name: 'Enter transfer',
     icon: '',
     link: '/transfer/enter-transfer',
     roles: ['admin', 'manufacturer', 'distributor']

@@ -31,6 +31,12 @@ const routes: Routes = [
     import('./features/tenant/tenant.module').then(m => m.TenantModule)
   },
   {
+    path: 'medicine',
+    canActivate: [AdminGuard],
+    loadChildren: () =>
+    import('./features/medicine/medicine.module').then(m => m.MedicineModule)
+  },
+  {
     path: 'batch',
     canActivate: [AdminGuard],
     loadChildren: () =>
