@@ -86,7 +86,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     environment.production
       ? []
       : StoreDevtoolsModule.instrument({
-          name: 'Angular NgRx Material Starter'
+          name: 'Pharmaceutical Chain'
         }),
 
     // 3rd party
