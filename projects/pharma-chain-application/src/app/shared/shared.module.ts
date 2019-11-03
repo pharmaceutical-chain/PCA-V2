@@ -21,7 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatSliderModule, MatProgressBarModule, MatDialogModule, MatExpansionModule, MatPaginatorModule, MatBadgeModule, MatAutocompleteModule } from '@angular/material/';
+import { MatSliderModule, MatProgressBarModule, MatDialogModule, MatExpansionModule, MatPaginatorModule, MatBadgeModule, MatAutocompleteModule, MatTableModule, MatSortModule } from '@angular/material/';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 
@@ -133,6 +133,8 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
     MatPaginatorModule,
     MatBadgeModule,
     MatAutocompleteModule,
+    MatTableModule,
+    MatSortModule,
 
     FontAwesomeModule,
 

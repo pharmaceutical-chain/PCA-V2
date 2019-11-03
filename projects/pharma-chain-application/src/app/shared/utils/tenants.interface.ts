@@ -1,3 +1,4 @@
+// tslint:disable-next-line: class-name
 export interface ITenant_GET {
   id: string,
   name: string,
@@ -14,6 +15,7 @@ export interface ITenant_GET {
   transactionStatus: string
 }
 
+// tslint:disable-next-line: class-name
 export interface ITenant_CREATE {
   name: string,
   primaryAddress: string,

@@ -1,0 +1,41 @@
+@import '../../../../styles-variables';
+
+.overview-medicine {
+  table {
+    width: 100%;
+  }
+
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+
+  td,
+  th {
+    width: 25%;
+  }
+
+  .paginator-container {
+    padding-top: 32px;
+
+    mat-paginator {
+      ::ng-deep {
+        .mat-paginator-navigation-previous {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .current-page-container {
+      position: absolute;
+      right: 100px;
+      bottom: -5px;
+      width: 16px;
+      text-align: center;
+
+      input {
+        font-size: 12px;
+      }
+    }
+  }
+}
