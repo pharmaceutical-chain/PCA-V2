@@ -1,11 +1,14 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
+import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Validators, FormBuilder, FormArray } from '@angular/forms';
 import { PDFDocumentProxy, PDFProgressData } from 'pdfjs-dist';
 import { MatDialog } from '@angular/material';
 import { startWith, map } from 'rxjs/operators';
 import { PdfViewerComponent } from '../../../shared/pdf-viewer/pdf-viewer.component';
+import { MedicineService } from '../medicine.service';
+import { AuthService } from '../../../core/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pca-enter-medicine',
@@ -43,7 +46,11 @@ export class EnterMedicineComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private medicineService: MedicineService,
+    private authService: AuthService,
+    private readonly notificationService: NotificationService,
+    private router: Router,
   ) {
   }
 
@@ -62,8 +69,23 @@ export class EnterMedicineComponent implements OnInit {
     return this.dosageFormOptions.filter(option => option.toLowerCase().includes(filterValue));
   }
 
-  submit() {
-    console.log(this.form.value);
+  async submit() {
+    if (this.form.valid) {
+      const tenantId = (await this.authService.getUser$().toPromise()).sub.slice(6);
+      const medicine = { ...this.form.value, currentlyLoggedInTenant: tenantId };
+      this.medicineService.createMedicine(medicine).subscribe(res => {
+        if (res) {
+          this.notificationService.success('Enter medicine successfully!');
+          setTimeout(() => {
+            this.router.navigate(['/medicine/overview-medicine']).then(() => {
+              setTimeout(() => {
+                this.notificationService.info('We are mining into blockchain...');
+              }, 1000);
+            });
+          }, 1000);
+        }
+      });
+    }
   }
 
   get branchAddressFormArray(): FormArray {

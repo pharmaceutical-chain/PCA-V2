@@ -2,7 +2,7 @@ import { ITenant_CREATE } from './../../shared/utils/tenants.interface';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { ITenant_GET } from '../../shared/utils/tenants.interface';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TENANT, SERVER_URL, API } from '../../shared/utils/constants';
 
 @Injectable({

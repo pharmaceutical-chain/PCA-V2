@@ -19,7 +19,7 @@ export class InterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    this.auth.isAuthenticated$.subscribe(loggedIn => {
+    return this.auth.isAuthenticated$.pipe(loggedIn => {
       if (loggedIn) {
         return this.auth.getTokenSilently$().pipe(
           mergeMap(token => {
@@ -33,6 +33,5 @@ export class InterceptorService implements HttpInterceptor {
       }
     })
 
-    return next.handle(req);
   }
 }

@@ -91,6 +91,7 @@ export class AppComponent implements OnInit {
   }
 
   getUser() {
-    this.authService.userProfile$.subscribe(res => console.log(res));
+    this.authService.getUser$().subscribe(res => console.log(res));
+    this.authService.getTokenSilently$().subscribe(res => console.log(res));
   }
 }
