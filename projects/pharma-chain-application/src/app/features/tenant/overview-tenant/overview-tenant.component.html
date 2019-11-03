@@ -34,7 +34,7 @@
     <mat-tab-group mat-stretch-tabs class="col">
       <mat-tab>
         <ng-template mat-tab-label>
-          <span matBadge="{{(tenants | async)?.length}}" matBadgeOverlap="false">Manufacturers</span>
+          <span matBadge="{{(tenants | async)?.length}}" matBadgeOverlap="false">All</span>
         </ng-template>
 
         <!-- Tenant list -->
@@ -44,7 +44,8 @@
               <mat-panel-title>{{tenant.name | slice:0:50}}<span *ngIf="tenant.name.length > 50">...</span>
               </mat-panel-title>
               <mat-panel-description>
-                <span *ngIf="tenant.transactionStatus === 'Success'">Created date: {{ tenant.dateCreated | slice:0:10 }}</span>
+                <span *ngIf="tenant.transactionStatus === 'Success'">Created date:
+                  {{ tenant.dateCreated | slice:0:10 }}</span>
                 <span *ngIf="tenant.transactionStatus !== 'Success'">Pending...</span>
               </mat-panel-description>
             </mat-expansion-panel-header>
@@ -125,6 +126,13 @@
             </div>
           </mat-expansion-panel>
         </mat-accordion>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span matBadge="4" matBadgeOverlap="false">Manufacturers</span>
+        </ng-template>
+        Content 2
       </mat-tab>
 
       <mat-tab>

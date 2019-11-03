@@ -6,7 +6,7 @@
   "pca.features.batch.form.commercialName": "Commercial name",
   "pca.features.batch.form.isPrescriptionMedicine": "Prescription medicine",
   "pca.features.batch.form.dosageForm": "Dosage form",
-  "pca.features.batch.form.ingredientConcentration": "Active Ingredient - Concentration",
+  "pca.features.batch.form.ingredientConcentration": "Active ingredient - Concentration",
   "pca.features.batch.form.ingredientConcentrationPlaceholder": "Paracetamol - 250mg",
   "pca.features.batch.form.packingSpecification": "Packing specification",
   "pca.features.batch.form.packingSpecificationPlaceholder": "Box 24 pack x 1,5g powder",
