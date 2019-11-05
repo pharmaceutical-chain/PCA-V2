@@ -65,6 +65,7 @@ import { RtlSupportDirective } from './rtl-support/rtl-support.directive';
 
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
+import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 
 @NgModule({
   imports: [
@@ -99,7 +100,8 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
     BigInputComponent,
     BigInputActionComponent,
     RtlSupportDirective,
-    PdfViewerComponent
+    PdfViewerComponent,
+    ImageViewerComponent
   ],
   exports: [
     CommonModule,
@@ -143,7 +145,8 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
     RtlSupportDirective
   ],
   entryComponents: [
-    PdfViewerComponent
+    PdfViewerComponent,
+    ImageViewerComponent
   ]
 })
 export class SharedModule {

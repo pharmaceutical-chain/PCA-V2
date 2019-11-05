@@ -2,7 +2,7 @@
   <!-- Header -->
   <div class="row">
     <div class="col">
-      <h1 class="main-heading">Tenant Overview</h1>
+      <h1 class="main-heading">Overview Tenants</h1>
     </div>
   </div>
 
@@ -94,7 +94,7 @@
                   (click)="onClickContracAddress(tenant.contractAddress)">
                   {{tenant.contractAddress}}
                 </div>
-                <div *ngIf="!tenant.contractAddress" class="col-9 txh-link">
+                <div *ngIf="!tenant.contractAddress" class="col-9">
                   Pending...
                 </div>
               </div>

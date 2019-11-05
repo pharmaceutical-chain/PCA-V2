@@ -2,17 +2,16 @@ import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/cor
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
-  selector: 'pca-pdf-viewer',
-  templateUrl: './pdf-viewer.component.html',
-  styleUrls: ['./pdf-viewer.component.scss'],
+  selector: 'pca-image-viewer',
+  templateUrl: './image-viewer.component.html',
+  styleUrls: ['./image-viewer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PdfViewerComponent implements OnInit {
+export class ImageViewerComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<PdfViewerComponent>,
+    public dialogRef: MatDialogRef<ImageViewerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
-
 
   ngOnInit() {
   }
