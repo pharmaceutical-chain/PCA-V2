@@ -19,7 +19,7 @@ export class OverviewMedicineComponent implements OnInit {
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
   data: IMedicine_GET[] = [];
-  columnsToDisplay = ['registrationCode', 'commercialName', 'ingredientConcentration', 'manufacturer'];
+  columnsToDisplay = ['manufacturer', 'registrationCode', 'commercialName', 'ingredientConcentration', 'dateCreated'];
   dataSource: MatTableDataSource<IMedicine_GET>;
   expandedElement: IMedicine_GET | null;
 

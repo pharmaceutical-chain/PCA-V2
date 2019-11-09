@@ -34,7 +34,7 @@ export class MedicineService {
             manufacturerAddress: base['submittedTenant']['primaryAddress'],
             transactionHash: base['transactionHash'],
             contractAddress: base['contractAddress'],
-            dateCreated: base['dateCreated'],
+            dateCreated: (new Date(base['dateCreated']).toLocaleDateString()),
             transactionStatus: base['transactionStatus'],
           };
 

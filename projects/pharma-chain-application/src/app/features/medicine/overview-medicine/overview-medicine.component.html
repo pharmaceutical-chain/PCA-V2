@@ -108,7 +108,7 @@
               <div class="col-9">{{goodPractices}}</div>
             </div>
             <div class="row" style="justify-content: center;">
-              <div class="col-2" style="padding: 16px;" *ngFor="let cert of certificates">
+              <div class="col-3" style="padding: 16px;" *ngFor="let cert of certificates">
                 <img style="width: 100%;" src="{{cert.file}}" (click)="viewDetailCertificate(cert.file)">
               </div>
             </div>

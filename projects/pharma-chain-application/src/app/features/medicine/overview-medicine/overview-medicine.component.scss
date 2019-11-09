@@ -86,12 +86,17 @@
     display: -webkit-box;
 
     .data-label {
-      text-align: right;
       color: gray;
+      margin-bottom: 8px;
+      hyphens: auto;
     }
 
     .txh-link {
       cursor: pointer;
+      text-overflow: ellipsis;
+      /* Required for text-overflow to do anything */
+      white-space: nowrap;
+      overflow: hidden;
     }
   }
 
