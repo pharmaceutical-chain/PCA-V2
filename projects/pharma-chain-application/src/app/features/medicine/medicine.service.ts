@@ -14,9 +14,8 @@ export class MedicineService {
 
   getMedicines(): Observable<IMedicine_GET[]> {
     const url = SERVER_URL + API + MEDICINE;
-    const baseMedicineData = this._http.get(url);
 
-    return baseMedicineData.pipe(
+    return this._http.get(url).pipe(
       map((baseMedicineArray: Object[]) => {
         const convertedArray: IMedicine_GET[] = [];
 
@@ -34,7 +33,7 @@ export class MedicineService {
             manufacturerAddress: base['submittedTenant']['primaryAddress'],
             transactionHash: base['transactionHash'],
             contractAddress: base['contractAddress'],
-            dateCreated: (new Date(base['dateCreated']).toLocaleDateString()),
+            dateCreated: (new Date(base['dateCreated'])).toLocaleDateString(),
             transactionStatus: base['transactionStatus'],
           };
 

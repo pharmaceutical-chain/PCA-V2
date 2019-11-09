@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { ITenant_CREATE } from './../../shared/utils/tenants.interface';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -14,6 +15,7 @@ export class TenantService {
 
   getTenants(): Observable<ITenant_GET[]> {
     const url = SERVER_URL + API + TENANT;
+
     return this._http.get<ITenant_GET[]>(url);
   }
 
@@ -27,7 +29,7 @@ export class TenantService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json-patch+json'
       }),
-      body:  '"' + tenantId + '"'
+      body: '"' + tenantId + '"'
     }
     const url = SERVER_URL + API + TENANT;
     return this._http.delete(url, options);

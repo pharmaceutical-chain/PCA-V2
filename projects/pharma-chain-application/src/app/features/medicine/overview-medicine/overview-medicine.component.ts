@@ -48,8 +48,7 @@ export class OverviewMedicineComponent implements OnInit {
     private fb: FormBuilder,
     private medicineService: MedicineService,
     private dialog: MatDialog,
-  ) {
-  }
+  ) { }
 
   async ngOnInit() {
     this.data = await this.medicineService.getMedicines().toPromise();
@@ -58,6 +57,25 @@ export class OverviewMedicineComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.dataSource.filterPredicate = (data: IMedicine_GET, filters: string) => {
+      const matchFilter = [];
+      const filterArray = filters.split(' ');
+      const columns = (<any>Object).values(data);
+      // OR be more specific [data.name, data.race, data.color];
+
+      // Main
+      filterArray.forEach(filter => {
+        const customFilter = [];
+        columns.forEach(column => {
+          if (column) {
+            customFilter.push(column.toString().toLowerCase().includes(filter));
+          }
+        });
+        matchFilter.push(customFilter.some(Boolean)); // OR
+      });
+      return matchFilter.every(Boolean); // AND
+    }
   }
 
   applyFilter(filterValue: string) {

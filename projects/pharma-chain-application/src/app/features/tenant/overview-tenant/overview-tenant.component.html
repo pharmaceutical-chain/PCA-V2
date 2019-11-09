@@ -7,153 +7,142 @@
   </div>
 
   <!-- Tools -->
-  <div class="tool-group" [ngClass]="routeAnimationsElements">
-    <div class="row">
-      <div class="col-4">
-        <mat-form-field style="width: 100%;">
-          <mat-label>Sort by</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let option of sortOptions">{{option}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+  <div class="tool-group" style="padding-bottom: 40px;" [ngClass]="routeAnimationsElements">
+    <div class="filter mat-elevation-z2">
+      <button mat-stroked-button [color]="currentFilter == 0 ? 'primary' : null" class="col" (click)="currentFilter = 0; applyFilter(currentSearching)">
+        <span matBadge="{{data?.length}}" matBadgeOverlap="false" [ngClass]="{'active': currentFilter == 0}">All</span>
+      </button>
+      <button mat-stroked-button [color]="currentFilter == 1 ? 'primary' : null" class="col" (click)="currentFilter = 1; applyFilter(currentSearching + ' Manufacturer')">
+        <span matBadge="{{data?.length}}" matBadgeOverlap="false" [ngClass]="{'active': currentFilter == 1}">Manufacturers</span>
+      </button>
+      <button mat-stroked-button [color]="currentFilter == 2 ? 'primary' : null" class="col" (click)="currentFilter = 2; applyFilter(currentSearching + ' Distributor')">
+        <span matBadge="{{data?.length}}" matBadgeOverlap="false" [ngClass]="{'active': currentFilter == 2}">Distributors</span>
+      </button>
+      <button mat-stroked-button [color]="currentFilter == 3 ? 'primary' : null" class="col" (click)="currentFilter = 3; applyFilter(currentSearching + ' Retailer')">
+        <span matBadge="{{data?.length}}" matBadgeOverlap="false" [ngClass]="{'active': currentFilter == 3}">Retailers</span>
+      </button>
+    </div>
 
-      <div class="col-8" style="padding-top: 8px">
-        <pca-big-input placeholder="Business name or codes">
-          <pca-big-input-action fontSet="fas" fontIcon="fa-search" faIcon="search" color="accent" matTooltip="Search"
-            matTooltipPosition="before">
-          </pca-big-input-action>
-        </pca-big-input>
-      </div>
+    <div class="col mat-elevation-z2" style="padding: 0">
+      <pca-big-input placeholder="Search..." (keyup)="applyFilter($event.target.value); currentSearching = $event.target.value">
+        <pca-big-input-action fontSet="fas" fontIcon="fa-search" faIcon="search" color="accent" matTooltip="Search"
+          matTooltipPosition="before">
+        </pca-big-input-action>
+      </pca-big-input>
     </div>
   </div>
 
-  <!-- Data -->
-  <div class="row" style="padding-top: 16px;" [ngClass]="routeAnimationsElements">
-    <!-- (selectedIndexChange)="selected.setValue($event)" -->
-    <mat-tab-group mat-stretch-tabs class="col">
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <span matBadge="{{(tenants | async)?.length}}" matBadgeOverlap="false">All</span>
-        </ng-template>
+  <!-- Table -->
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z3" matSort>
+    <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{camelCaseToTitle(column)}} </th>
+      <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+    </ng-container>
 
-        <!-- Tenant list -->
-        <mat-accordion>
-          <mat-expansion-panel *ngFor="let tenant of tenants | async" [ngClass]="routeAnimationsElements">
-            <mat-expansion-panel-header>
-              <mat-panel-title>{{tenant.name | slice:0:50}}<span *ngIf="tenant.name.length > 50">...</span>
-              </mat-panel-title>
-              <mat-panel-description>
-                <span *ngIf="tenant.transactionStatus === 'Success'">Created date:
-                  {{ tenant.dateCreated | slice:0:10 }}</span>
-                <span *ngIf="tenant.transactionStatus !== 'Success'">Pending...</span>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <div class="content-tenant">
-              <!-- Business name -->
-              <div class="row row-data">
-                <div class="col-2 data-label">Business name</div>
-                <div class="col-9">{{tenant.name}}</div>
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+        <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <!-- Conclusion -->
+          <div class="example-element-diagram">
+            <div class="example-element-symbol"> {{element.name}} </div>
+            <div class="example-element-name"> {{element.type}} </div>
+            <!-- Reference -->
+            <span class="example-element-description-attribution"> -- Drugbank </span>
+          </div>
+
+          <!-- Details -->
+          <div class="example-element-description">
+            <!-- Business name -->
+            <div class="row row-data">
+              <div class="col-3 data-label">Business name</div>
+              <div class="col-9">{{element.name}}</div>
+            </div>
+            <!-- Business type -->
+            <div class="row row-data">
+              <div class="col-3 data-label">Business type</div>
+              <div class="col-9">{{element.type}}</div>
+            </div>
+            <!-- Tax code -->
+            <div class="row row-data">
+              <div class="col-3 data-label">Tax code</div>
+              <div class="col-9">{{element.taxCode}}</div>
+            </div>
+            <!-- Registration code -->
+            <div class="row row-data">
+              <div class="col-3 data-label">Registrated code</div>
+              <div class="col-9">{{element.registrationCode}}</div>
+            </div>
+            <!-- Phone number -->
+            <div *ngIf="element.phoneNumber !== ''" class="row row-data">
+              <div class="col-3 data-label">Phone number</div>
+              <div class="col-9">{{element.phoneNumber}}</div>
+            </div>
+            <!-- Primary address -->
+            <div class="row row-data">
+              <div class="col-3 data-label">Primary address</div>
+              <div class="col-9">{{element.primaryAddress}}</div>
+            </div>
+            <!-- Branch address -->
+            <div class="row row-data">
+              <div class="col-3 data-label">Branch address</div>
+              <div class="col-9">
+                <span *ngFor="let branch of branchAddress; let i=index">({{i+1}}) {{branch}}; </span>
               </div>
-              <!-- Business type -->
-              <div class="row row-data">
-                <div class="col-2 data-label">Business type</div>
-                <div class="col-9">{{tenant.type}}</div>
+            </div>
+
+            <!-- Contract address -->
+            <div class="row row-data">
+              <div class="col-3 data-label">Contract address</div>
+              <div *ngIf="element.contractAddress" class="col-9 txh-link"
+                (click)="onClickContracAddress(element.contractAddress)">
+                {{element.contractAddress}}
               </div>
-              <!-- Tax code -->
-              <div class="row row-data">
-                <div class="col-2 data-label">Tax code</div>
-                <div class="col-9">{{tenant.taxCode}}</div>
+              <div *ngIf="!element.contractAddress" class="col-9">
+                Pending...
               </div>
-              <!-- Registration code -->
-              <div class="row row-data">
-                <div class="col-2 data-label">Registrated code</div>
-                <div class="col-9">{{tenant.registrationCode}}</div>
+            </div>
+            <!-- Transaction hash -->
+            <div class="row row-data">
+              <div class="col-3 data-label">Transaction hash</div>
+              <div class="col-9 txh-link" (click)="onClickTransactionHash(element.transactionHash)">
+                {{element.transactionHash}}
               </div>
-              <!-- Phone number -->
-              <div *ngIf="tenant.phoneNumber !== ''" class="row row-data">
-                <div class="col-2 data-label">Phone number</div>
-                <div class="col-9">{{tenant.phoneNumber}}</div>
-              </div>
-              <!-- Primary address -->
-              <div class="row row-data">
-                <div class="col-2 data-label">Primary address</div>
-                <div class="col-9">{{tenant.primaryAddress}}</div>
-              </div>
-              <!-- Branch address -->
-              <div class="row row-data">
-                <div class="col-2 data-label">Branch address</div>
-                <div class="col-9">
-                  <span *ngFor="let branch of branchAddress; let i=index">({{i+1}}) {{branch}}; </span>
-                </div>
-              </div>
-              <!-- Contract address -->
-              <div class="row row-data">
-                <div class="col-2 data-label">Contract address</div>
-                <div *ngIf="tenant.contractAddress" class="col-9 txh-link"
-                  (click)="onClickContracAddress(tenant.contractAddress)">
-                  {{tenant.contractAddress}}
-                </div>
-                <div *ngIf="!tenant.contractAddress" class="col-9">
-                  Pending...
-                </div>
-              </div>
-              <!-- Transaction hash -->
-              <div class="row row-data">
-                <div class="col-2 data-label">Transaction hash</div>
-                <div class="col-9 txh-link" (click)="onClickTransactionHash(tenant.transactionHash)">{{tenant.transactionHash}}
-                </div>
-              </div>
-              <!-- Certificates -->
-              <div class="row row-data">
-                <div class="col-2 data-label">GMP/GSP/GLP</div>
-                <div class="col-9">{{goodPractices}}</div>
-              </div>
-              <div class="row">
-                <div class="col-3" style="padding-top: 8px" *ngFor="let cert of certificates">
-                  <img style="width: 100%;" src="{{cert.file}}">
-                </div>
+            </div>
+            <!-- Certificates -->
+            <div class="row row-data">
+              <div class="col-3 data-label">GMP/GSP/GLP</div>
+              <div class="col-9">{{goodPractices}}</div>
+            </div>
+            <div class="row" style="justify-content: center;">
+              <div class="col-3" style="padding: 16px;" *ngFor="let cert of certificates">
+                <img style="width: 100%;" src="{{cert.file}}" (click)="viewDetailCertificate(cert.file)">
               </div>
             </div>
             <!-- Action button -->
-            <div class="function-tenant-container">
+            <div class="function-container">
               <button mat-mini-fab color="primary" class="function">
                 <fa-icon icon="edit"></fa-icon>
               </button>
-              <button mat-mini-fab color="warn" class="function" (click)="onClickDelete(tenant.id)">
+              <button mat-mini-fab color="warn" class="function" (click)="onClickDelete(element.id)">
                 <fa-icon icon="trash"></fa-icon>
               </button>
             </div>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </mat-tab>
+          </div>
+        </div>
+      </td>
+    </ng-container>
 
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <span matBadge="4" matBadgeOverlap="false">Manufacturers</span>
-        </ng-template>
-        Content 2
-      </mat-tab>
-
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <span matBadge="4" matBadgeOverlap="false">Distributors</span>
-        </ng-template>
-        Content 2
-      </mat-tab>
-
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <span matBadge="4" matBadgeOverlap="false">Retailers</span>
-        </ng-template>
-
-        Content 3
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  </table>
 
   <!-- Paginator -->
-  <div class="paginator-container" [ngClass]="routeAnimationsElements">
+  <div class="col paginator-container" [ngClass]="routeAnimationsElements">
     <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
       [showFirstLastButtons]="true" [pageIndex]="currentPageIndex" (page)="pageEvent($event)">
     </mat-paginator>

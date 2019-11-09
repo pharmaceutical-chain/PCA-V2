@@ -43,8 +43,18 @@
         }
       }
 
-      span.mat-badge-content {
-        background-color: mat-color($foreground, text);
+      .row-data .data-label {
+        color: mat-color($foreground, text, 0.54);
+      }
+
+      .tool-group .filter {
+        span.mat-badge-content {
+          background-color: mat-color($foreground, text, 0.54);
+        }
+
+        .active span.mat-badge-content {
+          background-color: mat-color($primary);
+        }
       }
     }
 

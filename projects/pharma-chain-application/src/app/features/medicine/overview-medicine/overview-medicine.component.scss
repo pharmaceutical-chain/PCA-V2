@@ -9,53 +9,53 @@
 
   table {
     width: 100%;
-  }
 
-  tr.example-detail-row {
-    height: 0;
-  }
+    tr.example-detail-row {
+      height: 0;
+    }
 
-  tr.example-element-row:not(.example-expanded-row):hover {
-    background: #777;
-  }
+    tr.example-element-row:not(.example-expanded-row):hover {
+      background: #777;
+    }
 
-  tr.example-element-row:not(.example-expanded-row):active {
-    background: #efefef;
-  }
+    tr.example-element-row:not(.example-expanded-row):active {
+      background: #efefef;
+    }
 
-  .example-element-row td {
-    border-bottom-width: 0;
-  }
+    .example-element-row td {
+      border-bottom-width: 0;
+    }
 
-  .example-element-detail {
-    overflow: hidden;
-    display: flex;
-  }
+    .example-element-detail {
+      overflow: hidden;
+      display: flex;
+    }
 
-  .example-element-diagram {
-    border: 2px solid black;
-    padding: 8px;
-    font-weight: lighter;
-    margin: 8px 0;
-    width: min-content;
-    position: relative;
-  }
+    .example-element-diagram {
+      border: 2px solid black;
+      padding: 8px;
+      font-weight: lighter;
+      margin: 8px 0;
+      width: min-content;
+      position: relative;
+    }
 
-  .example-element-symbol {
-    font-weight: bold;
-    font-size: 32px;
-    line-height: normal;
-  }
+    .example-element-symbol {
+      font-weight: bold;
+      font-size: 32px;
+      line-height: normal;
+    }
 
-  .example-element-description {
-    padding: 16px;
-  }
+    .example-element-description {
+      padding: 16px;
+    }
 
-  .example-element-description-attribution {
-    opacity: 0.5;
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
+    .example-element-description-attribution {
+      opacity: 0.5;
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+    }
   }
 
   .paginator-container {
@@ -86,7 +86,6 @@
     display: -webkit-box;
 
     .data-label {
-      color: gray;
       margin-bottom: 8px;
       hyphens: auto;
     }
@@ -100,7 +99,7 @@
     }
   }
 
-  .function-tenant-container {
+  .function-container {
     padding-top: 16px;
     text-align: right;
 
@@ -108,5 +107,4 @@
       margin-left: 8px;
     }
   }
-
 }
