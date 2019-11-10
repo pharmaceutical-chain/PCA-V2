@@ -26,7 +26,7 @@ export class MedicineService {
             commercialName: base['commercialName'],
             ingredientConcentration: base['ingredientConcentration'],
             isPrescriptionMedicine: base['isPrescriptionMedicine'],
-            manufacturer: base['submittedTenant']['name'],
+            manufacturer: `${base['submittedTenant']['name']} - ${base['submittedTenant']['registrationCode']}`,
             dosageForm: base['dosageForm'],
             packingSpecification: base['packingSpecification'],
             declaredPrice: base['declaredPrice'],

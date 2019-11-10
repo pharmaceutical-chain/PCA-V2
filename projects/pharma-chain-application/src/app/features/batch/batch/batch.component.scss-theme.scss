@@ -43,8 +43,8 @@
         }
       }
 
-      span.mat-badge-content {
-        background-color: mat-color($foreground, text);
+      .row-data .data-label {
+        color: mat-color($foreground, text, 0.54);
       }
     }
 

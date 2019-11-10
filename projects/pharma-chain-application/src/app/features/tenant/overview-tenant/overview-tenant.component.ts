@@ -150,7 +150,7 @@ export class OverviewTenantComponent implements OnInit {
   }
 
   onClickTransactionHash(txh: string) {
-    const url = `https://etherscan.io/tx/${txh}`;
+    const url = `https://ropsten.etherscan.io/tx/${txh}`;
     window.open(url, '_blank');
   }
 

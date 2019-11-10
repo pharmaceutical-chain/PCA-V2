@@ -1,43 +1,60 @@
 @import '../../../../styles-variables';
 
-.overview-tenant {
+.overview-batch {
   .main-heading {
     text-transform: uppercase;
     margin: 0 0 20px 0;
     text-align: center;
   }
 
-  mat-tab-group {
-    ::ng-deep {
-      .mat-tab-header-pagination {
-        display: none !important;
-      }
+  table {
+    width: 100%;
+
+    tr.example-detail-row {
+      height: 0;
     }
 
-    mat-panel-description {
-      flex-grow: 0;
-    }
-  }
-
-  .row-data {
-    display: -webkit-box;
-
-    .data-label {
-      text-align: right;
-      color: gray;
+    tr.example-element-row:not(.example-expanded-row):hover {
+      background: #777;
     }
 
-    .txh-link {
-      cursor: pointer;
+    tr.example-element-row:not(.example-expanded-row):active {
+      background: #efefef;
     }
-  }
 
-  .function-tenant-container {
-    padding-top: 16px;
-    text-align: right;
+    .example-element-row td {
+      border-bottom-width: 0;
+    }
 
-    .function {
-      margin-left: 8px;
+    .example-element-detail {
+      overflow: hidden;
+      display: flex;
+    }
+
+    .example-element-diagram {
+      border: 2px solid black;
+      padding: 8px;
+      font-weight: lighter;
+      margin: 8px 0;
+      width: min-content;
+      position: relative;
+    }
+
+    .example-element-symbol {
+      font-weight: bold;
+      font-size: 32px;
+      line-height: normal;
+    }
+
+    .example-element-description {
+      padding: 16px;
+    }
+
+    .example-element-description-attribution {
+      opacity: 0.5;
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
     }
   }
 
@@ -62,6 +79,32 @@
       input {
         font-size: 12px;
       }
+    }
+  }
+
+  .row-data {
+    display: -webkit-box;
+
+    .data-label {
+      margin-bottom: 8px;
+      hyphens: auto;
+    }
+
+    .txh-link {
+      cursor: pointer;
+      text-overflow: ellipsis;
+      /* Required for text-overflow to do anything */
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
+  .function-container {
+    padding-top: 16px;
+    text-align: right;
+
+    .function {
+      margin-left: 8px;
     }
   }
 }

@@ -10,6 +10,7 @@ export interface IMedicine_GET {
   packingSpecification: string;
   declaredPrice: string;
   manufacturerAddress: string;
+  
   transactionHash: string;
   contractAddress: string;
   dateCreated: string;

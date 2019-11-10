@@ -8,6 +8,7 @@ export interface ITenant_GET {
   taxCode: string,
   registrationCode: string,
   goodPractices?: string,
+  
   transactionHash: string,
   contractAddress: string,
   type: string,
