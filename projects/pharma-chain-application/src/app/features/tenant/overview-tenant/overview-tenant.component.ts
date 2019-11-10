@@ -2,11 +2,12 @@ import { ConfirmationDialogComponent } from './../../../shared/confirmation-dial
 import { ITenant_GET } from './../../../shared/utils/tenants.interface';
 import { TenantService } from './../tenant.service';
 import { FormBuilder } from '@angular/forms';
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
 import { PageEvent, MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { detailExpand } from '../../../core/animations/element.animations';
 import { ImageViewerComponent } from '../../../shared/image-viewer/image-viewer.component';
+import { Router } from '@angular/router';
 
 enum TYPE_TENANT {
   ALL = 0,
@@ -61,7 +62,7 @@ export class OverviewTenantComponent implements OnInit {
     private tenantService: TenantService,
     private dialog: MatDialog,
     private readonly notificationService: NotificationService,
-    private cdf: ChangeDetectorRef
+    private router: Router,
   ) { }
 
   async ngOnInit() {
@@ -196,6 +197,10 @@ export class OverviewTenantComponent implements OnInit {
         });
       }
     });
+  }
+
+  onClickUpdate(tenantId: string) {
+    this.router.navigate(['/tenant/update-tenant', {tenantId}])
   }
 
 }

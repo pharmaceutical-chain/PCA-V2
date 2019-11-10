@@ -1,4 +1,5 @@
-import { Router } from '@angular/router';
+import { ITenant_GET } from './../../../shared/utils/tenants.interface';
+import { Router, ActivatedRoute } from '@angular/router';
 import { TenantService } from './../tenant.service';
 import { PdfViewerComponent } from './../../../shared/pdf-viewer/pdf-viewer.component';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
@@ -18,10 +19,14 @@ export class EnterTenantComponent implements OnInit {
 
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
+  tenantId: string;
+  tenant: any;
+
   types = ['Manufacturer', 'Distributor', 'Retailer'];
 
   form = this.fb.group({
     name: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
     taxCode: ['', [Validators.required]],
     registrationCode: ['', [Validators.required]],
     type: ['', [Validators.required]],
@@ -45,28 +50,63 @@ export class EnterTenantComponent implements OnInit {
     private dialog: MatDialog,
     private tenantService: TenantService,
     private router: Router,
+    private route: ActivatedRoute,
     private readonly notificationService: NotificationService
   ) {
   }
 
   ngOnInit() {
+    this.route.params.subscribe(async res => {
+      this.tenantId = res['tenantId'];
+      this.tenant = await this.tenantService.getTenants(this.tenantId).toPromise();
+
+      if (this.tenant) {
+        this.form.patchValue({
+          name: this.tenant['name'],
+          email: this.tenant['email'],
+          taxCode: this.tenant['taxCode'],
+          registrationCode: this.tenant['registrationCode'],
+          type: this.tenant['type'],
+          phoneNumber: this.tenant['phoneNumber'],
+          primaryAddress: this.tenant['primaryAddress'],
+          goodPractices: this.tenant['goodPractices'],
+        });
+      }
+    });
+
     this.certificatesFormArray.valueChanges.subscribe(() => this.form.get('goodPractices').setValue(this.certificateNames));
   }
 
   submit() {
     if (this.form.valid) {
-      this.tenantService.createTenant(this.form.value).subscribe(res => {
-        if (res) {
-          this.notificationService.success('Enter tenant successfully!');
-          setTimeout(() => {
-            this.router.navigate(['/tenant/overview-tenant']).then(() => {
-              setTimeout(() => {
-                this.notificationService.info('We are mining into blockchain...');
-              }, 1000);
-            });
-          }, 1000);
-        }
-      });
+      if (this.tenantId) {
+        this.tenantService.updateTenant(this.tenantId, this.form.value).subscribe(res => {
+          if (res) {
+            this.notificationService.success('Update tenant successfully!');
+            setTimeout(() => {
+              this.router.navigate(['/tenant/overview-tenant']).then(() => {
+                setTimeout(() => {
+                  this.notificationService.info('We are mining into blockchain...');
+                }, 1000);
+              });
+            }, 1000);
+          }
+        });
+      } else {
+        this.tenantService.createTenant(this.form.value).subscribe(res => {
+          if (res) {
+            this.notificationService.success('Enter tenant successfully!');
+            setTimeout(() => {
+              this.router.navigate(['/tenant/overview-tenant']).then(() => {
+                setTimeout(() => {
+                  this.notificationService.info('We are mining into blockchain...');
+                }, 1000);
+              });
+            }, 1000);
+          }
+        });
+      }
+
     }
   }
 

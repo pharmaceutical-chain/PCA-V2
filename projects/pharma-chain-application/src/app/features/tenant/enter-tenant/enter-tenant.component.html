@@ -19,6 +19,21 @@
             </mat-form-field>
           </div>
 
+          <!-- Email -->
+          <div class="row">
+            <mat-form-field class="col-6" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.tenant.form.email' | translate }}" formControlName="email">
+              <mat-error *ngIf="form.controls['email'].hasError('required')">
+                {{ 'pca.features.tenant.form.email' | translate }}
+                {{ 'pca.features.tenant.form.error.required' | translate }}
+              </mat-error>
+              <mat-error *ngIf="form.controls['email'].hasError('email')">
+                {{ 'pca.features.tenant.form.email' | translate }}
+                {{ 'pca.features.tenant.form.error.invalidEmail' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
           <!-- Business register certificate code, Tax code -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">

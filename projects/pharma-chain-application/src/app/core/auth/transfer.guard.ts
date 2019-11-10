@@ -5,14 +5,14 @@ import {
   UrlTree,
   CanActivate
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, merge, of } from 'rxjs';
 import { AuthService } from './auth.service';
-import { tap, concatMap } from 'rxjs/operators';
+import { tap, concatMap, every } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
+export class TransferGuard implements CanActivate {
   constructor(private auth: AuthService) { }
 
   canActivate(
@@ -25,7 +25,12 @@ export class AdminGuard implements CanActivate {
           this.auth.login(state.url);
         }
       }),
-      concatMap(isAuthenticated => this.auth.isAdmin$)
+      concatMap(isAuthenticated => {
+        const condition$ = merge(this.auth.isAdmin$, this.auth.isManufacturer$, this.auth.isDistributor$, this.auth.isRetailer$);
+        return condition$.pipe(
+          every(c => c === false),
+          concatMap(res => of(!res)));
+      })
     );
   }
 }

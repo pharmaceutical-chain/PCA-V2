@@ -25,5 +25,6 @@ export interface ITenant_CREATE {
   taxCode: string,
   registrationCode: string,
   goodPractices: string,
-  type: string
+  type: string,
+  email: string
 }

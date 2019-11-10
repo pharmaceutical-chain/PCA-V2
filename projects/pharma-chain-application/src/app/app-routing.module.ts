@@ -1,7 +1,11 @@
+import { BatchGuard } from './core/auth/batch.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { CallbackComponent } from './core/auth/callback/callback.component';
-import { AuthGuard, AdminGuard } from './core/core.module';
+import { AuthGuard } from './core/core.module';
+import { TenantGuard } from './core/auth/tenant.guard';
+import { TransferGuard } from './core/auth/transfer.guard';
+import { MedicineGuard } from './core/auth/medicine.guard';
 
 const routes: Routes = [
   {
@@ -20,31 +24,31 @@ const routes: Routes = [
   },
   {
     path: 'feature-list',
-    canActivate: [AdminGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/feature-list/feature-list.module').then(m => m.FeatureListModule)
   },
   {
     path: 'tenant',
-    canActivate: [AdminGuard],
+    canActivate: [TenantGuard],
     loadChildren: () =>
     import('./features/tenant/tenant.module').then(m => m.TenantModule)
   },
   {
     path: 'medicine',
-    canActivate: [AdminGuard],
+    canActivate: [MedicineGuard],
     loadChildren: () =>
     import('./features/medicine/medicine.module').then(m => m.MedicineModule)
   },
   {
     path: 'batch',
-    canActivate: [AdminGuard],
+    canActivate: [BatchGuard],
     loadChildren: () =>
     import('./features/batch/batch.module').then(m => m.BatchModule)
   },
   {
     path: 'transfer',
-    canActivate: [AdminGuard],
+    canActivate: [TransferGuard],
     loadChildren: () =>
     import('./features/transfer/transfer.module').then(m => m.TransferModule)
   },

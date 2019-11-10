@@ -54,8 +54,8 @@ export class AuthService {
   isAdmin$ = this.getUser$().pipe(
     concatMap(user => user ? of(user[config.namespace + 'roles'] === 'admin' ? true : false) : of(false))
   );
-  isInspection$ = this.getUser$().pipe(
-    concatMap(user => user ? of(user[config.namespace + 'roles'] === 'inspection' ? true : false) : of(false))
+  isInspector$ = this.getUser$().pipe(
+    concatMap(user => user ? of(user[config.namespace + 'roles'] === 'inspector' ? true : false) : of(false))
   );
   isManufacturer$ = this.getUser$().pipe(
     concatMap(user => user ? of(user[config.namespace + 'roles'] === 'manufacturer' ? true : false) : of(false))

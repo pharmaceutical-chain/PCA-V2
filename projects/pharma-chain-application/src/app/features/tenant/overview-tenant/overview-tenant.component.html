@@ -121,7 +121,7 @@
             </div>
             <!-- Action button -->
             <div class="function-container">
-              <button mat-mini-fab color="primary" class="function">
+              <button mat-mini-fab color="primary" class="function" (click)="onClickUpdate(element.id)">
                 <fa-icon icon="edit"></fa-icon>
               </button>
               <button mat-mini-fab color="warn" class="function" (click)="onClickDelete(element.id)">

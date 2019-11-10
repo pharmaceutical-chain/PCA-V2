@@ -42,7 +42,6 @@ import {
   selectSettingsStickyHeader
 } from './settings/settings.selectors';
 import { AuthGuard } from './auth/auth.guard';
-import { AdminGuard } from './auth/admin.guard';
 import { CallbackComponent } from './auth/callback/callback.component';
 import { UploaderService } from './uploader/uploader.service';
 import { InterceptorService } from './auth/interceptor.service';
@@ -56,7 +55,6 @@ export {
   ROUTE_ANIMATIONS_ELEMENTS,
   AnimationsService,
   AuthGuard,
-  AdminGuard,
   selectRouterState,
   NotificationService,
   selectEffectiveTheme,

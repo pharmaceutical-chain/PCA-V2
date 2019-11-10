@@ -3,6 +3,7 @@
   "pca.features.tenant.overview": "Overview tenants",
   "pca.features.tenant.form.title": "Business information form",
   "pca.features.tenant.form.name": "Business name",
+  "pca.features.tenant.form.email": "Email",
   "pca.features.tenant.form.tax": "Tax code",
   "pca.features.tenant.form.registrationCode": "Business registration code",
   "pca.features.tenant.form.type": "Business type",
@@ -15,5 +16,6 @@
   "pca.features.tenant.form.certificateId": "Certificate Id",
   "pca.features.tenant.form.cancel": "Cancel",
   "pca.features.tenant.form.submit": "Submit",
-  "pca.features.tenant.form.error.required": "is required"
+  "pca.features.tenant.form.error.required": "is required",
+  "pca.features.tenant.form.error.invalidEmail": "invalid email"
 }
