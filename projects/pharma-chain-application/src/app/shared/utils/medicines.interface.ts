@@ -10,7 +10,7 @@ export interface IMedicine_GET {
   packingSpecification: string;
   declaredPrice: string;
   manufacturerAddress: string;
-  
+
   transactionHash: string;
   contractAddress: string;
   dateCreated: string;
@@ -27,4 +27,12 @@ export interface IMedicine_CREATE {
   packingSpecification: string,
   declaredPrice: string,
   currentlyLoggedInTenant: string
+}
+
+// tslint:disable-next-line: class-name
+export interface IMedicine_SEARCH {
+  id: string;
+  commercialName: string;
+  ingredientConcentration: string;
+  packingSpecification: string;
 }

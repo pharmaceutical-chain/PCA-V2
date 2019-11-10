@@ -27,7 +27,7 @@
                 formControlName="medicineId" [matAutocomplete]="auto">
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                 <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                  {{option.name}}
+                  {{option.commercialName}} / {{option.ingredientConcentration}}
                 </mat-option>
               </mat-autocomplete>
               <mat-error *ngIf="form.get('medicineId').invalid">
@@ -47,8 +47,21 @@
                 {{ 'pca.features.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
-            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+            <!-- <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <input matInput placeholder="{{ 'pca.features.batch.form.unit' | translate }}" formControlName="unit">
+              <mat-error *ngIf="form.get('unit').invalid">
+                {{ 'pca.features.batch.form.unit' | translate }}
+                {{ 'pca.features.batch.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field> -->
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.batch.form.unit' | translate }}" formControlName="unit"
+                [matAutocomplete]="autoUnit" (focus)="onFocusUnitInput()">
+              <mat-autocomplete #autoUnit="matAutocomplete">
+                <mat-option *ngFor="let option of unitOptions" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
               <mat-error *ngIf="form.get('unit').invalid">
                 {{ 'pca.features.batch.form.unit' | translate }}
                 {{ 'pca.features.batch.form.error.required' | translate }}

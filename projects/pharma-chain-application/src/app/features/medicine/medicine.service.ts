@@ -1,4 +1,4 @@
-import { IMedicine_CREATE, IMedicine_GET } from './../../shared/utils/medicines.interface';
+import { IMedicine_CREATE, IMedicine_GET, IMedicine_SEARCH } from './../../shared/utils/medicines.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MEDICINE, SERVER_URL, API } from '../../shared/utils/constants';
@@ -59,5 +59,28 @@ export class MedicineService {
     }
     const url = SERVER_URL + API + MEDICINE;
     return this._http.delete(url, options);
+  }
+
+  getMedicinesForSearch(): Observable<IMedicine_SEARCH[]> {
+    const url = SERVER_URL + API + MEDICINE;
+
+    return this._http.get(url).pipe(
+      map((baseMedicineArray: Object[]) => {
+        const convertedArray: IMedicine_SEARCH[] = [];
+
+        baseMedicineArray.forEach(base => {
+          const converted: IMedicine_SEARCH = {
+            id: base['id'],
+            commercialName: base['commercialName'],
+            ingredientConcentration: base['ingredientConcentration'],
+            packingSpecification: base['packingSpecification']
+          };
+
+          convertedArray.push(converted);
+        });
+
+        return convertedArray;
+      })
+    );
   }
 }

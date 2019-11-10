@@ -1,16 +1,16 @@
+import { IMedicine_SEARCH } from './../../../shared/utils/medicines.interface';
+import { MedicineService } from './../../medicine/medicine.service';
+import { BatchService } from './../batch.service';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
+import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
 import { Validators, FormBuilder, FormArray } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PDFDocumentProxy, PDFProgressData } from 'pdfjs-dist';
 import { MatDialog } from '@angular/material';
 import { PdfViewerComponent } from '../../../shared/pdf-viewer/pdf-viewer.component';
 import { startWith, map } from 'rxjs/operators';
-
-interface MedicineOption {
-  id: string;
-  name: string;
-}
+import { AuthService } from '../../../core/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pca-enter-batch',
@@ -22,9 +22,9 @@ export class EnterBatchComponent implements OnInit {
 
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
-  medicineOptions: Array<MedicineOption> = [{ id: '1', name: 'Sủi đau đầu / Paracetamol - 250mg' }, { id: '2', name: 'Casoran / Cao hoa hoè - 160mg' }];
-  filteredOptions: Observable<Array<MedicineOption>>;
-
+  medicineOptions: Array<IMedicine_SEARCH>;
+  filteredOptions: Observable<Array<IMedicine_SEARCH>>;
+  unitOptions: Array<string>;
 
   form = this.fb.group({
     batchNumber: ['', [Validators.required]],
@@ -47,38 +47,69 @@ export class EnterBatchComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private readonly notificationService: NotificationService,
+    private router: Router,
+    private batchService: BatchService,
+    private medicineService: MedicineService
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.certificatesFormArray.valueChanges.subscribe(() => this.form.get('censorshipCertificateNames').setValue(this.certificateNames));
 
+    this.medicineOptions = await this.medicineService.getMedicinesForSearch().toPromise();
     this.filteredOptions = this.form.get('medicineId').valueChanges
       .pipe(
         startWith(''),
         map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.medicineOptions.slice())
+        map(name => name ? this._filter(name) : this.medicineOptions.slice()),
       );
   }
 
-  displayFn(option?: MedicineOption): string | undefined {
-    return option ? option.name : undefined;
+  displayFn(option?: IMedicine_SEARCH): string | undefined {
+    return option ? `${option.commercialName} / ${option.ingredientConcentration}` : undefined;
   }
 
-  private _filter(value: string): Array<MedicineOption> {
+  private _filter(value: string): Array<IMedicine_SEARCH> {
     const filterValue = value.toLowerCase();
-    return this.medicineOptions.filter(option => option.name.toLowerCase().indexOf(filterValue) !== -1);
+    return this.medicineOptions
+      .filter(option => option.commercialName.toLowerCase().indexOf(filterValue) !== -1
+        || option.ingredientConcentration.toLowerCase().indexOf(filterValue) !== -1);
   }
 
-  submit() {
+  onFocusUnitInput() {
+    if (this.form.get('medicineId').value !== '') {
+      this.unitOptions = this.form.get('medicineId').value['packingSpecification'].split(' ').filter(m => isNaN(m) && m !== 'x');
+    }
+  }
+
+  async submit() {
     if (this.form.valid) {
       this.form.get('medicineId').setValue(this.form.get('medicineId').value.id, { emitModelToViewChange: false });
       this.form.get('manufacturingDate').setValue((this.form.get('manufacturingDate').value as Date).toLocaleDateString(), { emitModelToViewChange: false });
       this.form.get('expiryDate').setValue((this.form.get('expiryDate').value as Date).toLocaleDateString(), { emitModelToViewChange: false });
-    }
 
-    console.log(this.form.value);
+      const tenantId = (await this.authService.getUser$().toPromise()).sub.slice(6);
+      const batch = {
+        ...this.form.value,
+        manufacturerId: tenantId
+      }
+
+      this.batchService.createBatch(batch).subscribe(res => {
+        if (res) {
+          this.notificationService.success('Enter batch successfully!');
+          setTimeout(() => {
+            this.router.navigate(['/batch/overview-batch']).then(() => {
+              setTimeout(() => {
+                this.notificationService.info('We are mining into blockchain...');
+              }, 1000);
+            });
+          }, 1000);
+        }
+      });
+    }
   }
 
   get branchAddressFormArray(): FormArray {
