@@ -1,8 +1,9 @@
+import { ConfirmationDialogComponent } from './../../../shared/confirmation-dialog/confirmation-dialog.component';
 import { ITenant_GET } from './../../../shared/utils/tenants.interface';
 import { TenantService } from './../tenant.service';
 import { FormBuilder } from '@angular/forms';
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
-import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
 import { PageEvent, MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { detailExpand } from '../../../core/animations/element.animations';
 import { ImageViewerComponent } from '../../../shared/image-viewer/image-viewer.component';
@@ -58,7 +59,9 @@ export class OverviewTenantComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private tenantService: TenantService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private readonly notificationService: NotificationService,
+    private cdf: ChangeDetectorRef
   ) { }
 
   async ngOnInit() {
@@ -168,7 +171,31 @@ export class OverviewTenantComponent implements OnInit {
   }
 
   onClickDelete(tenantId: string) {
-    this.tenantService.deleteTenant(tenantId).subscribe(res => console.log(res));
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+
+    dialogRef.componentInstance.confirmTitle = 'Delete tenant';
+    dialogRef.componentInstance.confirmMessage = 'Are you sure, that will delete tenant out of system?';
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.tenantService.deleteTenant(tenantId).subscribe(() => {
+          this.notificationService.success('Delete tenant successfully!');
+          setTimeout(async () => {
+            this.data = await this.tenantService.getTenants().toPromise();
+            this.data.map(tenant => {
+              tenant.dateCreated = (new Date(tenant.dateCreated)).toLocaleDateString();
+            });
+            this.dataSource = new MatTableDataSource(this.data);
+
+            this.dataSource.filter = '';
+            if (this.dataSource.paginator) {
+              this.dataSource.paginator.firstPage();
+              this.length = this.dataSource.paginator.length;
+            }
+          }, 1000);
+        });
+      }
+    });
   }
 
 }

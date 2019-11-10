@@ -66,6 +66,7 @@ import { RtlSupportDirective } from './rtl-support/rtl-support.directive';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 import { ImageViewerComponent } from './image-viewer/image-viewer.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   imports: [
@@ -101,7 +102,8 @@ import { ImageViewerComponent } from './image-viewer/image-viewer.component';
     BigInputActionComponent,
     RtlSupportDirective,
     PdfViewerComponent,
-    ImageViewerComponent
+    ImageViewerComponent,
+    ConfirmationDialogComponent
   ],
   exports: [
     CommonModule,
@@ -142,11 +144,13 @@ import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 
     BigInputComponent,
     BigInputActionComponent,
-    RtlSupportDirective
+    RtlSupportDirective,
+    ConfirmationDialogComponent
   ],
   entryComponents: [
     PdfViewerComponent,
-    ImageViewerComponent
+    ImageViewerComponent,
+    ConfirmationDialogComponent
   ]
 })
 export class SharedModule {
