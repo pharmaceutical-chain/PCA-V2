@@ -4,10 +4,12 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open",
+    "dev": "ng serve --open",
     "start:prod": "npm run build:prod && npm run server",
     "build": "ng build",
     "build:prod": "ng build --prod",
+    "heroku-postbuild": "npm run build:prod",
+    "start": "node ./projects/server/server.js",
     "lint": "ng lint",
     "test": "ng lint && ng test --configuration=test",
     "watch": "ng test --configuration=test --browsers ChromeHeadless --watch",
@@ -17,7 +19,6 @@
     "format:test": "prettier projects/**/*.{ts,json,md,scss} --list-different",
     "release": "standard-version && git push --follow-tags origin master",
     "analyze": "npm run build:prod -- --stats-json && webpack-bundle-analyzer ./dist/pharma-chain-application/stats-es2015.json",
-    "server": "node ./projects/server/server.js",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate && node .all-contributors-html.js",
     "contributors:check": "all-contributors check"
