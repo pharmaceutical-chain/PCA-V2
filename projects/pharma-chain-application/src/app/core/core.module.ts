@@ -32,7 +32,6 @@ import { AnimationsService } from './animations/animations.service';
 import { AppErrorHandler } from './error-handler/app-error-handler.service';
 import { CustomSerializer } from './router/custom-serializer';
 import { LocalStorageService } from './local-storage/local-storage.service';
-import { HttpErrorInterceptor } from './http-interceptors/http-error.interceptor';
 import { GoogleAnalyticsEffects } from './google-analytics/google-analytics.effects';
 import { NotificationService } from './notifications/notification.service';
 import { SettingsEffects } from './settings/settings.effects';
@@ -44,7 +43,9 @@ import {
 import { AuthGuard } from './auth/auth.guard';
 import { CallbackComponent } from './auth/callback/callback.component';
 import { UploaderService } from './uploader/uploader.service';
-import { InterceptorService } from './auth/interceptor.service';
+import { HttpErrorInterceptor } from './http-interceptors/http-error.interceptor';
+import { HttpAuthorizationInterceptor } from './http-interceptors/http-authorization.interceptor';
+import { HttpLoaderInterceptor } from './http-interceptors/http-loader.interceptor';
 
 export {
   CallbackComponent,
@@ -84,8 +85,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     environment.production
       ? []
       : StoreDevtoolsModule.instrument({
-          name: 'Pharmaceutical Chain'
-        }),
+        name: 'Pharmaceutical Chain'
+      }),
 
     // 3rd party
     TranslateModule.forRoot({
@@ -99,7 +100,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [CallbackComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpLoaderInterceptor, multi: true },
     { provide: ErrorHandler, useClass: AppErrorHandler },
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],

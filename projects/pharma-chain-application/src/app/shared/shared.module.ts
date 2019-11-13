@@ -68,6 +68,7 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { LoadingDotComponent } from './loading-dot/loading-dot.component';
+import { HttpLoaderComponent } from './http-loader/http-loader.component';
 
 @NgModule({
   imports: [
@@ -105,7 +106,8 @@ import { LoadingDotComponent } from './loading-dot/loading-dot.component';
     PdfViewerComponent,
     ImageViewerComponent,
     ConfirmationDialogComponent,
-    LoadingDotComponent
+    LoadingDotComponent,
+    HttpLoaderComponent
   ],
   exports: [
     CommonModule,
