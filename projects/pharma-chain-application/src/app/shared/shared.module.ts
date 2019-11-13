@@ -150,7 +150,8 @@ import { HttpLoaderComponent } from './http-loader/http-loader.component';
     BigInputActionComponent,
     RtlSupportDirective,
     ConfirmationDialogComponent,
-    LoadingDotComponent
+    LoadingDotComponent,
+    HttpLoaderComponent
   ],
   entryComponents: [
     PdfViewerComponent,

@@ -40,9 +40,22 @@
       .signature {
         a {
           color: mat-color($primary, lighter);
+
           &:hover {
             color: mat-color($accent);
           }
+        }
+      }
+    }
+
+    pca-http-loader {
+      .app-loading {
+        .logo {
+          background-color: mat-color($primary);
+        }
+
+        .spinner .path {
+          stroke: mat-color($primary);
         }
       }
     }
