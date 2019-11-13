@@ -67,6 +67,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { LoadingDotComponent } from './loading-dot/loading-dot.component';
 
 @NgModule({
   imports: [
@@ -103,7 +104,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     RtlSupportDirective,
     PdfViewerComponent,
     ImageViewerComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    LoadingDotComponent
   ],
   exports: [
     CommonModule,
@@ -145,7 +147,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     BigInputComponent,
     BigInputActionComponent,
     RtlSupportDirective,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    LoadingDotComponent
   ],
   entryComponents: [
     PdfViewerComponent,

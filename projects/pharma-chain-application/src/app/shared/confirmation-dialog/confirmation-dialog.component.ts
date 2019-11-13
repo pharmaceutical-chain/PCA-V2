@@ -13,6 +13,7 @@ export class ConfirmationDialogComponent implements OnInit {
 
   public confirmTitle: string;
   public confirmMessage: string;
+  public confirmButtonColor: string;
 
   ngOnInit() {
   }

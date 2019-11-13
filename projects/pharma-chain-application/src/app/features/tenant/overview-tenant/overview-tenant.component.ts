@@ -2,7 +2,7 @@ import { ConfirmationDialogComponent } from './../../../shared/confirmation-dial
 import { ITenant_GET } from './../../../shared/utils/tenants.interface';
 import { TenantService } from './../tenant.service';
 import { FormBuilder } from '@angular/forms';
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
 import { PageEvent, MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { detailExpand } from '../../../core/animations/element.animations';
@@ -63,6 +63,7 @@ export class OverviewTenantComponent implements OnInit {
     private dialog: MatDialog,
     private readonly notificationService: NotificationService,
     private router: Router,
+    private cdf: ChangeDetectorRef
   ) { }
 
   async ngOnInit() {
@@ -176,31 +177,29 @@ export class OverviewTenantComponent implements OnInit {
 
     dialogRef.componentInstance.confirmTitle = 'Delete tenant';
     dialogRef.componentInstance.confirmMessage = 'Are you sure, that will delete tenant out of system?';
+    dialogRef.componentInstance.confirmButtonColor = 'warn';
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.tenantService.deleteTenant(tenantId).subscribe(() => {
           this.notificationService.success('Delete tenant successfully!');
-          setTimeout(async () => {
-            this.data = await this.tenantService.getTenants().toPromise();
-            this.data.map(tenant => {
-              tenant.dateCreated = (new Date(tenant.dateCreated)).toLocaleDateString();
-            });
-            this.dataSource = new MatTableDataSource(this.data);
+          this.data.splice(this.data.findIndex((tenant : ITenant_GET) => tenant.id === tenantId), 1);
 
-            this.dataSource.filter = '';
-            if (this.dataSource.paginator) {
-              this.dataSource.paginator.firstPage();
-              this.length = this.dataSource.paginator.length;
-            }
-          }, 1000);
+          this.dataSource = new MatTableDataSource(this.data);
+          this.dataSource.filter = '';
+          if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+            this.length = this.dataSource.paginator.length;
+          }
+
+          this.cdf.detectChanges();
         });
       }
     });
   }
 
   onClickUpdate(tenantId: string) {
-    this.router.navigate(['/tenant/update-tenant', {tenantId}])
+    this.router.navigate(['/tenant/update-tenant', { tenantId }])
   }
 
 }
