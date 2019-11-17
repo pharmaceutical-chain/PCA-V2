@@ -14,15 +14,18 @@ export interface IBatch_GET {
   contractAddress: string;
   dateCreated: string;
   transactionStatus: string;
+
+  manufacturerId: string;
+  medicineId: string;
 }
 
 // tslint:disable-next-line: class-name
 export interface IBatch_CREATE {
-  batchNumber: string,
-  medicineId: string,
-  manufacturerId: string,
-  manufactureDate: string,
+  batchNumber: string;
+  medicineId: string;
+  manufacturerId: string;
+  manufactureDate: string;
   expiryDate: string
-  quantity: number,
+  quantity: number;
   unit: string
 }

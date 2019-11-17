@@ -1,0 +1,125 @@
+@import '../../../../styles-variables';
+
+.overview-transfer {
+  .main-heading {
+    text-transform: uppercase;
+    margin: 0 0 20px 0;
+    text-align: center;
+  }
+
+  table {
+    width: 100%;
+
+    tr.example-detail-row {
+      height: 0;
+    }
+
+    tr.example-element-row:not(.example-expanded-row):hover {
+      background: #777;
+    }
+
+    tr.example-element-row:not(.example-expanded-row):active {
+      background: #efefef;
+    }
+
+    .example-element-row td {
+      border-bottom-width: 0;
+    }
+
+    .example-element-detail {
+      overflow: hidden;
+      display: flex;
+    }
+
+    .example-element-diagram {
+      border: 2px solid black;
+      padding: 8px;
+      font-weight: lighter;
+      margin: 8px 0;
+      width: min-content;
+      position: relative;
+    }
+
+    .example-element-symbol {
+      font-weight: bold;
+      font-size: 32px;
+      line-height: normal;
+    }
+
+    .example-element-description {
+      padding: 16px;
+    }
+
+    .example-element-description-attribution {
+      opacity: 0.5;
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+    }
+  }
+
+  .paginator-container {
+    padding-top: 32px;
+
+    mat-paginator {
+      ::ng-deep {
+        .mat-paginator-navigation-previous {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .current-page-container {
+      position: absolute;
+      right: 100px;
+      bottom: -5px;
+      width: 16px;
+      text-align: center;
+
+      input {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .row-data {
+    display: -webkit-box;
+
+    .data-label {
+      margin-bottom: 8px;
+      hyphens: auto;
+    }
+
+    .txh-link {
+      cursor: pointer;
+      text-overflow: ellipsis;
+      /* Required for text-overflow to do anything */
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
+  .group-info {
+    &:not(:first-child) {
+      margin-top: 16px;
+    }
+
+    hr {
+      margin: 0 0 8px 0;
+    }
+
+    .see-detail {
+      cursor: pointer;
+      text-align: right;
+    }
+  }
+
+  .function-container {
+    padding-top: 16px;
+    text-align: right;
+
+    .function {
+      margin-left: 8px;
+    }
+  }
+}

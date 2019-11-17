@@ -25,7 +25,7 @@ export class BatchService {
             batchNumber: base['batchNumber'],
             commercialName: base['medicine']['commercialName'],
             ingredientConcentration: base['medicine']['ingredientConcentration'],
-            manufacturer: `${base['manufacturer']['name']} - ${base['manufacturer']['registrationCode']}`,
+            manufacturer: `${base['manufacturer']['name']} / ${base['manufacturer']['registrationCode']}`,
             manufactureDate: (new Date(base['manufactureDate'])).toLocaleDateString(),
             expiryDate: (new Date(base['expiryDate'])).toLocaleDateString(),
             quantity: base['quantity'],
@@ -34,6 +34,8 @@ export class BatchService {
             contractAddress: base['contractAddress'],
             dateCreated: (new Date(base['dateCreated'])).toLocaleDateString(),
             transactionStatus: base['transactionStatus'],
+            manufacturerId: base['manufacturer']['id'],
+            medicineId: base['medicine']['id'],
           };
 
           convertedArray.push(converted);

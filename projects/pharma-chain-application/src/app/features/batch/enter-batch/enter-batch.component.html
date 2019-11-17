@@ -1,4 +1,4 @@
-<div class="container enter-tenant" rtl>
+<div class="container enter-batch" rtl>
   <div class="row">
     <div class="col">
       <h1 class="main-heading">{{ 'pca.features.batch.form.formName' | translate }}</h1>
@@ -55,13 +55,6 @@
                 {{ 'pca.features.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
-            <!-- <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.batch.form.unit' | translate }}" formControlName="unit">
-              <mat-error *ngIf="form.get('unit').invalid">
-                {{ 'pca.features.batch.form.unit' | translate }}
-                {{ 'pca.features.batch.form.error.required' | translate }}
-              </mat-error>
-            </mat-form-field> -->
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <input matInput placeholder="{{ 'pca.features.batch.form.unit' | translate }}" formControlName="unit"
                 [matAutocomplete]="autoUnit" (focus)="onFocusUnitInput()">

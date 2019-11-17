@@ -1,1 +1,70 @@
-<p>enter-transfer works!</p>
+<div class="container enter-transfer" rtl>
+  <div class="row">
+    <div class="col">
+      <h1 class="main-heading">{{ 'pca.features.batch.form.formName' | translate }}</h1>
+    </div>
+  </div>
+  <form [formGroup]="form">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <mat-card>
+          <!-- The id of the manufacturer who the admin is currently representative -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.batch.form.fromTenantId' | translate }}"
+                formControlName="fromTenantId">
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.batch.form.toTenantId' | translate }}"
+                formControlName="toTenantId">
+            </mat-form-field>
+          </div>
+
+          <!-- Medicine -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput type="text" placeholder="{{ 'pca.features.batch.form.medicine' | translate }}"
+                formControlName="medicineBatchId" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{option.commercialName}} / {{option.ingredientConcentration}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="form.get('medicineBatchId').invalid">
+                {{ 'pca.features.batch.form.medicine' | translate }}
+                {{ 'pca.features.batch.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Quantity -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.batch.form.quantity' | translate }}"
+                formControlName="quantity">
+              <mat-error *ngIf="form.get('quantity').invalid">
+                {{ 'pca.features.batch.form.quantity' | translate }}
+                {{ 'pca.features.batch.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Group button -->
+          <div class="row buttons d-flex justify-content-between pad">
+            <button class="w-100" mat-stroked-button color="primary" [ngClass]="routeAnimationsElements"
+              [routerLink]="['/feature-list']">
+              {{ 'pca.features.batch.form.cancel' | translate }}
+            </button>
+            <button class="w-100" mat-raised-button color="primary" [ngClass]="routeAnimationsElements"
+              (click)="submit()">
+              {{ 'pca.features.batch.form.submit' | translate }}
+            </button>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </form>
+</div>

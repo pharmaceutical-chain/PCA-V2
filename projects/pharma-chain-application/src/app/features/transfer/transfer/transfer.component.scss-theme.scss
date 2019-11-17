@@ -29,8 +29,13 @@
         background-color: mat-color($background, background) !important;
       }
 
-      .txh-link {
+      .txh-link,
+      .see-detail {
         color: mat-color($accent);
+      }
+
+      .group-title {
+        color: mat-color($foreground, text, 0.54);
       }
 
       .mat-tab-label-active {
@@ -69,7 +74,7 @@
         }
       }
 
-      input[formControlName=primaryAddress]:focus + .add-address-icon {
+      input[formControlName=primaryAddress]:focus+.add-address-icon {
         color: mat-color($primary);
       }
     }

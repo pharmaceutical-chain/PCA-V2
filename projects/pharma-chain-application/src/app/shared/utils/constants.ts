@@ -3,3 +3,4 @@ export const API = '/api/';
 export const TENANT = 'tenants';
 export const MEDICINE = 'medicines';
 export const BATCH = 'medicinebatches';
+export const TRANSFER = 'medicinebatchtransfers';

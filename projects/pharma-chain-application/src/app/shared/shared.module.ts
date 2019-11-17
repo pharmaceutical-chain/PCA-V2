@@ -51,7 +51,8 @@ import {
   faStream,
   faBook,
   faAngleDoubleRight,
-  faSearch
+  faSearch,
+  faExternalLinkAlt
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faGithub,
@@ -189,7 +190,8 @@ export class SharedModule {
       faStream,
       faBook,
       faAngleDoubleRight,
-      faSearch
+      faSearch,
+      faExternalLinkAlt
     );
   }
 }
