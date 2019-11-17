@@ -8,6 +8,14 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <mat-card>
+          <!-- The id of the manufacturer who the admin is currently representative -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput placeholder="{{ 'pca.features.batch.form.manufacturerId' | translate }}"
+                formControlName="manufacturerId">
+            </mat-form-field>
+          </div>
+
           <!-- Registration code, Commercial name -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">

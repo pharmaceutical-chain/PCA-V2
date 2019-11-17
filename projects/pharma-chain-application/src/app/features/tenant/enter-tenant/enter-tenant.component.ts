@@ -58,19 +58,21 @@ export class EnterTenantComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(async res => {
       this.tenantId = res['tenantId'];
-      this.tenant = await this.tenantService.getTenants(this.tenantId).toPromise();
 
-      if (this.tenant) {
-        this.form.patchValue({
-          name: this.tenant['name'],
-          email: this.tenant['email'],
-          taxCode: this.tenant['taxCode'],
-          registrationCode: this.tenant['registrationCode'],
-          type: this.tenant['type'],
-          phoneNumber: this.tenant['phoneNumber'],
-          primaryAddress: this.tenant['primaryAddress'],
-          goodPractices: this.tenant['goodPractices'],
-        });
+      if (this.tenantId) {
+        this.tenant = await this.tenantService.getTenants(this.tenantId).toPromise();
+        if (this.tenant) {
+          this.form.patchValue({
+            name: this.tenant['name'],
+            email: this.tenant['email'],
+            taxCode: this.tenant['taxCode'],
+            registrationCode: this.tenant['registrationCode'],
+            type: this.tenant['type'],
+            phoneNumber: this.tenant['phoneNumber'],
+            primaryAddress: this.tenant['primaryAddress'],
+            goodPractices: this.tenant['goodPractices'],
+          });
+        }
       }
     });
 

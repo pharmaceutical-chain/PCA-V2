@@ -25,7 +25,7 @@ export interface IMedicine_CREATE {
   dosageForm: string,
   ingredientConcentration: string,
   packingSpecification: string,
-  declaredPrice: string,
+  declaredPrice: number,
   currentlyLoggedInTenant: string
 }
 

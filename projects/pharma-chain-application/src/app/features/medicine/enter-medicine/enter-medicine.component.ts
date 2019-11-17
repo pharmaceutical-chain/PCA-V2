@@ -9,6 +9,7 @@ import { PdfViewerComponent } from '../../../shared/pdf-viewer/pdf-viewer.compon
 import { MedicineService } from '../medicine.service';
 import { AuthService } from '../../../core/auth/auth.service';
 import { Router } from '@angular/router';
+import { IMedicine_CREATE } from '../../../shared/utils/medicines.interface';
 
 @Component({
   selector: 'pca-enter-medicine',
@@ -25,6 +26,7 @@ export class EnterMedicineComponent implements OnInit {
 
 
   form = this.fb.group({
+    manufacturerId: [''],
     registrationCode: ['', [Validators.required]],
     commercialName: ['', [Validators.required]],
     isPrescriptionMedicine: [true],
@@ -71,8 +73,8 @@ export class EnterMedicineComponent implements OnInit {
 
   async submit() {
     if (this.form.valid) {
-      const tenantId = (await this.authService.getUser$().toPromise()).sub.slice(6);
-      const medicine = { ...this.form.value, currentlyLoggedInTenant: tenantId };
+      const tenantId = this.form.get('manufacturerId').value !== '' ? this.form.get('manufacturerId').value : (await this.authService.getUser$().toPromise()).sub.slice(6);
+      const medicine: IMedicine_CREATE = { ...this.form.value, currentlyLoggedInTenant: tenantId };
       this.medicineService.createMedicine(medicine).subscribe(res => {
         if (res) {
           this.notificationService.success('Enter medicine successfully!');
