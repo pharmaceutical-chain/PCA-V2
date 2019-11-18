@@ -27,6 +27,7 @@ export class TransferService {
             medicine: base['medicineBatch']['medicine']['commercialName'],
             batchNumber: base['medicineBatch']['batchNumber'],
             quantity: base['quantity'],
+            unit: base['medicineBatch']['unit'],
 
             registrationCode: base['medicineBatch']['medicine']['registrationCode'],
             medicineCA: base['medicineBatch']['medicine']['contractAddress'],

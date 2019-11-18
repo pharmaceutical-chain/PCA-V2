@@ -6,6 +6,7 @@ export interface ITransfer_GET {
   medicine: string;
   batchNumber: string;
   quantity: number;
+  unit: string;
 
   registrationCode: string;
   isPrescriptionMedicine: boolean;

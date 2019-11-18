@@ -31,30 +31,12 @@
           <!-- Details -->
           <div class="example-element-description">
 
-            <!-- FROM -->
-            <div class="group-info">
-              <div class="row">
-                <div class="col group-title">From</div>
-                <div class="col see-detail" (click)="onClickContracAddress(element.madeByCA)">
-                  Click to see detail on blockchain
-                  <fa-icon icon="external-link-alt"></fa-icon>
-                </div>
-              </div>
-              <hr>
-              <!-- fromAddress -->
-              <div class="row row-data">
-                <div class="col-3 data-label">fromAddress</div>
-                <div class="col-9">{{element.fromAddress}}
-                </div>
-              </div>
-            </div>
-
             <!-- MEDICINE -->
             <div class="group-info">
               <div class="row">
                 <div class="col group-title">Medicine</div>
                 <div class="col see-detail" (click)="onClickContracAddress(element.medicineCA)">
-                  Click to see detail on blockchain
+                  Click to see detail on BLOCKCHAIN
                   <fa-icon icon="external-link-alt"></fa-icon>
                 </div>
               </div>
@@ -82,7 +64,7 @@
               <!-- registeredBy -->
               <div class="row row-data">
                 <div class="col-3 data-label">registeredBy</div>
-                <div class="col-9" (click)="onClickContracAddress(element.registeredByCA)">
+                <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.registeredByCA)">
                   {{element.registeredBy}}
                 </div>
               </div>
@@ -93,7 +75,7 @@
               <div class="row">
                 <div class="col group-title">Batch</div>
                 <div class="col see-detail" (click)="onClickContracAddress(element.batchCA)">
-                  Click to see detail on blockchain
+                  Click to see detail on BLOCKCHAIN
                   <fa-icon icon="external-link-alt"></fa-icon>
                 </div>
               </div>
@@ -108,45 +90,59 @@
                 <div class="col-3 data-label">Expiry date</div>
                 <div class="col-9">{{element.expiryDate}}</div>
               </div>
+              <!-- madeBy -->
+              <div class="row row-data">
+                <div class="col-3 data-label">madeBy</div>
+                <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.madeByCA)">{{element.madeBy}}
+                </div>
+              </div>
               <!-- madeIn -->
               <div class="row row-data">
                 <div class="col-3 data-label">madeIn</div>
                 <div class="col-9">{{element.madeIn}}</div>
               </div>
-              <!-- madeBy -->
+            </div>
+
+            <!-- TRANSFER -->
+            <div class="group-info">
+              <div class="row">
+                <div class="col group-title">Transfer</div>
+                <div *ngIf="element.contractAddress" class="col see-detail"
+                  (click)="onClickContracAddress(element.contractAddress)">
+                  Click to see detail on BLOCKCHAIN
+                  <fa-icon icon="external-link-alt"></fa-icon>
+                </div>
+                <div *ngIf="!element.contractAddress" class="col see-detail">
+                  Pending...
+                </div>
+              </div>
+              <hr>
+              <!-- quantity -->
               <div class="row row-data">
-                <div class="col-3 data-label">madeBy</div>
-                <div class="col-9" style="font-weight: 500; cursor: pointer;"
-                  (click)="onClickContracAddress(element.madeByCA)">{{element.madeBy}}</div>
+                <div class="col-3 data-label">quantity</div>
+                <div class="col-9">{{element.quantity}} / {{element.unit}}</div>
+              </div>
+              <!-- from -->
+              <div class="row row-data">
+                <div class="col-3 data-label">from</div>
+                <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.from)">{{element.from}}
+                </div>
+              </div>
+              <!-- fromAddress -->
+              <div class="row row-data">
+                <div class="col-3 data-label">fromAddress</div>
+                <div class="col-9">{{element.fromAddress}}
+                </div>
               </div>
             </div>
 
-            <!-- Contract address -->
-            <div class="row row-data">
-              <div class="col-3 data-label">Contract address</div>
-              <div *ngIf="element.contractAddress" class="col-9 txh-link"
-                (click)="onClickContracAddress(element.contractAddress)">
-                {{element.contractAddress}}
-              </div>
-              <div *ngIf="!element.contractAddress" class="col-9">
-                Pending...
-              </div>
-            </div>
-            <!-- Transaction hash -->
-            <div class="row row-data">
-              <div class="col-3 data-label">Transaction hash</div>
-              <div class="col-9 txh-link" (click)="onClickTransactionHash(element.transactionHash)">
-                {{element.transactionHash}}
-              </div>
-            </div>
             <!-- Action button -->
             <div class="function-container">
-              <button mat-mini-fab color="primary" class="function">
-                <fa-icon icon="edit"></fa-icon>
-              </button>
-              <button mat-mini-fab color="warn" class="function" (click)="onClickDelete(element.id)">
-                <fa-icon icon="trash"></fa-icon>
-              </button>
+              <button mat-flat-button color="primary">VIEW SUPPLY CHAIN</button>
+              <div class="function-crud">
+                <button mat-stroked-button class="function-button">UPDATE</button>
+                <button mat-stroked-button color="warn" class="function-button">DELETE</button>
+              </div>
             </div>
           </div>
         </div>
