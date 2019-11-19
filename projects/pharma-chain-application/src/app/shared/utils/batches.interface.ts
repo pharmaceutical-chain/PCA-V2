@@ -9,14 +9,11 @@ export interface IBatch_GET {
   expiryDate: string;
   quantity: number;
   unit: string;
-  
+
   transactionHash: string;
   contractAddress: string;
   dateCreated: string;
   transactionStatus: string;
-
-  manufacturerId: string;
-  medicineId: string;
 }
 
 // tslint:disable-next-line: class-name
@@ -28,4 +25,22 @@ export interface IBatch_CREATE {
   expiryDate: string
   quantity: number;
   unit: string
+}
+
+// tslint:disable-next-line: class-name
+export interface IBatch_SEARCH {
+  batchId: string;
+  batchNumber: string;
+  manufactureDate: string;
+  expiryDate: string
+  quantity: number;
+
+  manufacturerId: string;
+  manufacturerCode: string;
+  manufacturer: string;
+  
+  medicineId: string;
+  medicineCode: string;
+  commercialName: string;
+  ingredientConcentration: string;
 }

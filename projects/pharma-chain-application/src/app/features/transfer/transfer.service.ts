@@ -1,3 +1,4 @@
+import { ITransfer_SEARCH } from './../../shared/utils/transfer.interface';
 import { ITransfer_CREATE, ITransfer_GET } from '../../shared/utils/transfer.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -76,5 +77,40 @@ export class TransferService {
     }
     const url = SERVER_URL + API + TRANSFER;
     return this._http.delete(url, options);
+  }
+
+  getTransfersForSearch(): Observable<ITransfer_SEARCH[]> {
+    const url = SERVER_URL + API + TRANSFER;
+
+    return this._http.get(url).pipe(
+      map((baseTransferArray: Object[]) => {
+        const convertedArray: ITransfer_SEARCH[] = [];
+
+        baseTransferArray.forEach(base => {
+          const converted: ITransfer_SEARCH = {
+            to: base['to']['id'],
+
+            batchId: base['medicineBatch']['id'],
+            batchNumber: base['medicineBatch']['batchNumber'],
+            manufactureDate: (new Date(base['medicineBatch']['manufactureDate'])).toLocaleDateString(),
+            expiryDate: (new Date(base['medicineBatch']['expiryDate'])).toLocaleDateString(),
+            quantity: base['quantity'],
+
+            manufacturerId: base['medicineBatch']['manufacturer']['id'],
+            manufacturerCode: base['medicineBatch']['manufacturer']['registrationCode'],
+            manufacturer: base['medicineBatch']['manufacturer']['name'],
+
+            medicineId: base['medicineBatch']['medicine']['id'],
+            medicineCode: base['medicineBatch']['medicine']['registrationCode'],
+            commercialName: base['medicineBatch']['medicine']['commercialName'],
+            ingredientConcentration: base['medicineBatch']['medicine']['ingredientConcentration'],
+          };
+
+          convertedArray.push(converted);
+        });
+
+        return convertedArray;
+      })
+    );
   }
 }

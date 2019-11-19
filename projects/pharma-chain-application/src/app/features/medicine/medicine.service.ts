@@ -71,9 +71,9 @@ export class MedicineService {
         baseMedicineArray.forEach(base => {
           const converted: IMedicine_SEARCH = {
             id: base['id'],
+            registrationCode: base['registrationCode'],
             commercialName: base['commercialName'],
             ingredientConcentration: base['ingredientConcentration'],
-            packingSpecification: base['packingSpecification']
           };
 
           convertedArray.push(converted);

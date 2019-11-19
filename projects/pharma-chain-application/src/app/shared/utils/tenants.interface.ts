@@ -28,3 +28,11 @@ export interface ITenant_CREATE {
   type: string;
   email: string
 }
+
+// tslint:disable-next-line: class-name
+export interface ITenant_SEARCH {
+  id: string;
+  name: string;
+  registrationCode: string;
+  primaryAddress: string;
+}

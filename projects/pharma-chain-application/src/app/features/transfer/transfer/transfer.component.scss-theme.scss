@@ -58,24 +58,8 @@
         color: mat-color($accent);
       }
 
-      .remove-pdf-icon {
+      .sub-info {
         color: mat-color($foreground, text, 0.54);
-
-        &:hover {
-          color: mat-color($warn);
-        }
-      }
-
-      .add-address-icon {
-        color: mat-color($foreground, text, 0.54);
-
-        &:hover {
-          color: mat-color($accent);
-        }
-      }
-
-      input[formControlName=primaryAddress]:focus+.add-address-icon {
-        color: mat-color($primary);
       }
     }
   }

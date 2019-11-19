@@ -8,33 +8,83 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <mat-card>
+          <!-- From -->
           <!-- The id of the manufacturer who the admin is currently representative -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <input matInput placeholder="{{ 'pca.features.batch.form.fromTenantId' | translate }}"
-                formControlName="fromTenantId">
+                formControlName="fromTenantId" [matAutocomplete]="autoFrom">
+              <mat-autocomplete #autoFrom="matAutocomplete" [displayWith]="displayTenantFn">
+                <mat-option *ngFor="let option of tenantFromFilteredOptions | async" [value]="option">
+                  {{option.name}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
           </div>
+          <div *ngIf="form.get('fromTenantId').value['registrationCode']" class="sub-info">
+            <div class="row">
+              <div class="col-3">registrationCode</div>
+              <div class="col-9">{{form.get('fromTenantId').value['registrationCode']}}</div>
+            </div>
+            <div class="row">
+              <div class="col-3">primaryAddress</div>
+              <div class="col-9">{{form.get('fromTenantId').value['primaryAddress']}}</div>
+            </div>
+          </div>
 
+          <!-- To -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <input matInput placeholder="{{ 'pca.features.batch.form.toTenantId' | translate }}"
-                formControlName="toTenantId">
+                formControlName="toTenantId" [matAutocomplete]="autoTo">
+              <mat-autocomplete #autoTo="matAutocomplete" [displayWith]="displayTenantFn">
+                <mat-option *ngFor="let option of tenantToFilteredOptions | async" [value]="option">
+                  {{option.name}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
           </div>
+          <div *ngIf="form.get('toTenantId').value['registrationCode']" class="sub-info">
+            <div class="row">
+              <div class="col-3">registrationCode</div>
+              <div class="col-9">{{form.get('toTenantId').value['registrationCode']}}</div>
+            </div>
+            <div class="row">
+              <div class="col-3">primaryAddress</div>
+              <div class="col-9">{{form.get('toTenantId').value['primaryAddress']}}</div>
+            </div>
+          </div>
+
 
           <!-- Medicine -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <input matInput type="text" placeholder="{{ 'pca.features.batch.form.medicine' | translate }}"
-                formControlName="medicineBatchId" [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                (focus)="onFocusMedicine()" formControlName="medicineId" [matAutocomplete]="autoMedicine">
+              <mat-autocomplete #autoMedicine="matAutocomplete" [displayWith]="displayMedicineFn">
+                <mat-option *ngFor="let option of medicineFilteredOptions | async" [value]="option">
                   {{option.commercialName}} / {{option.ingredientConcentration}}
                 </mat-option>
               </mat-autocomplete>
-              <mat-error *ngIf="form.get('medicineBatchId').invalid">
+              <mat-error *ngIf="form.get('medicineId').invalid">
                 {{ 'pca.features.batch.form.medicine' | translate }}
+                {{ 'pca.features.batch.form.error.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Batch -->
+          <div class="row">
+            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
+              <input matInput type="text" placeholder="{{ 'pca.features.batch.form.batch' | translate }}"
+                (focus)="onFocusBatch()" formControlName="medicineBatchId" [matAutocomplete]="autoBatch">
+              <mat-autocomplete #autoBatch="matAutocomplete" [displayWith]="displayBatchFn">
+                <mat-option *ngFor="let option of batchFilteredOptions | async" [value]="option">
+                  {{option.batchNumber}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="form.get('medicineBatchId').invalid">
+                {{ 'pca.features.batch.form.batch' | translate }}
                 {{ 'pca.features.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>

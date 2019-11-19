@@ -1,4 +1,4 @@
-import { IBatch_CREATE, IBatch_GET } from './../../shared/utils/batches.interface';
+import { IBatch_CREATE, IBatch_GET, IBatch_SEARCH } from './../../shared/utils/batches.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BATCH, SERVER_URL, API } from '../../shared/utils/constants';
@@ -34,8 +34,6 @@ export class BatchService {
             contractAddress: base['contractAddress'],
             dateCreated: (new Date(base['dateCreated'])).toLocaleDateString(),
             transactionStatus: base['transactionStatus'],
-            manufacturerId: base['manufacturer']['id'],
-            medicineId: base['medicine']['id'],
           };
 
           convertedArray.push(converted);
@@ -60,5 +58,38 @@ export class BatchService {
     }
     const url = SERVER_URL + API + BATCH;
     return this._http.delete(url, options);
+  }
+
+  getBatchesForSearch(): Observable<IBatch_SEARCH[]> {
+    const url = SERVER_URL + API + BATCH;
+
+    return this._http.get(url).pipe(
+      map((baseBatchArray: Object[]) => {
+        const convertedArray: IBatch_SEARCH[] = [];
+
+        baseBatchArray.forEach(base => {
+          const converted: IBatch_SEARCH = {
+            batchId: base['id'],
+            batchNumber: base['batchNumber'],
+            manufactureDate: (new Date(base['manufactureDate'])).toLocaleDateString(),
+            expiryDate: (new Date(base['expiryDate'])).toLocaleDateString(),
+            quantity: base['quantity'],
+
+            manufacturerId: base['manufacturer']['id'],
+            manufacturerCode: base['manufacturer']['registrationCode'],
+            manufacturer: base['manufacturer']['name'],
+
+            medicineId: base['medicine']['id'],
+            medicineCode: base['medicine']['registrationCode'],
+            commercialName: base['medicine']['commercialName'],
+            ingredientConcentration: base['medicine']['ingredientConcentration'],
+          };
+
+          convertedArray.push(converted);
+        });
+
+        return convertedArray;
+      })
+    );
   }
 }

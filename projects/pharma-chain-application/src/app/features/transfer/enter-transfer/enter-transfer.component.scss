@@ -27,45 +27,6 @@
     }
   }
 
-  .pdfViewer-container {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0 15px;
-
-    .pdfViewer-item {
-      width: 30%;
-      margin-right: 18px;
-    }
-
-    pdf-viewer {
-      display: block;
-
-      ::ng-deep {
-
-        .page,
-        .canvasWrapper,
-        canvas,
-        .textLayer {
-          width: 100% !important;
-          height: 100% !important;
-        }
-      }
-    }
-
-    .remove-pdf-icon {
-      position: absolute;
-      cursor: pointer;
-      top: 30px;
-      font-size: 20px;
-    }
-  }
-
-  .import-button {
-    position: absolute;
-    top: -8px;
-    right: 0px;
-  }
-
   .option-input {
     position: absolute;
     left: 0;
@@ -73,11 +34,9 @@
     font-size: 11px;
   }
 
-  .add-address-icon {
-    position: absolute;
-    left: 96px;
-    top: -14px;
-    font-size: 14px;
-    cursor: pointer;
+  .sub-info {
+    padding-left: 16px;
+    top: -16px;
+    position: relative;
   }
 }

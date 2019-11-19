@@ -25,7 +25,7 @@ export interface ITransfer_GET {
 
   fromAddress: string;
   fromCA: string;
-  
+
   transactionHash: string;
   contractAddress: string;
   date: string;
@@ -39,4 +39,24 @@ export interface ITransfer_CREATE {
   fromTenantId: string;
   toTenantId: string;
   quantity: number;
+}
+
+// tslint:disable-next-line: class-name
+export interface ITransfer_SEARCH {
+  to: string;
+
+  batchId: string;
+  batchNumber: string;
+  manufactureDate: string;
+  expiryDate: string
+  quantity: number;
+
+  manufacturerId: string;
+  manufacturerCode: string;
+  manufacturer: string;
+
+  medicineId: string;
+  medicineCode: string;
+  commercialName: string;
+  ingredientConcentration: string;
 }
