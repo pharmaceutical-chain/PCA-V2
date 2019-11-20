@@ -1,12 +1,13 @@
 {
   "pca.features.transfer.enter": "Enter transfer",
   "pca.features.transfer.overview": "Overview transfers",
-  "pca.features.batch.form.formName": "Transfer form",
-  "pca.features.batch.form.fromTenantId": "From tenant Id",
-  "pca.features.batch.form.toTenantId": "To tenant Id",
-  "pca.features.batch.form.medicine": "Medicine Id",
-  "pca.features.batch.form.quantity": "Quantity",
-  "pca.features.batch.form.cancel": "Cancel",
-  "pca.features.batch.form.submit": "Submit",
-  "pca.features.batch.form.error.required": "is required"
+  "pca.features.transfer.form.formName": "Transfer form",
+  "pca.features.transfer.form.fromTenantId": "From",
+  "pca.features.transfer.form.toTenantId": "To",
+  "pca.features.transfer.form.medicine": "Medicine",
+  "pca.features.transfer.form.batch": "Batch number",
+  "pca.features.transfer.form.quantity": "Quantity",
+  "pca.features.transfer.form.cancel": "Cancel",
+  "pca.features.transfer.form.submit": "Submit",
+  "pca.features.transfer.form.error.required": "is required"
 }

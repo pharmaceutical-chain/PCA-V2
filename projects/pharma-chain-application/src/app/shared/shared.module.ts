@@ -52,7 +52,8 @@ import {
   faBook,
   faAngleDoubleRight,
   faSearch,
-  faExternalLinkAlt
+  faExternalLinkAlt,
+  faMinus
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faGithub,
@@ -191,7 +192,8 @@ export class SharedModule {
       faBook,
       faAngleDoubleRight,
       faSearch,
-      faExternalLinkAlt
+      faExternalLinkAlt,
+      faMinus
     );
   }
 }

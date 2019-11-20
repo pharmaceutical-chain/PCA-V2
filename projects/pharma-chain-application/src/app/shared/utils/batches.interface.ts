@@ -34,6 +34,7 @@ export interface IBatch_SEARCH {
   manufactureDate: string;
   expiryDate: string
   quantity: number;
+  unit: string;
 
   manufacturerId: string;
   manufacturerCode: string;

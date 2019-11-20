@@ -44,7 +44,7 @@ export class EnterTransferComponent implements OnInit {
     medicineBatchId: ['', [Validators.required]],
     fromTenantId: ['', [Validators.required]],
     toTenantId: ['', [Validators.required]],
-    quantity: ['', [Validators.required]]
+    quantity: [1, [Validators.required]]
   });
 
   constructor(
@@ -95,6 +95,16 @@ export class EnterTransferComponent implements OnInit {
         map(value => typeof value === 'string' ? value : `${value.commercialName} / ${value.ingredientConcentration}`),
         map(value => value ? this._filterBatch(value) : this.batchOptions.slice()),
       );
+
+    //////////// Quantity
+    this.form.get('quantity').valueChanges.subscribe(value => {
+      if (value < 0) {
+        this.form.get('quantity').setValue(0);
+      }
+      if (value > this.form.get('medicineBatchId').value['quantity']) {
+        this.form.get('quantity').setValue(this.form.get('medicineBatchId').value['quantity']);
+      }
+    });
   }
 
   //////////// Auto complete for FROM TENANT
@@ -132,40 +142,24 @@ export class EnterTransferComponent implements OnInit {
 
 
   async submit() {
-    //   if (this.form.valid) {
-    //     this.form.get('medicineId').setValue(this.form.get('medicineId').value.id, { emitModelToViewChange: false });
-    //     this.form.get('manufacturingDate').setValue((this.form.get('manufacturingDate').value as Date).toLocaleDateString(), { emitModelToViewChange: false });
-    //     this.form.get('expiryDate').setValue((this.form.get('expiryDate').value as Date).toLocaleDateString(), { emitModelToViewChange: false });
+    if (this.form.valid) {
+      this.form.get('fromTenantId').setValue(this.form.get('fromTenantId').value !== '' ? this.form.get('fromTenantId').value.id : (await this.authService.getUser$().toPromise()).sub.slice(6), { emitModelToViewChange: false });
+      this.form.get('toTenantId').setValue(this.form.get('toTenantId').value.id, { emitModelToViewChange: false });
+      this.form.get('medicineBatchId').setValue(this.form.get('medicineBatchId').value.batchId, { emitModelToViewChange: false });
 
-    //     const manufacturerId = this.form.get('manufacturerId').value !== '' ? this.form.get('manufacturerId').value : (await this.authService.getUser$().toPromise()).sub.slice(6);
-    //     const batch = {
-    //       ...this.form.value,
-    //       manufacturerId: manufacturerId
-    //     }
-
-    //     this.batchService.createBatch(batch).subscribe(res => {
-    //       if (res) {
-    //         this.notificationService.success('Enter batch successfully!');
-    //         setTimeout(() => {
-    //           this.router.navigate(['/batch/overview-batch']).then(() => {
-    //             setTimeout(() => {
-    //               this.notificationService.info('We are mining into blockchain...');
-    //             }, 1000);
-    //           });
-    //         }, 1000);
-    //       }
-    //     });
-    //   }
-    console.log(this.form.value);
-
-    // this.notificationService.success('Enter transfer successfully!');
-    // setTimeout(() => {
-    //   this.router.navigate(['/transfer/overview-transfer']).then(() => {
-    //     setTimeout(() => {
-    //       this.notificationService.info('We are mining into blockchain...');
-    //     }, 1000);
-    //   });
-    // }, 1000);
+      this.transferService.createTransfer(this.form.value).subscribe(res => {
+        if (res) {
+          this.notificationService.success('Enter transfer successfully!');
+          setTimeout(() => {
+            this.router.navigate(['/transfer/overview-transfer']).then(() => {
+              setTimeout(() => {
+                this.notificationService.info('We are mining into blockchain...');
+              }, 1000);
+            });
+          }, 1000);
+        }
+      });
+    }
   }
 
   async onFocusMedicine() {
@@ -189,5 +183,13 @@ export class EnterTransferComponent implements OnInit {
   onFocusBatch() {
     this.batchOptions = this.batchesBelongTenant.filter(b => b.medicineId === this.form.get('medicineId').value['id']);
     this.form.get('medicineBatchId').updateValueAndValidity({ onlySelf: true });
+  }
+
+  onClickSubQuantity() {
+    this.form.get('quantity').setValue(this.form.get('quantity').value - 1);
+  }
+
+  onClickAddQuantity() {
+    this.form.get('quantity').setValue(this.form.get('quantity').value + 1);
   }
 }

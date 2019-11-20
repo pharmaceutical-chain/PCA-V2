@@ -74,6 +74,7 @@ export class BatchService {
             manufactureDate: (new Date(base['manufactureDate'])).toLocaleDateString(),
             expiryDate: (new Date(base['expiryDate'])).toLocaleDateString(),
             quantity: base['quantity'],
+            unit: base['unit'],
 
             manufacturerId: base['manufacturer']['id'],
             manufacturerCode: base['manufacturer']['registrationCode'],

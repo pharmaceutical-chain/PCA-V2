@@ -95,6 +95,7 @@ export class TransferService {
             manufactureDate: (new Date(base['medicineBatch']['manufactureDate'])).toLocaleDateString(),
             expiryDate: (new Date(base['medicineBatch']['expiryDate'])).toLocaleDateString(),
             quantity: base['quantity'],
+            unit: base['medicineBatch']['unit'],
 
             manufacturerId: base['medicineBatch']['manufacturer']['id'],
             manufacturerCode: base['medicineBatch']['manufacturer']['registrationCode'],

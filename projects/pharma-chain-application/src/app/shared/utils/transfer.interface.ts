@@ -50,6 +50,7 @@ export interface ITransfer_SEARCH {
   manufactureDate: string;
   expiryDate: string
   quantity: number;
+  unit: string;
 
   manufacturerId: string;
   manufacturerCode: string;
