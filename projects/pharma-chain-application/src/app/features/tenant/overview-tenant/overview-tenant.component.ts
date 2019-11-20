@@ -72,29 +72,8 @@ export class OverviewTenantComponent implements OnInit {
       tenant.dateCreated = (new Date(tenant.dateCreated)).toLocaleDateString();
     });
 
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(this.data);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
-    this.dataSource.filterPredicate = (data: ITenant_GET, filters: string) => {
-      const matchFilter = [];
-      const filterArray = filters.split(' ');
-      const columns = (<any>Object).values(data);
-      // OR be more specific [data.name, data.race, data.color];
-
-      // Main
-      filterArray.forEach(filter => {
-        const customFilter = [];
-        columns.forEach(column => {
-          if (column) {
-            customFilter.push(column.toString().toLowerCase().includes(filter));
-          }
-        });
-        matchFilter.push(customFilter.some(Boolean)); // OR
-      });
-      return matchFilter.every(Boolean); // AND
-    }
+    // Initiate value
+    this.initiateMatTableDataSource();
   }
 
   applyFilter(filterValue: string) {
@@ -183,15 +162,10 @@ export class OverviewTenantComponent implements OnInit {
       if (res) {
         this.tenantService.deleteTenant(tenantId).subscribe(() => {
           this.notificationService.success('Delete tenant successfully!');
-          this.data.splice(this.data.findIndex((tenant : ITenant_GET) => tenant.id === tenantId), 1);
+          this.data.splice(this.data.findIndex((tenant: ITenant_GET) => tenant.id === tenantId), 1);
 
-          this.dataSource = new MatTableDataSource(this.data);
-          this.dataSource.filter = '';
-          if (this.dataSource.paginator) {
-            this.dataSource.paginator.firstPage();
-            this.length = this.dataSource.paginator.length;
-          }
-
+          // Reinitiate
+          this.initiateMatTableDataSource();
           this.cdf.detectChanges();
         });
       }
@@ -200,6 +174,35 @@ export class OverviewTenantComponent implements OnInit {
 
   onClickUpdate(tenantId: string) {
     this.router.navigate(['/tenant/update-tenant', { tenantId }])
+  }
+
+  ///////////////////////////// Utils
+  initiateMatTableDataSource() {
+    const currentFilter = this.dataSource ? this.dataSource.filter : '';
+    // Assign the data to the data source for the table to render
+    this.dataSource = new MatTableDataSource(this.data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this.dataSource.filterPredicate = (data: ITenant_GET, filters: string) => {
+      const matchFilter = [];
+      const filterArray = filters.split(' ');
+      const columns = (<any>Object).values(data);
+      // OR be more specific [data.name, data.race, data.color];
+
+      // Main
+      filterArray.forEach(filter => {
+        const customFilter = [];
+        columns.forEach(column => {
+          if (column) {
+            customFilter.push(column.toString().toLowerCase().includes(filter));
+          }
+        });
+        matchFilter.push(customFilter.some(Boolean)); // OR
+      });
+      return matchFilter.every(Boolean); // AND
+    }
+    this.dataSource.filter = currentFilter;
   }
 
 }

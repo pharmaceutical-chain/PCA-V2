@@ -9,5 +9,10 @@
   "pca.features.transfer.form.quantity": "Quantity",
   "pca.features.transfer.form.cancel": "Cancel",
   "pca.features.transfer.form.submit": "Submit",
-  "pca.features.transfer.form.error.required": "is required"
+  "pca.features.transfer.form.error.required": "is required",
+  "pca.features.transfer.form.sub.registrationCode": "Registration code",
+  "pca.features.transfer.form.sub.primaryAddress": "Address",
+  "pca.features.transfer.form.sub.manufactureDate": "MFG date",
+  "pca.features.transfer.form.sub.expiryDate": "EXP date",
+  "pca.features.transfer.form.sub.remainingQuantity": "Remaining quantity"
 }

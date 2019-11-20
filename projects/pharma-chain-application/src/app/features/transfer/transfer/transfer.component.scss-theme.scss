@@ -51,6 +51,16 @@
       span.mat-badge-content {
         background-color: mat-color($foreground, text);
       }
+
+      .tool-group .filter {
+        span.mat-badge-content {
+          background-color: mat-color($foreground, text, 0.54);
+        }
+
+        .active span.mat-badge-content {
+          background-color: mat-color($primary);
+        }
+      }
     }
 
     pca-enter-transfer {

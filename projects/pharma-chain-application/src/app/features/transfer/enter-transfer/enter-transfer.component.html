@@ -23,11 +23,11 @@
           </div>
           <div *ngIf="form.get('fromTenantId').value['registrationCode']" class="sub-info">
             <div class="row">
-              <div class="col-3">registrationCode</div>
+              <div class="col-3">{{ 'pca.features.transfer.form.sub.registrationCode' | translate }}</div>
               <div class="col-9">{{form.get('fromTenantId').value['registrationCode']}}</div>
             </div>
             <div class="row">
-              <div class="col-3">primaryAddress</div>
+              <div class="col-3">{{ 'pca.features.transfer.form.sub.primaryAddress' | translate }}</div>
               <div class="col-9">{{form.get('fromTenantId').value['primaryAddress']}}</div>
             </div>
           </div>
@@ -50,11 +50,11 @@
           </div>
           <div *ngIf="form.get('toTenantId').value['registrationCode']" class="sub-info">
             <div class="row">
-              <div class="col-3">registrationCode</div>
+              <div class="col-3">{{ 'pca.features.transfer.form.sub.registrationCode' | translate }}</div>
               <div class="col-9">{{form.get('toTenantId').value['registrationCode']}}</div>
             </div>
             <div class="row">
-              <div class="col-3">primaryAddress</div>
+              <div class="col-3">{{ 'pca.features.transfer.form.sub.primaryAddress' | translate }}</div>
               <div class="col-9">{{form.get('toTenantId').value['primaryAddress']}}</div>
             </div>
           </div>
@@ -94,11 +94,15 @@
           </div>
           <div *ngIf="form.get('medicineBatchId').value['batchNumber']" class="sub-info">
             <div class="row">
-              <div class="col-3">manufactureDate</div>
+              <div class="col-3">{{ 'pca.features.transfer.form.sub.remainingQuantity' | translate }}</div>
+              <div class="col-9">{{form.get('medicineBatchId').value['quantity']}}</div>
+            </div>
+            <div class="row">
+              <div class="col-3">{{ 'pca.features.transfer.form.sub.manufactureDate' | translate }}</div>
               <div class="col-9">{{form.get('medicineBatchId').value['manufactureDate']}}</div>
             </div>
             <div class="row">
-              <div class="col-3">expiryDate</div>
+              <div class="col-3">{{ 'pca.features.transfer.form.sub.expiryDate' | translate }}</div>
               <div class="col-9">{{form.get('medicineBatchId').value['expiryDate']}}</div>
             </div>
           </div>
@@ -107,7 +111,7 @@
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <input matInput placeholder="{{ 'pca.features.transfer.form.quantity' | translate }}"
-                formControlName="quantity">
+                formControlName="quantity" (keydown.enter)="false">
               <div matSuffix class="quantity-functions">
                 <span matSuffix
                   *ngIf="form.get('medicineBatchId').value['unit']">({{form.get('medicineBatchId').value['unit']}})

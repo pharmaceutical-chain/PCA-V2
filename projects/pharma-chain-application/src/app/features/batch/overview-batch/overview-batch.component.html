@@ -19,7 +19,7 @@
   </div>
 
   <!-- Table -->
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z3" matSort>
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z3" matSort [ngClass]="routeAnimationsElements">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> {{camelCaseToTitle(column)}} </th>
       <td mat-cell *matCellDef="let element"> {{element[column]}} </td>

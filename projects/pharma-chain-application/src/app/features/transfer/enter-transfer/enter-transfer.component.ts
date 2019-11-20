@@ -12,8 +12,7 @@ import { MatDialog } from '@angular/material';
 import { AuthService } from '../../../core/auth/auth.service';
 import { Router } from '@angular/router';
 import { BatchService } from '../../batch/batch.service';
-import { MedicineService } from '../../medicine/medicine.service';
-import { startWith, map, tap } from 'rxjs/operators';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'pca-enter-transfer',

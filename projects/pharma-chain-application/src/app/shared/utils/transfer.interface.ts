@@ -25,6 +25,9 @@ export interface ITransfer_GET {
 
   fromAddress: string;
   fromCA: string;
+  
+  toAddress: string;
+  toCA: string;
 
   transactionHash: string;
   contractAddress: string;

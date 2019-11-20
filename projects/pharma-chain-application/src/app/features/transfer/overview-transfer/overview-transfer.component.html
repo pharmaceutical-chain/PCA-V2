@@ -8,6 +8,19 @@
 
   <!-- Tools -->
   <div class="tool-group" style="padding-bottom: 40px;" [ngClass]="routeAnimationsElements">
+    <div *ngIf="!isAdmin" class="filter mat-elevation-z2">
+      <button mat-stroked-button [color]="currentFilter.value == 0 ? 'primary' : null" class="col"
+        (click)="currentFilter.next(0)">
+        <span matBadge="{{data?.length}}" matBadgeOverlap="false"
+          [ngClass]="{'active': currentFilter.value == 0}">Received History</span>
+      </button>
+      <button mat-stroked-button [color]="currentFilter.value == 1 ? 'primary' : null" class="col"
+        (click)="currentFilter.next(1)">
+        <span matBadge="{{data?.length}}" matBadgeOverlap="false" [ngClass]="{'active': currentFilter.value == 1}">Sent
+          History</span>
+      </button>
+    </div>
+
     <div class="col mat-elevation-z2" style="padding: 0">
       <pca-big-input placeholder="Search..." (keyup)="applyFilter($event.target.value);">
         <pca-big-input-action fontSet="fas" fontIcon="fa-search" faIcon="search" color="accent" matTooltip="Search"
@@ -18,7 +31,7 @@
   </div>
 
   <!-- Table -->
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z3" matSort>
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z3" matSort [ngClass]="routeAnimationsElements">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> {{camelCaseToTitle(column)}} </th>
       <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
@@ -43,27 +56,27 @@
               <hr>
               <!-- registrationCode -->
               <div class="row row-data">
-                <div class="col-3 data-label">registrationCode</div>
+                <div class="col-3 data-label">Registration code</div>
                 <div class="col-9">{{element.registrationCode}}</div>
               </div>
               <!-- isPrescriptionMedicine -->
               <div class="row row-data">
-                <div class="col-3 data-label">isPrescriptionMedicine</div>
-                <div class="col-9">{{element.isPrescriptionMedicine}}</div>
+                <div class="col-3 data-label">Prescription</div>
+                <mat-checkbox class="col-9" [checked]="element.isPrescriptionMedicine" (click)="false"></mat-checkbox>
               </div>
               <!-- Ingredient concentration -->
               <div class="row row-data">
-                <div class="col-3 data-label">Ingredient - Concentration</div>
+                <div class="col-3 data-label">Ingredient</div>
                 <div class="col-9">{{element.ingredientConcentration}}</div>
               </div>
               <!-- declaredPrice -->
               <div class="row row-data">
-                <div class="col-3 data-label">declaredPrice</div>
+                <div class="col-3 data-label">Declared price</div>
                 <div class="col-9">{{element.declaredPrice}}</div>
               </div>
               <!-- registeredBy -->
               <div class="row row-data">
-                <div class="col-3 data-label">registeredBy</div>
+                <div class="col-3 data-label">Registered by</div>
                 <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.registeredByCA)">
                   {{element.registeredBy}}
                 </div>
@@ -82,23 +95,23 @@
               <hr>
               <!-- Manufacture date -->
               <div class="row row-data">
-                <div class="col-3 data-label">Manufacture date</div>
+                <div class="col-3 data-label">MFG date</div>
                 <div class="col-9">{{element.manufactureDate}}</div>
               </div>
               <!-- Expiry date -->
               <div class="row row-data">
-                <div class="col-3 data-label">Expiry date</div>
+                <div class="col-3 data-label">EXP date</div>
                 <div class="col-9">{{element.expiryDate}}</div>
               </div>
               <!-- madeBy -->
               <div class="row row-data">
-                <div class="col-3 data-label">madeBy</div>
+                <div class="col-3 data-label">Made by</div>
                 <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.madeByCA)">{{element.madeBy}}
                 </div>
               </div>
               <!-- madeIn -->
               <div class="row row-data">
-                <div class="col-3 data-label">madeIn</div>
+                <div class="col-3 data-label">Made in</div>
                 <div class="col-9">{{element.madeIn}}</div>
               </div>
             </div>
@@ -119,19 +132,31 @@
               <hr>
               <!-- quantity -->
               <div class="row row-data">
-                <div class="col-3 data-label">quantity</div>
+                <div class="col-3 data-label">Quantity</div>
                 <div class="col-9">{{element.quantity}} / {{element.unit}}</div>
               </div>
               <!-- from -->
-              <div class="row row-data">
-                <div class="col-3 data-label">from</div>
-                <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.from)">{{element.from}}
+              <div *ngIf="currentFilter.value == 0 || isAdmin" class="row row-data">
+                <div class="col-3 data-label">From</div>
+                <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.fromCA)">{{element.from}}
                 </div>
               </div>
               <!-- fromAddress -->
-              <div class="row row-data">
-                <div class="col-3 data-label">fromAddress</div>
+              <div *ngIf="currentFilter.value == 0 || isAdmin" class="row row-data">
+                <div class="col-3 data-label">Address</div>
                 <div class="col-9">{{element.fromAddress}}
+                </div>
+              </div>
+              <!-- to -->
+              <div *ngIf="currentFilter.value == 1 || isAdmin" class="row row-data">
+                <div class="col-3 data-label">To</div>
+                <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.toCA)">{{element.to}}
+                </div>
+              </div>
+              <!-- toAddress -->
+              <div *ngIf="currentFilter.value == 1 || isAdmin" class="row row-data">
+                <div class="col-3 data-label">Address</div>
+                <div class="col-9">{{element.toAddress}}
                 </div>
               </div>
             </div>

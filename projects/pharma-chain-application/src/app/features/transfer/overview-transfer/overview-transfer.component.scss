@@ -135,4 +135,23 @@
       }
     }
   }
+
+  .tool-group {
+    .filter {
+      display: flex;
+      margin-bottom: 20px;
+
+      button {
+        height: 100px;
+
+        span {
+          transition: font-size 0.1s linear;
+        }
+      }
+
+      .active {
+        font-size: 18px;
+      }
+    }
+  }
 }

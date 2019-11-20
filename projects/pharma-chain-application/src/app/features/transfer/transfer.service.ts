@@ -1,3 +1,4 @@
+import { UtilsService } from './../../shared/utils/utils.service';
 import { ITransfer_SEARCH } from './../../shared/utils/transfer.interface';
 import { ITransfer_CREATE, ITransfer_GET } from '../../shared/utils/transfer.interface';
 import { Injectable } from '@angular/core';
@@ -11,7 +12,8 @@ import { Observable } from 'rxjs';
 })
 export class TransferService {
 
-  constructor(private _http: HttpClient, ) { }
+  constructor(private _http: HttpClient,
+    private utilsService: UtilsService) { }
 
   getTransfers(): Observable<ITransfer_GET[]> {
     const url = SERVER_URL + API + TRANSFER;
@@ -21,6 +23,10 @@ export class TransferService {
         const convertedArray: ITransfer_GET[] = [];
 
         baseTransferArray.forEach(base => {
+          const dateCreated = this.utilsService.convertToLocalDate(new Date(base['dateCreated']));
+          const mfg = this.utilsService.convertToLocalDate(new Date(base['medicineBatch']['manufactureDate']));
+          const exp = this.utilsService.convertToLocalDate(new Date(base['medicineBatch']['expiryDate']));
+
           const converted: ITransfer_GET = {
             id: base['id'],
             from: base['from']['name'],
@@ -38,8 +44,8 @@ export class TransferService {
             registeredBy: base['medicineBatch']['medicine']['submittedTenant']['name'],
             registeredByCA: base['medicineBatch']['medicine']['submittedTenant']['contractAddress'],
 
-            manufactureDate: (new Date(base['medicineBatch']['manufactureDate'])).toLocaleDateString(),
-            expiryDate: (new Date(base['medicineBatch']['expiryDate'])).toLocaleDateString(),
+            manufactureDate: mfg.toLocaleDateString(),
+            expiryDate: exp.toLocaleDateString(),
             madeIn: base['medicineBatch']['manufacturer']['primaryAddress'],
             madeBy: base['medicineBatch']['manufacturer']['name'],
             madeByCA: base['medicineBatch']['manufacturer']['contractAddress'],
@@ -48,10 +54,13 @@ export class TransferService {
             fromAddress: base['from']['primaryAddress'],
             fromCA: base['from']['contractAddress'],
 
+            toAddress: base['to']['primaryAddress'],
+            toCA: base['to']['contractAddress'],
+
             transactionHash: base['transactionHash'],
             contractAddress: base['contractAddress'],
-            date: (new Date(base['dateCreated'])).toLocaleDateString(),
-            time: (new Date(base['dateCreated'])).toLocaleTimeString(),
+            date: dateCreated.toLocaleDateString(),
+            time: dateCreated.toLocaleTimeString(),
             transactionStatus: base['transactionStatus'],
           };
 
