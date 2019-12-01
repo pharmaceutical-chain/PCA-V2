@@ -19,14 +19,14 @@ export interface ITenant_GET {
 // tslint:disable-next-line: class-name
 export interface ITenant_CREATE {
   name: string;
+  email: string
   primaryAddress: string;
   branchAddresses?: string;
   phoneNumber?: string;
   taxCode: string;
   registrationCode: string;
-  goodPractices: string;
+  certificates: string;
   type: string;
-  email: string
 }
 
 // tslint:disable-next-line: class-name

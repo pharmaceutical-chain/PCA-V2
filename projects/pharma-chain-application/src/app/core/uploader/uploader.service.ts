@@ -1,7 +1,9 @@
+import { SERVER_URL, API } from './../../shared/utils/constants';
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpClient, HttpEvent, HttpEventType, HttpErrorResponse } from '@angular/common/http';
+import { HttpRequest, HttpClient, HttpEvent, HttpEventType, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { map, tap, last, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { UPLOAD_TENANT_CERT } from '../../shared/utils/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +13,13 @@ export class UploaderService {
   constructor(private http: HttpClient) { }
 
   public upload(file: File) {
-    const req = new HttpRequest('POST', '/', file, {
-      reportProgress: true
+    const url = SERVER_URL + API + UPLOAD_TENANT_CERT;
+
+    // create a new multipart-form for every file
+    const formData: FormData = new FormData();
+    formData.append(file.name, file, file.name);
+    const req = new HttpRequest('POST', url, formData, {
+      reportProgress: true,
     });
 
     // The `HttpClient.request` API produces a raw event stream

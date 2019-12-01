@@ -1,10 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+body,
+html {
+  height: 100%;
+}
+
+.background {
+  /* The image used */
+  background-image: url(./assets/Bubble-20s-1680px.svg);
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .app-loading {
-  .logo {
-    width: 64px;
-    height: 64px;
-    background: url(./assets/logo.png) center center no-repeat;
-    background-size: cover;
-    background-color: #03a9f4;
-    border-radius: 50%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  img {
+    height: 20%;
   }
 }

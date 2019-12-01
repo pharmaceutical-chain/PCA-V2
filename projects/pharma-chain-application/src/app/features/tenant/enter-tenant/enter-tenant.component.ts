@@ -2,9 +2,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TenantService } from './../tenant.service';
 import { PdfViewerComponent } from './../../../shared/pdf-viewer/pdf-viewer.component';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
+import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService, UploaderService } from '../../../core/core.module';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
-import { PDFDocumentProxy, PDFProgressData } from 'ng2-pdf-viewer';
+import { PDFProgressData } from 'ng2-pdf-viewer';
 import { BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material';
 
@@ -36,9 +36,8 @@ export class EnterTenantComponent implements OnInit {
     certificates: this.fb.array([])
   });
 
-  pdfSrc: Array<any> = [];
-  pdfSrc$ = new BehaviorSubject<any>(this.pdfSrc);
-  pdf: Array<PDFDocumentProxy> = [];
+  pdfSrc: Array<File> = [];
+  pdfSrc$ = new BehaviorSubject<Array<File>>(this.pdfSrc);
   isLoading = false; // presented all pdf on view
   currentPageRendered = [];
   error: Array<any> = [];
@@ -50,7 +49,8 @@ export class EnterTenantComponent implements OnInit {
     private tenantService: TenantService,
     private router: Router,
     private route: ActivatedRoute,
-    private readonly notificationService: NotificationService
+    private readonly notificationService: NotificationService,
+    private uploaderService: UploaderService
   ) {
   }
 
@@ -107,8 +107,9 @@ export class EnterTenantComponent implements OnInit {
           }
         });
       }
-
     }
+
+    console.log(this.form.value);
   }
 
   get branchAddressFormArray(): FormArray {
@@ -132,7 +133,11 @@ export class EnterTenantComponent implements OnInit {
   }
 
   addCertificate(certificateFile: File) {
+    this.uploaderService.upload(certificateFile).subscribe();
+
+
     const certificate = this.fb.group({
+      id: ['', [Validators.required]],
       name: ['', [Validators.required]],
       file: [certificateFile, [Validators.required]]
     });
@@ -162,21 +167,21 @@ export class EnterTenantComponent implements OnInit {
   * Render PDF preview on selecting file
   */
   onFileSelected() {
-    const $pdf: any = document.querySelector('#file');
+    const pdf: any = document.querySelector('#file');
 
-    if ((typeof FileReader !== 'undefined') && ($pdf.files.length !== 0)) {
+    if ((typeof FileReader !== 'undefined') && (pdf.files.length !== 0)) {
       this.isLoading = true;
 
-      for (let i = 0; i < $pdf.files.length; i++) {
+      for (let i = 0; i < pdf.files.length; i++) {
         const reader = new FileReader();
 
         reader.onloadend = (e: any) => {
-          this.addCertificate($pdf.files[i]);
+          this.addCertificate(pdf.files[i]);
           this.pdfSrc.push(e.target.result);
           this.pdfSrc$.next(this.pdfSrc);
         };
 
-        reader.readAsArrayBuffer($pdf.files[i]);
+        reader.readAsArrayBuffer(pdf.files[i]);
       }
     }
   }
@@ -187,14 +192,6 @@ export class EnterTenantComponent implements OnInit {
    */
   getInt(value: number): number {
     return Math.round(value);
-  }
-
-  /**
-  * Get pdf information after it's loaded
-  * @param pdf
-  */
-  afterLoadComplete(pdf: PDFDocumentProxy, index: number) {
-    this.pdf.push(pdf);
   }
 
   /**

@@ -18,7 +18,8 @@
 
     <div class="wrapper">
 
-      <div *ngIf="isAuthenticated" class="toolbar" [style.position]="(stickyHeader$ | async) ? 'fixed' : 'inherit'" [class.mat-elevation-z4]="(stickyHeader$ | async)">
+      <div *ngIf="isAuthenticated" class="toolbar" [style.position]="(stickyHeader$ | async) ? 'fixed' : 'inherit'"
+        [class.mat-elevation-z4]="(stickyHeader$ | async)">
         <mat-toolbar color="primary">
           <button mat-icon-button class="d-md-none" (click)="sidenav.open()">
             <fa-icon icon="bars"></fa-icon>
@@ -39,17 +40,14 @@
             </button>
           </span>
 
-          <!-- <button mat-button mat-stroked-button color="accent" *ngIf="!isAuthenticated" (click)="onLoginClick()">
-            {{ 'pca.menu.login' | translate }}
-          </button> -->
-
-          <button mat-icon-button
-                  [matMenuTriggerFor]="toolbarUserMenu">
+          <button mat-icon-button [matMenuTriggerFor]="toolbarUserMenu">
             <fa-icon icon="user-circle"></fa-icon>
           </button>
           <mat-menu #toolbarUserMenu="matMenu">
             <button mat-menu-item (click)="onLogoutClick()">
-              <mat-icon><fa-icon icon="power-off"></fa-icon></mat-icon>
+              <mat-icon>
+                <fa-icon icon="power-off"></fa-icon>
+              </mat-icon>
               <span>{{ 'pca.menu.logout' | translate }}</span>
             </button>
           </mat-menu>
@@ -58,12 +56,8 @@
             <fa-icon icon="cog"></fa-icon>
           </button>
 
-          <a [matTooltip]="'pca.header.github' | translate"
-             matTooltipPosition="before"
-             mat-icon-button
-             class="link d-none d-sm-inline"
-             href="https://github.com/tomastrajan/pharma-chain-application"
-             target="_blank">
+          <a [matTooltip]="'pca.header.github' | translate" matTooltipPosition="before" mat-icon-button
+            class="link d-none d-sm-inline" href="https://github.com/pharmaceutical-chain" target="_blank">
             <fa-icon [icon]="['fab','github']"></fa-icon>
           </a>
 
@@ -79,31 +73,36 @@
 
       <pca-http-loader></pca-http-loader>
 
-      <div [ngClass]="{'content-margin-top': isAuthenticated}" class="content" [@routeAnimations]="o.isActivated && o.activatedRoute.routeConfig.data && o.activatedRoute.routeConfig.data.title">
+      <div [ngClass]="{'content-margin-top': isAuthenticated}" class="content"
+        [@routeAnimations]="o.isActivated && o.activatedRoute.routeConfig.data && o.activatedRoute.routeConfig.data['title']">
         <router-outlet #o="outlet"></router-outlet>
-        <button *ngIf="!isAuthenticated" mat-button mat-raised-button color="accent" (click)="onLoginClick()" style="margin: 10% 50%;">
+        <!-- <button *ngIf="!isAuthenticated" mat-button mat-raised-button color="accent" (click)="onLoginClick()"
+          style="margin: 10% 50%;">
           {{ 'pca.menu.login' | translate }}
-        </button>
+        </button> -->
       </div>
 
-      <div class="footer" (click)="getUser()">
+      <div *ngIf="isAuthenticated" class="footer" (click)="getUser()">
         <div class="row">
           <div class="col-6 links">
             <a href="https://github.com/pharmaceutical-chain" target="_blank">
               <fa-icon [icon]="['fab','github']"></fa-icon>
               <span>Github</span>
             </a>
-            <a href="https://www.behance.net/gallery/84880545/Pharma-Chain" target="_blank">
-              <fa-icon [icon]="['fab','behance-square']"></fa-icon>
-              <span>Behance</span>
+            <a href="https://github.com/pharmaceutical-chain" target="_blank">
+              <fa-icon [icon]="['fab','medium-m']"></fa-icon>
+              <span>Medium</span>
+            </a>
+            <a href="https://github.com/pharmaceutical-chain" target="_blank">
+              <fa-icon [icon]="['fab','twitter']"></fa-icon>
+              <span>Twitter</span>
             </a>
           </div>
           <div class="col-6 signature">
             &#169; <span class="year">{{year}}</span> - PharmaChain Group
             <br class="d-block d-sm-none">
-            <a [matTooltip]="'pca.footer.changelog' | translate"
-               matTooltipPosition="before"
-               href="https://github.com/tomastrajan/pharma-chain-application/blob/master/CHANGELOG.md">
+            <a [matTooltip]="'pca.footer.changelog' | translate" matTooltipPosition="before"
+              href="https://github.com/pharmaceutical-chain">
               <fa-icon icon="rocket"></fa-icon>
               {{version}} <span *ngIf="!isProd">[{{envName}}]</span>
             </a>

@@ -130,7 +130,7 @@
               </mat-form-field>
               <pdf-viewer [src]="pdfSrc" [original-size]="false" [autoresize]="true" [show-all]="false"
                 [external-link-target]="'blank'" (page-rendered)="pageRendered($event,i)" (error)="onError($event,i)"
-                (after-load-complete)="afterLoadComplete($event,i)" (click)="viewDetailPDF(i)">
+                (click)="viewDetailPDF(i)">
               </pdf-viewer>
             </div>
           </div>

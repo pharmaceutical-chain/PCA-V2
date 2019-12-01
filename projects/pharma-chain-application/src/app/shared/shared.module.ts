@@ -58,7 +58,8 @@ import {
 import {
   faGithub,
   faMediumM,
-  faBehanceSquare
+  faBehanceSquare,
+  faTwitter
 } from '@fortawesome/free-brands-svg-icons';
 
 import { BigInputComponent } from './big-input/big-input/big-input.component';
@@ -69,7 +70,6 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
-import { LoadingDotComponent } from './loading-dot/loading-dot.component';
 import { HttpLoaderComponent } from './http-loader/http-loader.component';
 
 @NgModule({
@@ -108,7 +108,6 @@ import { HttpLoaderComponent } from './http-loader/http-loader.component';
     PdfViewerComponent,
     ImageViewerComponent,
     ConfirmationDialogComponent,
-    LoadingDotComponent,
     HttpLoaderComponent
   ],
   exports: [
@@ -152,7 +151,6 @@ import { HttpLoaderComponent } from './http-loader/http-loader.component';
     BigInputActionComponent,
     RtlSupportDirective,
     ConfirmationDialogComponent,
-    LoadingDotComponent,
     HttpLoaderComponent
   ],
   entryComponents: [
@@ -173,6 +171,7 @@ export class SharedModule {
       faGithub,
       faMediumM,
       faBehanceSquare,
+      faTwitter,
       faPlus,
       faEdit,
       faTrash,
