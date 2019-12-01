@@ -1,4 +1,3 @@
-import { ITenant_GET } from './../../../shared/utils/tenants.interface';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TenantService } from './../tenant.service';
 import { PdfViewerComponent } from './../../../shared/pdf-viewer/pdf-viewer.component';

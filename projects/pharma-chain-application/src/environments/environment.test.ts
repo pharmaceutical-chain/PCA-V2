@@ -1,7 +1,7 @@
 const packageJson = require('../../../../package.json');
 
 export const environment = {
-  appName: 'Pharma Chain',
+  appName: 'PharmaChain',
   envName: 'TEST',
   production: false,
   test: true,

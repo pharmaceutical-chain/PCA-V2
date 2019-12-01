@@ -81,7 +81,7 @@
 
       <div [ngClass]="{'content-margin-top': isAuthenticated}" class="content" [@routeAnimations]="o.isActivated && o.activatedRoute.routeConfig.data && o.activatedRoute.routeConfig.data.title">
         <router-outlet #o="outlet"></router-outlet>
-        <button *ngIf="!isAuthenticated" mat-button mat-raised-button color="accent" (click)="onLoginClick()" style="margin: 10% 50%;" [ngClass]="routeAnimationsElements">
+        <button *ngIf="!isAuthenticated" mat-button mat-raised-button color="accent" (click)="onLoginClick()" style="margin: 10% 50%;">
           {{ 'pca.menu.login' | translate }}
         </button>
       </div>
@@ -99,7 +99,7 @@
             </a>
           </div>
           <div class="col-6 signature">
-            &#169; <span class="year">{{year}}</span> - Pharma Chain Group
+            &#169; <span class="year">{{year}}</span> - PharmaChain Group
             <br class="d-block d-sm-none">
             <a [matTooltip]="'pca.footer.changelog' | translate"
                matTooltipPosition="before"
