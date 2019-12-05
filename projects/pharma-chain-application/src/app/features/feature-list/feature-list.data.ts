@@ -20,14 +20,14 @@ export const features: Feature[] = [
     name: 'Overview medicines',
     icon: '',
     link: '/medicine/overview-medicine',
-    roles: ['admin', 'manufacturer', 'distributor', 'retailer'],
+    roles: ['admin', 'manufacturer'],
     total: '13'
   },
   {
     name: 'Overview batches',
     icon: '',
     link: '/batch/overview-batch',
-    roles: ['admin', 'manufacturer', 'distributor', 'retailer'],
+    roles: ['admin', 'manufacturer'],
     total: '77'
   },
   {
