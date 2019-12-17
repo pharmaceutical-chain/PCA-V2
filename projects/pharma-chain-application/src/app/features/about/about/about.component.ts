@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
+import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'pca-about',
@@ -10,9 +11,18 @@ import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
 })
 export class AboutComponent implements OnInit {
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
-  releaseButler = require('../../../../assets/branding01.png');
 
-  constructor() {}
+  isAuthenticated: boolean;
 
-  ngOnInit() {}
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.authService.loggedInSub$.subscribe((isAuthenticated) => {
+      this.isAuthenticated = isAuthenticated;
+    });
+  }
+
+  onLoginClick() {
+    this.authService.login('feature-list');
+  }
 }

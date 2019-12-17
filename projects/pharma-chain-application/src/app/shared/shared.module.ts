@@ -53,7 +53,9 @@ import {
   faAngleDoubleRight,
   faSearch,
   faExternalLinkAlt,
-  faMinus
+  faMinus,
+  faMapMarker,
+  faEnvelope
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faGithub,
@@ -192,7 +194,9 @@ export class SharedModule {
       faAngleDoubleRight,
       faSearch,
       faExternalLinkAlt,
-      faMinus
+      faMinus,
+      faMapMarker,
+      faEnvelope
     );
   }
 }

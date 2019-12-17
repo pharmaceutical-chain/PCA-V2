@@ -17,8 +17,13 @@ h2 {
 
   .actions {
     text-align: center;
-    margin: 50px;
+    margin-top: 50%;
     z-index: 1;
+
+    button {
+      width: 144px;
+      margin-bottom: 48px;
+    }
 
     span {
       display: inline-block;
@@ -47,7 +52,7 @@ h2 {
     left: 0;
     bottom: 0;
     right: 0;
-    background: url('../../../../assets/branding03.png') no-repeat center top;
+    background: url('../../../../assets/img/branding03.png') no-repeat center top;
     background-size: cover;
     opacity: 0.7;
     content: '';
@@ -69,34 +74,19 @@ h2 {
   .container {
     position: relative;
   }
-}
 
+  .card-visit {
+    position: absolute;
+    bottom: 0;
+    width: 80%;
+    margin: 32px 10%;
 
-@media (max-width: map-get($grid-breakpoints, md)) {
-  .background {
-    .actions {
-      margin: 50px 0;
-    }
-  }
-}
+    .card-visit-item {
+      display: flex;
+      border-left: 0.5px solid rgba($color: #000000, $alpha: 0.6);
 
-@media (max-width: map-get($grid-breakpoints, sm)) {
-  .background {
-    padding: 40px 0 0 0;
-
-    h1 {
-      line-height: 1em;
-    }
-
-    .actions {
-      margin: 40px 0 0 0;
-
-      span {
-        padding: 10px 0 20px 0;
-      }
-
-      a {
-        width: 100%;
+      fa-icon {
+        margin-right: 8px;
       }
     }
   }

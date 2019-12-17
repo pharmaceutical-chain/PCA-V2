@@ -31,10 +31,10 @@ export class AppComponent implements OnInit {
   envName = env.envName;
   version = env.versions.app;
   year = new Date().getFullYear();
-  logo = require('../../assets/PHARMACHAIN-logo-white.png');
+  logo = require('../../assets/img/PHARMACHAIN-logo-white.png');
   languages = ['en', 'de', 'sk', 'fr', 'es', 'pt-br', 'zh-cn', 'he'];
   navigation = [
-    { link: 'about', label: 'pca.menu.about' },
+    { link: 'sign-in', label: 'pca.menu.about' },
     { link: 'feature-list', label: 'pca.menu.features' },
     // { link: 'examples', label: 'pca.menu.examples' }
   ];
@@ -76,10 +76,6 @@ export class AppComponent implements OnInit {
     this.language$ = this.store.pipe(select(selectSettingsLanguage));
     this.theme$ = this.store.pipe(select(selectEffectiveTheme));
     this.authService.localAuthSetup();
-  }
-
-  onLoginClick() {
-    this.authService.login('about');
   }
 
   onLogoutClick() {

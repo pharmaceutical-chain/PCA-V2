@@ -10,7 +10,7 @@ import { MedicineGuard } from './core/auth/medicine.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'about',
+    redirectTo: 'sign-in',
     pathMatch: 'full'
   },
   {
@@ -18,7 +18,7 @@ const routes: Routes = [
     component: CallbackComponent
   },
   {
-    path: 'about',
+    path: 'sign-in',
     loadChildren: () =>
       import('./features/about/about.module').then(m => m.AboutModule)
   },
@@ -65,7 +65,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'about'
+    redirectTo: 'sign-in'
   }
 ];
 

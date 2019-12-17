@@ -1,14 +1,36 @@
 <div class="background">
   <div class="gradient">
     <div class="container">
-      <h1>{{ 'pca.title.long' | translate }}</h1>
       <div class="actions">
-        <a [ngClass]="routeAnimationsElements" mat-raised-button class="actions-main" color="primary" routerLink="../feature-list">
-          {{ 'pca.menu.features' | translate }}
-        </a>
-        <a mat-raised-button class="actions-main" color="warn" routerLink="../settings" [ngClass]="routeAnimationsElements">
-          {{ 'pca.about.change-theme' | translate }}
-        </a>
+        <button *ngIf="!isAuthenticated" mat-button mat-raised-button color="accent" (click)="onLoginClick()">
+          {{ 'pca.menu.login' | translate }}
+        </button>
+        <p>Please <a href="mailto: otis58@ethereal.email?subject=Register Request Pharmachain Service">contact us</a> to
+          register for an account<br />to join in the Pharmachain System</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-visit">
+    <div class="row">
+      <div class="col">
+        <b>Lee Admin</b><br />Pharmachain group
+      </div>
+      <div class="col card-visit-item">
+        <div>
+          <fa-icon icon="map-marker"></fa-icon>
+        </div>
+        <div>
+          Ho Chi Minh City<br />Thu Duc, Viet Nam
+        </div>
+      </div>
+      <div class="col card-visit-item">
+        <div>
+          <fa-icon icon="envelope"></fa-icon>
+        </div>
+        <div>
+          pharmachain-group@gmail.com<br />(+84) 123 456789
+        </div>
       </div>
     </div>
   </div>

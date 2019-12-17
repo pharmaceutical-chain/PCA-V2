@@ -8,7 +8,7 @@
 
   pca-about {
     .background {
-      color: mat-color($foreground, text);
+      color: mat-color($foreground, text, 0.6);
       background-color: mat-color($background, background);
 
       .gradient {
@@ -19,27 +19,6 @@
             mat-color($background, background, 1) 100%
           );
         }
-      }
-    }
-
-    .follow-releases,
-    .contributors {
-      p {
-        background-color: mat-color($background, background);
-
-        a {
-          color: mat-color($accent);
-
-          &:hover {
-            color: mat-color($accent, darker);
-          }
-        }
-      }
-    }
-
-    .contributors {
-      img {
-        border-color: mat-color($background, background) !important;
       }
     }
   }

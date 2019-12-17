@@ -1,7 +1,5 @@
 <div [class]="'theme-wrapper ' + (theme$ | async)">
-
   <mat-sidenav-container>
-
     <mat-sidenav #sidenav mode="push">
       <div class="branding"><img [src]="logo" />
         <span>{{ 'pca.title.short' | translate}}</span></div>
@@ -17,21 +15,22 @@
     </mat-sidenav>
 
     <div class="wrapper">
-
       <div *ngIf="isAuthenticated" class="toolbar" [style.position]="(stickyHeader$ | async) ? 'fixed' : 'inherit'"
         [class.mat-elevation-z4]="(stickyHeader$ | async)">
         <mat-toolbar color="primary">
           <button mat-icon-button class="d-md-none" (click)="sidenav.open()">
             <fa-icon icon="bars"></fa-icon>
-
           </button>
 
           <span routerLink="" class="branding spacer center d-inline d-sm-none">
-            <img [src]="logo" /></span>
-          <span routerLink="" class="branding spacer center d-none d-sm-inline d-md-none"><img [src]="logo" /> {{
-            'pca.title.short' | translate }}</span>
-          <span routerLink="" class="branding spacer d-none d-md-inline"><img [src]="logo" /> {{ 'pca.title.long' | translate
-            }}</span>
+            <img [src]="logo" />
+          </span>
+          <span routerLink="" class="branding spacer center d-none d-sm-inline d-md-none">
+            <img [src]="logo" />
+          </span>
+          <span routerLink="" class="branding spacer d-none d-md-inline">
+            <img [src]="logo" />
+          </span>
 
           <span class="d-none d-md-inline">
             <button mat-button class="nav-button" *ngFor="let item of navigation" [routerLink]="[item.link]"
@@ -76,10 +75,6 @@
       <div [ngClass]="{'content-margin-top': isAuthenticated}" class="content"
         [@routeAnimations]="o.isActivated && o.activatedRoute.routeConfig.data && o.activatedRoute.routeConfig.data['title']">
         <router-outlet #o="outlet"></router-outlet>
-        <!-- <button *ngIf="!isAuthenticated" mat-button mat-raised-button color="accent" (click)="onLoginClick()"
-          style="margin: 10% 50%;">
-          {{ 'pca.menu.login' | translate }}
-        </button> -->
       </div>
 
       <div *ngIf="isAuthenticated" class="footer" (click)="getUser()">
@@ -111,7 +106,5 @@
       </div>
 
     </div>
-
   </mat-sidenav-container>
-
 </div>
