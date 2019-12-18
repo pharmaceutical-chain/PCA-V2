@@ -40,9 +40,9 @@ export class AppComponent implements OnInit, AfterViewChecked {
   languages = ['en'];
 
   navigationSideMenu: Feature[] = [
-    { link: 'dashboard', label: 'pca.menu.features', icon: 'tachometer-alt', roles: ['admin', 'manufacturer', 'distributor', 'retailer'] },
+    { link: '/dashboard', label: 'pca.menu.features', icon: 'tachometer-alt', roles: ['admin', 'manufacturer', 'distributor', 'retailer'] },
     ...features,
-    { link: 'settings', label: 'pca.menu.settings', icon: 'cog', roles: ['admin', 'manufacturer', 'distributor', 'retailer'] },
+    { link: '/settings', label: 'pca.menu.settings', icon: 'cog', roles: ['admin', 'manufacturer', 'distributor', 'retailer'] },
   ];
 
   isLgScreen = true;

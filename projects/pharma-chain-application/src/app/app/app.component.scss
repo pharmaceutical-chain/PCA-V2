@@ -176,7 +176,7 @@ mat-sidenav-container {
       padding: 16px 15%;
       text-align: center;
 
-      &:last-child {
+      div:last-child {
         display: flex;
         align-items: center;
         flex-direction: column;

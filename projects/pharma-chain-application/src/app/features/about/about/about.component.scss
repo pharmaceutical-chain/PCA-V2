@@ -32,10 +32,9 @@
     opacity: 0.8;
     z-index: 3;
     position: relative;
-    margin-top: 10%;
 
     img {
-      width: 50%;
+      width: 40%;
       min-width: 300px;
     }
   }
@@ -46,8 +45,12 @@
     z-index: 1;
 
     button {
-      width: 144px;
+      width: 30%;
+      min-width: 200px;
+      font-size: 24px;
+      font-weight: 400;
       margin-bottom: 48px;
+      padding: 8px;
     }
 
     span {
