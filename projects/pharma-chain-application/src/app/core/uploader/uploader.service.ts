@@ -1,65 +1,70 @@
-import { SERVER_URL, API } from './../../shared/utils/constants';
+
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpClient, HttpEvent, HttpEventType, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { map, tap, last, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-import { UPLOAD_TENANT_CERT } from '../../shared/utils/constants';
+import {
+  HttpClient,
+  HttpRequest,
+  HttpEventType,
+  HttpResponse
+} from '@angular/common/http';
+import { Subject, Observable } from 'rxjs';
+import { SERVER_URL, API, UPLOAD_TENANT_CERT } from '../../shared/utils/constants';
+import { ICertificate } from '../../shared/utils/certificates.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UploaderService {
-
   constructor(private http: HttpClient) { }
 
-  public upload(file: File) {
+  public upload(certificates: Set<ICertificate>): { [key: string]: { progress: Observable<number> } } {
     const url = SERVER_URL + API + UPLOAD_TENANT_CERT;
 
-    // create a new multipart-form for every file
-    const formData: FormData = new FormData();
-    formData.append(file.name, file, file.name);
-    const req = new HttpRequest('POST', url, formData, {
-      reportProgress: true,
+    // this will be the our resulting map
+    const status: { [key: string]: { progress: Observable<number>, link?: Observable<string> } } = {};
+
+    certificates.forEach(certificate => {
+      // create a new multipart-form for every file
+      const formData: FormData = new FormData();
+      formData.append('myFile', certificate.file, certificate.name);
+
+      // create a http-post request and pass the form
+      // tell it to report the upload progress
+      const req = new HttpRequest('POST', url, formData, {
+        reportProgress: true
+      });
+
+      // create a new progress-subject for every file
+      const progress = new Subject<number>();
+
+      // link of uploaded file
+      const link = new Subject<string>();
+
+      // send the http-request and subscribe for progress-updates
+      this.http.request(req).subscribe(event => {
+        console.log(event);
+        if (event.type === HttpEventType.UploadProgress) {
+          // calculate the progress percentage
+
+          const percentDone = Math.round((100 * event.loaded) / event.total);
+          // pass the percentage into the progress-stream
+          progress.next(percentDone);
+        } else if (event.type === HttpEventType.Response) {
+          // Close the progress-stream if we get an answer form the API
+          // The upload is complete
+          progress.complete();
+          link.next(event.headers.get('location'));
+          link.complete();
+        }
+      });
+
+      // Save every progress-observable in a map of all observables
+      status[certificate.name] = {
+        progress: progress.asObservable(),
+        link: link.asObservable()
+      };
     });
 
-    // The `HttpClient.request` API produces a raw event stream
-    // which includes start (sent), progress, and response events.
-    return this.http.request(req).pipe(
-      map(event => this.getEventMessage(event, file)),
-      tap(message => this.showProgress(message)),
-      last(), // return last (completed) message to caller
-      catchError(error => this.handleError(error, file))
-    );
+    // return the map of progress.observables
+    return status;
   }
-
-  /** Return distinct message for sent, upload progress, & response events */
-  private getEventMessage(event: HttpEvent<any>, file: File) {
-    switch (event.type) {
-      case HttpEventType.Sent:
-        return `Uploading file "${file.name}" of size ${file.size}.`;
-
-      case HttpEventType.UploadProgress:
-        // Compute and show the % done:
-        const percentDone = Math.round(100 * event.loaded / event.total);
-        return `File "${file.name}" is ${percentDone}% uploaded.`;
-
-      case HttpEventType.Response:
-        return `File "${file.name}" was completely uploaded!`;
-
-      default:
-        return `File "${file.name}" surprising upload event: ${event.type}.`;
-    }
-  }
-
-  private showProgress(message: string) {
-    console.log(message);
-  }
-
-  private handleError(error: HttpErrorResponse, file: File) {
-    console.log(`File "${file.name}" upload error!!!`);
-    console.log(error);
-
-    return throwError(
-      'Something bad happened; please try again later.');
-  };
 }

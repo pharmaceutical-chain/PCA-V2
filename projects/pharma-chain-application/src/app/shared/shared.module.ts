@@ -81,6 +81,7 @@ import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { HttpLoaderComponent } from './http-loader/http-loader.component';
 import { MaterialElevationDirective } from './elevation-hover/material-elevation.directive';
+import { UploaderDialogComponent } from './uploader-dialog/uploader-dialog.component';
 
 @NgModule({
   imports: [
@@ -107,6 +108,7 @@ import { MaterialElevationDirective } from './elevation-hover/material-elevation
     MatSlideToggleModule,
     MatDividerModule,
     MatDialogModule,
+    MatProgressBarModule,
 
     FontAwesomeModule,
     PdfViewerModule
@@ -119,7 +121,8 @@ import { MaterialElevationDirective } from './elevation-hover/material-elevation
     ImageViewerComponent,
     ConfirmationDialogComponent,
     HttpLoaderComponent,
-    MaterialElevationDirective
+    MaterialElevationDirective,
+    UploaderDialogComponent
   ],
   exports: [
     CommonModule,
@@ -168,7 +171,8 @@ import { MaterialElevationDirective } from './elevation-hover/material-elevation
   entryComponents: [
     PdfViewerComponent,
     ImageViewerComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    UploaderDialogComponent
   ]
 })
 export class SharedModule {

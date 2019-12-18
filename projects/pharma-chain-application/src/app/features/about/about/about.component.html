@@ -7,8 +7,8 @@
 
   <div class="gradient">
     <div class="container">
-      <div class="actions">
-        <button *ngIf="!isAuthenticated" mat-button mat-raised-button color="accent" (click)="onLoginClick()">
+      <div *ngIf="!isAuthenticated" class="actions">
+        <button mat-button mat-raised-button color="accent" (click)="onLoginClick()">
           {{ 'pca.menu.login' | translate }}
         </button>
         <p>Please <a href="mailto: otis58@ethereal.email?subject=Register Request Pharmachain Service">contact us</a> to

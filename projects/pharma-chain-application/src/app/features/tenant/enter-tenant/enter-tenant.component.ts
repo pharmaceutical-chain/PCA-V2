@@ -2,11 +2,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TenantService } from './../tenant.service';
 import { PdfViewerComponent } from './../../../shared/pdf-viewer/pdf-viewer.component';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService, UploaderService } from '../../../core/core.module';
+import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { PDFProgressData } from 'ng2-pdf-viewer';
 import { BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material';
+import { UploaderDialogComponent } from '../../../shared/uploader-dialog/uploader-dialog.component';
 
 @Component({
   selector: 'pca-enter-tenant',
@@ -50,7 +51,6 @@ export class EnterTenantComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private readonly notificationService: NotificationService,
-    private uploaderService: UploaderService
   ) {
   }
 
@@ -132,12 +132,21 @@ export class EnterTenantComponent implements OnInit {
     return name;
   }
 
+  openUploadDialog() {
+    const dialogRef = this.dialog.open(UploaderDialogComponent, { 
+      width: '50%', 
+      height: '50%',
+      data: this.certificatesFormArray.value
+    });
+    dialogRef.afterClosed().subscribe();
+  }
+
   addCertificate(certificateFile: File) {
-    this.uploaderService.upload(certificateFile).subscribe();
+    // this.uploaderService.upload(certificateFile).subscribe();
 
 
     const certificate = this.fb.group({
-      id: ['', [Validators.required]],
+      link: ['', [Validators.required]],
       name: ['', [Validators.required]],
       file: [certificateFile, [Validators.required]]
     });

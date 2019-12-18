@@ -13,7 +13,7 @@
   "pca.features.tenant.form.certificates": "GMP/GSP/GLP",
   "pca.features.tenant.form.option": "option",
   "pca.features.tenant.form.import": "Import",
-  "pca.features.tenant.form.certificateId": "Certificate Id",
+  "pca.features.tenant.form.certificateId": "Certificate name",
   "pca.features.tenant.form.cancel": "Cancel",
   "pca.features.tenant.form.submit": "Submit",
   "pca.features.tenant.form.error.required": "is required",
