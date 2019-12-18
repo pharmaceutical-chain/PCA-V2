@@ -23,6 +23,6 @@ export class AboutComponent implements OnInit {
   }
 
   onLoginClick() {
-    this.authService.login('feature-list');
+    this.authService.login('dashboard');
   }
 }

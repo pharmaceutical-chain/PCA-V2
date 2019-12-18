@@ -10,7 +10,7 @@ import { MedicineGuard } from './core/auth/medicine.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'sign-in',
+    redirectTo: 'signin',
     pathMatch: 'full'
   },
   {
@@ -18,12 +18,12 @@ const routes: Routes = [
     component: CallbackComponent
   },
   {
-    path: 'sign-in',
+    path: 'signin',
     loadChildren: () =>
       import('./features/about/about.module').then(m => m.AboutModule)
   },
   {
-    path: 'feature-list',
+    path: 'dashboard',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/feature-list/feature-list.module').then(m => m.FeatureListModule)
@@ -65,7 +65,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'sign-in'
+    redirectTo: 'signin'
   }
 ];
 

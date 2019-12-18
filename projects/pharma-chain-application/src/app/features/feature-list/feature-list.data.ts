@@ -1,64 +1,81 @@
-import { environment as env } from '../../../environments/environment';
-
 export interface Feature {
-  name: string;
+  label: string;
   icon: string;
   link: string;
   total?: string;
-  roles?: Array<string>;
+  roles: Array<string>;
+  color?: string;
 }
 
 export const features: Feature[] = [
   {
-    name: 'Overview tenants',
-    icon: '',
-    link: '/tenant/overview-tenant',
+    label: 'pca.menu.tenant.overview',
+    icon: 'clinic-medical',
+    link: 'tenant/overview-tenant',
     roles: ['admin'],
-    total: '22'
+    total: '22',
   },
   {
-    name: 'Overview medicines',
-    icon: '',
-    link: '/medicine/overview-medicine',
+    label: 'pca.menu.tenant.enter',
+    icon: 'clinic-medical',
+    link: 'tenant/enter-tenant',
+    roles: ['admin'],
+    color: 'green'
+  },
+  {
+    label: 'pca.menu.medicine.overview',
+    icon: 'capsules',
+    link: 'medicine/overview-medicine',
     roles: ['admin', 'manufacturer'],
     total: '13'
   },
   {
-    name: 'Overview batches',
-    icon: '',
-    link: '/batch/overview-batch',
+    label: 'pca.menu.medicine.enter',
+    icon: 'capsules',
+    link: 'medicine/enter-medicine',
+    roles: ['admin', 'manufacturer'],
+    color: 'green'
+  },
+  {
+    label: 'pca.menu.batch.overview',
+    icon: 'swatchbook',
+    link: 'batch/overview-batch',
     roles: ['admin', 'manufacturer'],
     total: '77'
   },
   {
-    name: 'Overview transfers',
-    icon: '',
-    link: '/transfer/overview-transfer',
+    label: 'pca.menu.batch.enter',
+    icon: 'swatchbook',
+    link: 'batch/enter-batch',
+    roles: ['admin', 'manufacturer'],
+    color: 'green'
+  },
+  {
+    label: 'pca.menu.transfer.overview',
+    icon: 'exchange-alt',
+    link: 'transfer/overview-transfer',
     roles: ['admin', 'manufacturer', 'distributor', 'retailer'],
     total: '102'
   },
   {
-    name: 'Enter tenant',
-    icon: '',
-    link: '/tenant/enter-tenant',
-    roles: ['admin']
+    label: 'pca.menu.transfer.enter',
+    icon: 'exchange-alt',
+    link: 'transfer/enter-transfer',
+    roles: ['admin', 'manufacturer', 'distributor'],
+    color: 'green'
   },
   {
-    name: 'Enter medicine',
-    icon: '',
-    link: '/medicine/enter-medicine',
-    roles: ['admin', 'manufacturer']
+    label: 'pca.menu.report',
+    icon: 'chart-line',
+    link: 'examples/stock-market',
+    roles: ['admin', 'manufacturer', 'distributor'],
+    color: 'purple'
   },
   {
-    name: 'Enter batch',
-    icon: '',
-    link: '/batch/enter-batch',
-    roles: ['admin', 'manufacturer']
-  },
-  {
-    name: 'Enter transfer',
-    icon: '',
-    link: '/transfer/enter-transfer',
-    roles: ['admin', 'manufacturer', 'distributor']
+    label: 'pca.menu.request',
+    icon: 'bell',
+    link: 'examples/todos',
+    roles: ['admin'],
+    color: 'mediumpurple'
   }
 ]

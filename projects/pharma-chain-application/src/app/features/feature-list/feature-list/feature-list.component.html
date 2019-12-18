@@ -1,18 +1,15 @@
 <div class="container">
   <div class="row align-items-end">
     <div *ngFor="let feature of features | async" class="col-md-6 col-lg-4" [ngClass]="routeAnimationsElements">
-      <mat-card>
-        <mat-card-title>
-          {{feature.name | translate}}
-        </mat-card-title>
-        <mat-card-subtitle rtl>
-          <code *ngIf="feature.total">{{feature.total}}</code>
+      <mat-card [routerLink]=[feature.link] appMaterialElevation>
+        <mat-card-subtitle>
+          <div matBadge="{{feature.total}}" matBadgeSize="medium" matBadgeColor="accent">
+            <fa-icon [ngStyle]="{'color': feature.color}" icon="{{feature.icon}}"></fa-icon>
+          </div>
         </mat-card-subtitle>
-        <mat-card-actions>
-          <a [routerLink]=[feature.link] mat-button>
-            <fa-icon icon="angle-double-right"></fa-icon>
-          </a>
-        </mat-card-actions>
+        <mat-card-title>
+          {{feature.label | translate}}
+        </mat-card-title>
       </mat-card>
     </div>
   </div>

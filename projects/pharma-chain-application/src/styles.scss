@@ -27,6 +27,7 @@
 @import './app/features/batch/batch/batch.component.scss-theme.scss';
 @import './app/features/transfer/transfer/transfer.component.scss-theme.scss';
 @import './app/features/medicine/medicine/medicine.component.scss-theme.scss';
+@import './app/features/feature-list/feature-list/feature-list.component.scss-theme.scss';
 
 @mixin custom-components-theme($theme) {
   @include pca-styles-reset-theme($theme);
@@ -43,6 +44,7 @@
   @include pca-batch-component-theme($theme);
   @include pca-transfer-component-theme($theme);
   @include pca-medicine-component-theme($theme);
+  @include pca-feature-list-component-theme($theme);
 }
 
 .default-theme {

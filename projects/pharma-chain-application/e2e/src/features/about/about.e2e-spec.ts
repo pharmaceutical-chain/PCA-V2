@@ -19,13 +19,13 @@ describe('About Page', () => {
       .then(isPresent => expect(isPresent).toBe(true));
   });
 
-  it('first action button should lead to "Features" route', () => {
+  it('first action button should lead to "Dashboard" route', () => {
     page.navigateTo();
     page
       .getActionButton(0)
       .click()
       .then(() => {
-        expect(getCurrentRouteUrl()).toBe('feature-list');
+        expect(getCurrentRouteUrl()).toBe('dashboard');
       });
   });
 });

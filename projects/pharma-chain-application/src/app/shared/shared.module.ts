@@ -55,7 +55,14 @@ import {
   faExternalLinkAlt,
   faMinus,
   faMapMarker,
-  faEnvelope
+  faEnvelope,
+  faBell,
+  faTachometerAlt,
+  faClinicMedical,
+  faCapsules,
+  faSwatchbook,
+  faChartLine,
+  faExchangeAlt
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faGithub,
@@ -73,6 +80,7 @@ import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { HttpLoaderComponent } from './http-loader/http-loader.component';
+import { MaterialElevationDirective } from './elevation-hover/material-elevation.directive';
 
 @NgModule({
   imports: [
@@ -110,7 +118,8 @@ import { HttpLoaderComponent } from './http-loader/http-loader.component';
     PdfViewerComponent,
     ImageViewerComponent,
     ConfirmationDialogComponent,
-    HttpLoaderComponent
+    HttpLoaderComponent,
+    MaterialElevationDirective
   ],
   exports: [
     CommonModule,
@@ -153,7 +162,8 @@ import { HttpLoaderComponent } from './http-loader/http-loader.component';
     BigInputActionComponent,
     RtlSupportDirective,
     ConfirmationDialogComponent,
-    HttpLoaderComponent
+    HttpLoaderComponent,
+    MaterialElevationDirective
   ],
   entryComponents: [
     PdfViewerComponent,
@@ -196,7 +206,14 @@ export class SharedModule {
       faExternalLinkAlt,
       faMinus,
       faMapMarker,
-      faEnvelope
+      faEnvelope,
+      faBell,
+      faTachometerAlt,
+      faClinicMedical,
+      faCapsules,
+      faSwatchbook,
+      faExchangeAlt,
+      faChartLine
     );
   }
 }

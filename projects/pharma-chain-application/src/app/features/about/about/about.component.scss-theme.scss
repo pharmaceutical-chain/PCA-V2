@@ -7,16 +7,15 @@
   $background: map-get($theme, background);
 
   pca-about {
-    .background {
+    .sign-in {
       color: mat-color($foreground, text, 0.6);
-      background-color: mat-color($background, background);
 
       .gradient {
         &::before {
           background: linear-gradient(
             to bottom,
-            mat-color($background, background, 0) 0%,
-            mat-color($background, background, 1) 100%
+            mat-color($primary, 0) 0%,
+            mat-color($primary, 0.5) 100%
           );
         }
       }

@@ -11,14 +11,23 @@
 
 mat-card {
   margin: 0 0 20px 0;
+  text-align: center;
+  padding: 24px 16px 16px 16px;
+  cursor: pointer;
 
   mat-card-title {
     position: relative;
     font-size: 20px;
   }
+
   mat-card-subtitle {
     min-height: 60px;
     position: relative;
+
+    div {
+      display: flex;
+      justify-content: center;
+    }
 
     code {
       position: absolute;
@@ -31,21 +40,33 @@ mat-card {
 
   @media (max-width: map-get($grid-breakpoints, sm)) {
     mat-card-subtitle {
-      min-height: auto;
+      min-height: 60px;
     }
   }
 
-  a {
-    fa-icon {
-      position: relative;
-      bottom: 2px;
-      font-size: 16px;
-      margin: 6px;
-    }
+  fa-icon {
+    position: absolute;
+    display: flex;
+    margin: 6px;
+    font-size: 48px;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
   }
 
-  a[mat-icon-button] {
-    position: relative;
-    left: 5px;
+  ::ng-deep {
+    mat-card-subtitle {
+      div:not(.mat-badge-hidden) {
+        .mat-badge-content {
+          right: 48px !important;
+        }
+        .mat-badge-content.mat-badge-active {
+          width: 32px;
+          height: 32px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
   }
 }
