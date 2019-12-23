@@ -1,5 +1,5 @@
 export interface ICertificate {
   name: string;
-  link: string;
+  idfile: string;
   file: File;
 }

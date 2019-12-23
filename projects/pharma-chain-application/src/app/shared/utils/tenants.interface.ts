@@ -7,11 +7,12 @@ export interface ITenant_GET {
   phoneNumber?: string;
   taxCode: string;
   registrationCode: string;
-  goodPractices?: string;
+  certificates?: any;
+  links?: any;
+  type: string;
   
   transactionHash: string;
   contractAddress: string;
-  type: string;
   dateCreated: string;
   transactionStatus: string
 }

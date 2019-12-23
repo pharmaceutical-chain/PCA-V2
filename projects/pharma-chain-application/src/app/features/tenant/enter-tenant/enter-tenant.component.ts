@@ -1,7 +1,8 @@
+import { ICertificate } from './../../../shared/utils/certificates.interface';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TenantService } from './../tenant.service';
 import { PdfViewerComponent } from './../../../shared/pdf-viewer/pdf-viewer.component';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { PDFProgressData } from 'ng2-pdf-viewer';
@@ -34,8 +35,9 @@ export class EnterTenantComponent implements OnInit {
     primaryAddress: ['', [Validators.required]],
     branchAddress: this.fb.array([]),
     goodPractices: [''],
-    certificates: this.fb.array([])
+    certificatesArray: this.fb.array([])
   });
+  certificates: string;
 
   pdfSrc: Array<File> = [];
   pdfSrc$ = new BehaviorSubject<Array<File>>(this.pdfSrc);
@@ -51,6 +53,7 @@ export class EnterTenantComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private readonly notificationService: NotificationService,
+    private cdf: ChangeDetectorRef
   ) {
   }
 
@@ -94,7 +97,7 @@ export class EnterTenantComponent implements OnInit {
           }
         });
       } else {
-        this.tenantService.createTenant(this.form.value).subscribe(res => {
+        this.tenantService.createTenant({ ...this.form.value, certificates: this.certificates }).subscribe(res => {
           if (res) {
             this.notificationService.success('Enter tenant successfully!');
             setTimeout(() => {
@@ -108,8 +111,6 @@ export class EnterTenantComponent implements OnInit {
         });
       }
     }
-
-    console.log(this.form.value);
   }
 
   get branchAddressFormArray(): FormArray {
@@ -117,7 +118,7 @@ export class EnterTenantComponent implements OnInit {
   }
 
   get certificatesFormArray(): FormArray {
-    return this.form.get('certificates') as FormArray;
+    return this.form.get('certificatesArray') as FormArray;
   }
 
   get certificateNames(): string {
@@ -133,20 +134,23 @@ export class EnterTenantComponent implements OnInit {
   }
 
   openUploadDialog() {
-    const dialogRef = this.dialog.open(UploaderDialogComponent, { 
-      width: '50%', 
-      height: '50%',
+    const dialogRef = this.dialog.open(UploaderDialogComponent, {
+      width: '50%',
       data: this.certificatesFormArray.value
     });
-    dialogRef.afterClosed().subscribe();
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res['message'] === 'success') {
+        const certIds = res['data'].map((c: ICertificate) => c.idfile);
+        this.certificates = certIds.toString();
+        this.cdf.markForCheck();
+      }
+    });
   }
 
   addCertificate(certificateFile: File) {
-    // this.uploaderService.upload(certificateFile).subscribe();
-
-
     const certificate = this.fb.group({
-      link: ['', [Validators.required]],
+      idfile: [''],
       name: ['', [Validators.required]],
       file: [certificateFile, [Validators.required]]
     });

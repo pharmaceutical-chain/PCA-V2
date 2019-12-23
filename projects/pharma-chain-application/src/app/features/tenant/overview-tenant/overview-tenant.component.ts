@@ -8,6 +8,7 @@ import { PageEvent, MatPaginator, MatSort, MatTableDataSource, MatDialog } from 
 import { detailExpand } from '../../../core/animations/element.animations';
 import { ImageViewerComponent } from '../../../shared/image-viewer/image-viewer.component';
 import { Router } from '@angular/router';
+import { PdfViewerComponent } from '../../../shared/pdf-viewer/pdf-viewer.component';
 
 enum TYPE_TENANT {
   ALL = 0,
@@ -44,18 +45,6 @@ export class OverviewTenantComponent implements OnInit {
   currentFilter: TYPE_TENANT = TYPE_TENANT.ALL;
   currentSearching = '';
 
-  goodPractices = '(1) 685 / GCN-QLD (GSP); (2) 685 / GCN-QLD (GSP); ';
-  certificates = [
-    {
-      name: '685 / GCN-QLD (GSP)',
-      file: 'https://5.imimg.com/data5/WV/RS/MY-42249117/gmp-good-manufacturing-practice-certification-consultancy-service-500x500.jpg'
-    },
-    {
-      name: '685 / GCN-QLD (GSP)',
-      file: 'https://5.imimg.com/data5/WV/RS/MY-42249117/gmp-good-manufacturing-practice-certification-consultancy-service-500x500.jpg'
-    }
-  ]
-
   branchAddress = ['Kho K4 số 118 đường Nguyễn Văn Trỗi', 'Kho K4 số 118 đường Nguyễn Văn Trỗi'];
 
   constructor(private fb: FormBuilder,
@@ -70,6 +59,12 @@ export class OverviewTenantComponent implements OnInit {
     this.data = await this.tenantService.getTenants().toPromise();
     this.data.map(tenant => {
       tenant.dateCreated = (new Date(tenant.dateCreated)).toLocaleDateString();
+      
+      if (tenant.certificates) {
+        const idlinks = tenant.certificates.split(',');
+        tenant.links = idlinks.map(id => `https://lamle.blob.core.windows.net/tenant-certificates/${id}`);
+        tenant.certificates = idlinks.map(id => id.split('-')[0]);
+      }
     });
 
     // Initiate value
@@ -139,12 +134,12 @@ export class OverviewTenantComponent implements OnInit {
   }
 
   onClickContracAddress(address: string) {
-    const url = `https://ropsten.etherscan.io/address/${address}#code`;
+    const url = `https://ropsten.etherscan.io/address/${address}#readContract`;
     window.open(url, '_blank');
   }
 
   viewDetailCertificate(src: string) {
-    const dialogRef = this.dialog.open(ImageViewerComponent, {
+    const dialogRef = this.dialog.open(PdfViewerComponent, {
       data: src
     });
 

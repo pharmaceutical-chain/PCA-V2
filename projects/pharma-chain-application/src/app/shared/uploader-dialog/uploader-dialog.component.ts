@@ -15,7 +15,7 @@ export class UploaderDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public certificates: Set<ICertificate>,
     public dialogRef: MatDialogRef<UploaderDialogComponent>,
-    private uploaderService: UploaderService) {}
+    private uploaderService: UploaderService) { }
 
   progress;
   canBeClosed = true;
@@ -24,8 +24,7 @@ export class UploaderDialogComponent implements OnInit {
   uploading = false;
   uploadSuccessful = false;
 
-  ngOnInit() { 
-    console.log(this.certificates)
+  ngOnInit() {
   }
 
   closeDialog() {
@@ -39,11 +38,16 @@ export class UploaderDialogComponent implements OnInit {
 
     // start the upload and save the progress map
     this.progress = this.uploaderService.upload(this.certificates);
-    console.log(this.progress);
     for (const key in this.progress) {
       if (this.progress.hasOwnProperty(key)) {
         this.progress[key].progress.subscribe(val => console.log(key + ': ' + val));
-        this.progress[key].link.subscribe(val => console.log(key + ': ' + val));
+        this.progress[key].idfile.subscribe(val => {
+          this.certificates.forEach((c) => {
+            if (c.name === key) {
+              c.idfile = val;
+            }
+          });
+        });
       }
     }
 
@@ -78,6 +82,11 @@ export class UploaderDialogComponent implements OnInit {
 
       // ... and the component is no longer uploading
       this.uploading = false;
+
+      // propagate value to its dialog caller component
+      setTimeout(() => {
+        this.dialogRef.close({ message: 'success', data: this.certificates });
+      });
     });
   }
 }

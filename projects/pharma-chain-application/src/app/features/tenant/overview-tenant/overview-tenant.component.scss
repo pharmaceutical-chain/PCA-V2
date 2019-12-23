@@ -126,4 +126,19 @@
       }
     }
   }
+
+  pdf-viewer {
+    display: block;
+
+    ::ng-deep {
+
+      .page,
+      .canvasWrapper,
+      canvas,
+      .textLayer {
+        width: 100% !important;
+        height: 100% !important;
+      }
+    }
+  }
 }

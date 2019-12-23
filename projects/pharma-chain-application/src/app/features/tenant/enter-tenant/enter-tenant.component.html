@@ -116,7 +116,7 @@
           </div>
 
           <!-- Pdfviewer -->
-          <div class="row pdfViewer-container" formArrayName="certificates">
+          <div class="row pdfViewer-container" formArrayName="certificatesArray">
             <div *ngFor="let pdfSrc of (pdfSrc$ | async); let i=index" class="pdfViewer-item" [formGroupName]="i"
               [ngClass]="routeAnimationsElements">
               <mat-form-field *ngIf="currentPageRendered[i]" class="col">
@@ -141,8 +141,12 @@
               [routerLink]="['/dashboard']">
               {{ 'pca.features.tenant.form.cancel' | translate }}
             </button>
-            <button class="w-100" mat-raised-button color="primary" [ngClass]="routeAnimationsElements"
-              (click)="submit()">
+            <button *ngIf="pdfSrc.length != 0 && certificatesFormArray.valid && certificates == null" class="w-100"
+              mat-raised-button color="primary" [ngClass]="routeAnimationsElements" (click)="openUploadDialog()">
+              {{ 'pca.features.tenant.form.upload' | translate }}
+            </button>
+            <button [disabled]="form.invalid || (pdfSrc.length != 0 && certificatesFormArray.valid && certificates == null)" class="w-100" mat-raised-button color="primary"
+              [ngClass]="routeAnimationsElements" (click)="submit()">
               {{ 'pca.features.tenant.form.submit' | translate }}
             </button>
           </div>
@@ -151,5 +155,3 @@
     </div>
   </form>
 </div>
-
-<button mat-raised-button (click)="openUploadDialog()">Upload</button>

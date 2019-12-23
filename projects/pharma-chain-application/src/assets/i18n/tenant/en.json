@@ -16,6 +16,7 @@
   "pca.features.tenant.form.certificateId": "Certificate name",
   "pca.features.tenant.form.cancel": "Cancel",
   "pca.features.tenant.form.submit": "Submit",
+  "pca.features.tenant.form.upload": "Upload First",
   "pca.features.tenant.form.error.required": "is required",
   "pca.features.tenant.form.error.invalidEmail": "invalid email"
 }

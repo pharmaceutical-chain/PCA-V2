@@ -126,7 +126,7 @@ export class OverviewBatchComponent implements OnInit {
   }
 
   onClickContracAddress(address: string) {
-    const url = `https://ropsten.etherscan.io/address/${address}#code`;
+    const url = `https://ropsten.etherscan.io/address/${address}#readContract`;
     window.open(url, '_blank');
   }
 

@@ -20,7 +20,7 @@ export class UploaderService {
     const url = SERVER_URL + API + UPLOAD_TENANT_CERT;
 
     // this will be the our resulting map
-    const status: { [key: string]: { progress: Observable<number>, link?: Observable<string> } } = {};
+    const status: { [key: string]: { progress: Observable<number>, idfile?: Observable<string> } } = {};
 
     certificates.forEach(certificate => {
       // create a new multipart-form for every file
@@ -36,12 +36,11 @@ export class UploaderService {
       // create a new progress-subject for every file
       const progress = new Subject<number>();
 
-      // link of uploaded file
-      const link = new Subject<string>();
+      // idfile of uploaded file
+      const idfile = new Subject<string>();
 
       // send the http-request and subscribe for progress-updates
       this.http.request(req).subscribe(event => {
-        console.log(event);
         if (event.type === HttpEventType.UploadProgress) {
           // calculate the progress percentage
 
@@ -52,15 +51,17 @@ export class UploaderService {
           // Close the progress-stream if we get an answer form the API
           // The upload is complete
           progress.complete();
-          link.next(event.headers.get('location'));
-          link.complete();
+          
+          const locationToArray = event.headers.get('location').split('/');
+          idfile.next(locationToArray[locationToArray.length - 1]);
+          idfile.complete();
         }
       });
 
       // Save every progress-observable in a map of all observables
       status[certificate.name] = {
         progress: progress.asObservable(),
-        link: link.asObservable()
+        idfile: idfile.asObservable()
       };
     });
 
