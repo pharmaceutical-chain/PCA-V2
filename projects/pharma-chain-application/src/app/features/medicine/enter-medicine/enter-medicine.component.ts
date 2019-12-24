@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Validators, FormBuilder, FormArray } from '@angular/forms';
@@ -10,6 +10,8 @@ import { MedicineService } from '../medicine.service';
 import { AuthService } from '../../../core/auth/auth.service';
 import { Router } from '@angular/router';
 import { IMedicine_CREATE } from '../../../shared/utils/medicines.interface';
+import { UploaderDialogComponent } from '../../../shared/uploader-dialog/uploader-dialog.component';
+import { ICertificate } from '../../../shared/utils/certificates.interface';
 
 @Component({
   selector: 'pca-enter-medicine',
@@ -26,7 +28,6 @@ export class EnterMedicineComponent implements OnInit {
 
 
   form = this.fb.group({
-    manufacturerId: [''],
     registrationCode: ['', [Validators.required]],
     commercialName: ['', [Validators.required]],
     isPrescriptionMedicine: [true],
@@ -35,8 +36,9 @@ export class EnterMedicineComponent implements OnInit {
     packingSpecification: ['', [Validators.required]],
     declaredPrice: ['', [Validators.required]],
     censorshipCertificateNames: [''],
-    certificates: this.fb.array([])
+    certificatesArray: this.fb.array([])
   });
+  certificates: string;
 
   pdfSrc: Array<any> = [];
   pdfSrc$ = new BehaviorSubject<any>(this.pdfSrc);
@@ -53,6 +55,7 @@ export class EnterMedicineComponent implements OnInit {
     private authService: AuthService,
     private readonly notificationService: NotificationService,
     private router: Router,
+    private cdf: ChangeDetectorRef
   ) {
   }
 
@@ -73,8 +76,8 @@ export class EnterMedicineComponent implements OnInit {
 
   async submit() {
     if (this.form.valid) {
-      const tenantId = this.form.get('manufacturerId').value !== '' ? this.form.get('manufacturerId').value : (await this.authService.getUser$().toPromise()).sub.slice(6);
-      const medicine: IMedicine_CREATE = { ...this.form.value, currentlyLoggedInTenant: tenantId };
+      const tenantId = (await this.authService.getUser$().toPromise()).sub.slice(6);
+      const medicine: IMedicine_CREATE = { ...this.form.value, currentlyLoggedInTenant: tenantId, certificates: this.certificates };
       this.medicineService.createMedicine(medicine).subscribe(res => {
         if (res) {
           this.notificationService.success('Enter medicine successfully!');
@@ -95,7 +98,7 @@ export class EnterMedicineComponent implements OnInit {
   }
 
   get certificatesFormArray(): FormArray {
-    return this.form.get('certificates') as FormArray;
+    return this.form.get('certificatesArray') as FormArray;
   }
 
   get certificateNames(): string {
@@ -106,16 +109,29 @@ export class EnterMedicineComponent implements OnInit {
         name += `(${i + 1}) ${certificateNameAt}; `;
       }
     }
-
     return name;
+  }
+
+  openUploadDialog() {
+    const dialogRef = this.dialog.open(UploaderDialogComponent, {
+      width: '50%',
+      data: this.certificatesFormArray.value
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res['message'] === 'success') {
+        const certIds = res['data'].map((c: ICertificate) => c.idfile);
+        this.certificates = certIds.toString();
+        this.cdf.markForCheck();
+      }
+    });
   }
 
   addCertificate(certificateFile: File) {
     const certificate = this.fb.group({
+      idfile: [''],
       name: ['', [Validators.required]],
       file: [certificateFile, [Validators.required]]
     });
-
     this.certificatesFormArray.push(certificate);
   }
 
@@ -129,7 +145,6 @@ export class EnterMedicineComponent implements OnInit {
     const dialogRef = this.dialog.open(PdfViewerComponent, {
       data: this.pdfSrc[index]
     });
-
     dialogRef.afterClosed().subscribe();
   }
 

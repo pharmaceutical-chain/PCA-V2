@@ -25,7 +25,7 @@ export class UploaderService {
     certificates.forEach(certificate => {
       // create a new multipart-form for every file
       const formData: FormData = new FormData();
-      formData.append('myFile', certificate.file, certificate.name);
+      formData.append('myFile', certificate.file, certificate.name + '.pdf');
 
       // create a http-post request and pass the form
       // tell it to report the upload progress

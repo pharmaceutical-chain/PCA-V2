@@ -1,4 +1,4 @@
-<div class="container col-md-8 overview-tenant">
+<div class="container col-11 overview-tenant">
   <!-- Header -->
   <div class="row">
     <div class="col">
@@ -15,17 +15,17 @@
       </button>
       <button mat-stroked-button [color]="currentFilter == 1 ? 'primary' : null" class="col"
         (click)="currentFilter = 1; applyFilter(currentSearching + ' Manufacturer')">
-        <span matBadge="{{data?.length}}" matBadgeOverlap="false"
+        <span matBadge="{{numManufacturer}}" matBadgeOverlap="false"
           [ngClass]="{'active': currentFilter == 1}">Manufacturers</span>
       </button>
       <button mat-stroked-button [color]="currentFilter == 2 ? 'primary' : null" class="col"
         (click)="currentFilter = 2; applyFilter(currentSearching + ' Distributor')">
-        <span matBadge="{{data?.length}}" matBadgeOverlap="false"
+        <span matBadge="{{numDistributor}}" matBadgeOverlap="false"
           [ngClass]="{'active': currentFilter == 2}">Distributors</span>
       </button>
       <button mat-stroked-button [color]="currentFilter == 3 ? 'primary' : null" class="col"
         (click)="currentFilter = 3; applyFilter(currentSearching + ' Retailer')">
-        <span matBadge="{{data?.length}}" matBadgeOverlap="false"
+        <span matBadge="{{numRetailer}}" matBadgeOverlap="false"
           [ngClass]="{'active': currentFilter == 3}">Retailers</span>
       </button>
     </div>
@@ -93,10 +93,10 @@
               <div class="col-9">{{element.primaryAddress}}</div>
             </div>
             <!-- Branch address -->
-            <div class="row row-data">
+            <div class="row row-data" *ngIf="element?.branchAddresses">
               <div class="col-3 data-label">Branch address</div>
               <div class="col-9">
-                <span *ngFor="let branch of branchAddress; let i=index">({{i+1}}) {{branch}}; </span>
+                <span *ngFor="let branch of element.branchAddresses; let i=index">({{i+1}}) {{branch}}; </span>
               </div>
             </div>
 

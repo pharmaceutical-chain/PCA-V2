@@ -60,7 +60,6 @@ export class EnterTenantComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(async res => {
       this.tenantId = res['tenantId'];
-
       if (this.tenantId) {
         this.tenant = await this.tenantService.getTenants(this.tenantId).toPromise();
         if (this.tenant) {
@@ -72,8 +71,11 @@ export class EnterTenantComponent implements OnInit {
             type: this.tenant['type'],
             phoneNumber: this.tenant['phoneNumber'],
             primaryAddress: this.tenant['primaryAddress'],
-            goodPractices: this.tenant['goodPractices'],
+            goodPractices: this.tenant['certificates'].split(',').map(c => c.split('-')[0]),
           });
+          this.certificates = this.tenant['certificates'];
+          this.pdfSrc = this.tenant['certificates'].split(',').map(c => `https://lamle.blob.core.windows.net/tenant-certificates/${c}`)
+          this.pdfSrc$.next(this.pdfSrc);
         }
       }
     });
@@ -84,17 +86,15 @@ export class EnterTenantComponent implements OnInit {
   submit() {
     if (this.form.valid) {
       if (this.tenantId) {
-        this.tenantService.updateTenant(this.tenantId, this.form.value).subscribe(res => {
-          if (res) {
-            this.notificationService.success('Update tenant successfully!');
-            setTimeout(() => {
-              this.router.navigate(['/tenant/overview-tenant']).then(() => {
-                setTimeout(() => {
-                  this.notificationService.info('We are mining into blockchain...');
-                }, 1000);
-              });
-            }, 1000);
-          }
+        this.tenantService.updateTenant(this.tenantId, { ...this.form.value, certificatess: this.certificates }).subscribe(res => {
+          this.notificationService.success('Update tenant successfully!');
+          setTimeout(() => {
+            this.router.navigate(['/tenant/overview-tenant']).then(() => {
+              setTimeout(() => {
+                this.notificationService.info('We are mining into blockchain...');
+              }, 1000);
+            });
+          }, 1000);
         });
       } else {
         this.tenantService.createTenant({ ...this.form.value, certificates: this.certificates }).subscribe(res => {
@@ -129,7 +129,6 @@ export class EnterTenantComponent implements OnInit {
         name += `(${i + 1}) ${certificateNameAt}; `;
       }
     }
-
     return name;
   }
 
@@ -138,7 +137,6 @@ export class EnterTenantComponent implements OnInit {
       width: '50%',
       data: this.certificatesFormArray.value
     });
-
     dialogRef.afterClosed().subscribe(res => {
       if (res && res['message'] === 'success') {
         const certIds = res['data'].map((c: ICertificate) => c.idfile);
@@ -154,7 +152,6 @@ export class EnterTenantComponent implements OnInit {
       name: ['', [Validators.required]],
       file: [certificateFile, [Validators.required]]
     });
-
     this.certificatesFormArray.push(certificate);
   }
 
@@ -168,7 +165,6 @@ export class EnterTenantComponent implements OnInit {
     const dialogRef = this.dialog.open(PdfViewerComponent, {
       data: this.pdfSrc[index]
     });
-
     dialogRef.afterClosed().subscribe();
   }
 

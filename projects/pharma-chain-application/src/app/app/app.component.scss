@@ -36,7 +36,7 @@ mat-sidenav-container {
 
       img {
         position: relative;
-        height: 52px;
+        height: 70px;
       }
     }
 
@@ -208,6 +208,14 @@ mat-sidenav-container {
 
       .user-info {
         padding: 16px;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .branding {
+      img {
+        height: 60px !important;
       }
     }
   }

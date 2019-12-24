@@ -15,5 +15,6 @@
   "pca.features.batch.form.certificateId": "Certificate Id",
   "pca.features.batch.form.cancel": "Cancel",
   "pca.features.batch.form.submit": "Submit",
+  "pca.features.batch.form.upload": "Upload First",
   "pca.features.batch.form.error.required": "is required"
 }

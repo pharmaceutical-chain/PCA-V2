@@ -2,7 +2,6 @@
   "pca.features.medicine.enter": "Enter medicine",
   "pca.features.medicine.overview": "Overview medicines",
   "pca.features.batch.form.formName": "Medicine form",
-  "pca.features.batch.form.manufacturerId": "Manufacturer id",
   "pca.features.batch.form.registrationCode": "Registration code",
   "pca.features.batch.form.commercialName": "Commercial name",
   "pca.features.batch.form.isPrescriptionMedicine": "Prescription medicine",

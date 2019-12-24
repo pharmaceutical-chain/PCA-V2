@@ -28,7 +28,6 @@ export class EnterBatchComponent implements OnInit {
   unitOptions: Array<string>;
 
   form = this.fb.group({
-    manufacturerId: [''],
     batchNumber: ['', [Validators.required]],
     medicineId: ['', [Validators.required]],
     quantity: ['', [Validators.required]],
@@ -93,7 +92,7 @@ export class EnterBatchComponent implements OnInit {
       this.form.get('manufacturingDate').setValue((this.form.get('manufacturingDate').value as Date).toLocaleDateString(), { emitModelToViewChange: false });
       this.form.get('expiryDate').setValue((this.form.get('expiryDate').value as Date).toLocaleDateString(), { emitModelToViewChange: false });
 
-      const manufacturerId = this.form.get('manufacturerId').value !== '' ? this.form.get('manufacturerId').value : (await this.authService.getUser$().toPromise()).sub.slice(6);
+      const manufacturerId = (await this.authService.getUser$().toPromise()).sub.slice(6);
       const batch: IBatch_CREATE = {
         ...this.form.value,
         manufacturerId: manufacturerId

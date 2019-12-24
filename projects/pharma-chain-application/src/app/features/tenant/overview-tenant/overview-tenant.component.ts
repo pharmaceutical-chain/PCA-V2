@@ -45,7 +45,9 @@ export class OverviewTenantComponent implements OnInit {
   currentFilter: TYPE_TENANT = TYPE_TENANT.ALL;
   currentSearching = '';
 
-  branchAddress = ['Kho K4 số 118 đường Nguyễn Văn Trỗi', 'Kho K4 số 118 đường Nguyễn Văn Trỗi'];
+  numManufacturer = 0;
+  numDistributor = 0;
+  numRetailer = 0;
 
   constructor(private fb: FormBuilder,
     private tenantService: TenantService,
@@ -59,14 +61,13 @@ export class OverviewTenantComponent implements OnInit {
     this.data = await this.tenantService.getTenants().toPromise();
     this.data.map(tenant => {
       tenant.dateCreated = (new Date(tenant.dateCreated)).toLocaleDateString();
-      
       if (tenant.certificates) {
         const idlinks = tenant.certificates.split(',');
         tenant.links = idlinks.map(id => `https://lamle.blob.core.windows.net/tenant-certificates/${id}`);
         tenant.certificates = idlinks.map(id => id.split('-')[0]);
       }
     });
-
+    this.updateFilterCounter();
     // Initiate value
     this.initiateMatTableDataSource();
   }
@@ -161,6 +162,7 @@ export class OverviewTenantComponent implements OnInit {
 
           // Reinitiate
           this.initiateMatTableDataSource();
+          this.updateFilterCounter();
           this.cdf.detectChanges();
         });
       }
@@ -200,4 +202,9 @@ export class OverviewTenantComponent implements OnInit {
     this.dataSource.filter = currentFilter;
   }
 
+  updateFilterCounter() {
+    this.numManufacturer = this.data.filter(t => t.type === 'Manufacturer').length;
+    this.numDistributor = this.data.filter(t => t.type === 'Distributor').length;
+    this.numRetailer = this.data.filter(t => t.type === 'Retailer').length;
+  }
 }
