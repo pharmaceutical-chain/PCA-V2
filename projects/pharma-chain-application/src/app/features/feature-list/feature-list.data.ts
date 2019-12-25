@@ -33,7 +33,7 @@ export const features: Feature[] = [
     label: 'pca.menu.medicine.enter',
     icon: 'capsules',
     link: '/medicine/enter-medicine',
-    roles: ['admin', 'manufacturer'],
+    roles: ['manufacturer'],
     color: 'green'
   },
   {
@@ -47,7 +47,7 @@ export const features: Feature[] = [
     label: 'pca.menu.batch.enter',
     icon: 'swatchbook',
     link: '/batch/enter-batch',
-    roles: ['admin', 'manufacturer'],
+    roles: ['manufacturer'],
     color: 'green'
   },
   {
@@ -61,21 +61,21 @@ export const features: Feature[] = [
     label: 'pca.menu.transfer.enter',
     icon: 'exchange-alt',
     link: '/transfer/enter-transfer',
-    roles: ['admin', 'manufacturer', 'distributor'],
+    roles: ['manufacturer', 'distributor'],
     color: 'green'
   },
   {
     label: 'pca.menu.report',
     icon: 'chart-line',
     link: '/examples/stock-market',
-    roles: ['admin', 'manufacturer', 'distributor'],
+    roles: ['admin', 'manufacturer', 'distributor', 'retailer'],
     color: 'purple'
   },
   {
-    label: 'pca.menu.request',
+    label: 'pca.menu.notification',
     icon: 'bell',
-    link: '/examples/todos',
-    roles: ['admin'],
+    link: '',
+    roles: ['admin', 'manufacturer', 'distributor', 'retailer'], // admin approve for create new medicine, new batch request | all others approve for the transfer request
     color: 'mediumpurple'
   }
 ]
