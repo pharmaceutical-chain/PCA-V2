@@ -51,7 +51,7 @@ export class OverviewTransferComponent implements OnInit {
     const tenantId = (await this.authService.getUser$().toPromise()).sub.slice(6);
 
     this.allTransfers = await this.transferService.getTransfers().toPromise();
-    this.data = this.isAdmin ? this.allTransfers : this.allTransfers.filter(t => t.to === tenantId);
+    this.data = this.isAdmin ? this.allTransfers : this.allTransfers.filter(t => t.toId === tenantId);
 
     // Initiate value for matTableDataSource
     this.initiateMatTableDataSource();
@@ -60,9 +60,9 @@ export class OverviewTransferComponent implements OnInit {
       this.currentFilter.subscribe(value => {
         if (value !== this.currentFilter.value) {
           if (value === 0) {
-            this.data = this.isAdmin ? this.allTransfers : this.allTransfers.filter(t => t.to === tenantId);
+            this.data = this.isAdmin ? this.allTransfers : this.allTransfers.filter(t => t.toId === tenantId);
           } else if (value === 1) {
-            this.data = this.isAdmin ? this.allTransfers : this.allTransfers.filter(t => t.from === tenantId);
+            this.data = this.isAdmin ? this.allTransfers : this.allTransfers.filter(t => t.fromId === tenantId);
           }
 
           // Reinitiate

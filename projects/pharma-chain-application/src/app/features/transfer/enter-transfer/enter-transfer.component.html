@@ -8,30 +8,6 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <mat-card>
-          <!-- From -->
-          <!-- The id of the manufacturer who the admin is currently representative -->
-          <div class="row">
-            <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.transfer.form.fromTenantId' | translate }}"
-                formControlName="fromTenantId" [matAutocomplete]="autoFrom">
-              <mat-autocomplete #autoFrom="matAutocomplete" [displayWith]="displayTenantFn">
-                <mat-option *ngFor="let option of tenantFromFilteredOptions | async" [value]="option">
-                  {{option.name}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-          <div *ngIf="form.get('fromTenantId').value['registrationCode']" class="sub-info">
-            <div class="row">
-              <div class="col-3">{{ 'pca.features.transfer.form.sub.registrationCode' | translate }}</div>
-              <div class="col-9">{{form.get('fromTenantId').value['registrationCode']}}</div>
-            </div>
-            <div class="row">
-              <div class="col-3">{{ 'pca.features.transfer.form.sub.primaryAddress' | translate }}</div>
-              <div class="col-9">{{form.get('fromTenantId').value['primaryAddress']}}</div>
-            </div>
-          </div>
-
           <!-- To -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">

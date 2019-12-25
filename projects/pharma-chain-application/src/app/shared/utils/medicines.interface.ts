@@ -35,4 +35,5 @@ export interface IMedicine_SEARCH {
   registrationCode: string;
   commercialName: string;
   ingredientConcentration: string;
+  packingSpecification: string;
 }

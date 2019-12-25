@@ -28,8 +28,8 @@ export class EnterTransferComponent implements OnInit {
   allTransfers: Array<ITransfer_SEARCH> = [];
 
   tenantOptions: Array<ITenant_SEARCH> = [];
-  tenantFromFilteredOptions: Observable<Array<ITenant_SEARCH>>;
   tenantToFilteredOptions: Observable<Array<ITenant_SEARCH>>;
+  tenantFromId = '';
 
   medicineOptions: Array<IMedicine_SEARCH> = [];
   medicineFilteredOptions: Observable<Array<IMedicine_SEARCH>>;
@@ -41,7 +41,6 @@ export class EnterTransferComponent implements OnInit {
   form = this.fb.group({
     medicineId: ['', [Validators.required]],
     medicineBatchId: ['', [Validators.required]],
-    fromTenantId: ['', [Validators.required]],
     toTenantId: ['', [Validators.required]],
     quantity: [1, [Validators.required]]
   });
@@ -62,14 +61,6 @@ export class EnterTransferComponent implements OnInit {
     this.batchService.getBatchesForSearch().subscribe(res => this.allBatches = res);
     this.transferService.getTransfersForSearch().subscribe(res => this.allTransfers = res);
     this.tenantOptions = await this.tenantService.getTenantForSearch().toPromise();
-
-    //////////// Auto complete for FROM TENANT - ONLY ADMIN
-    this.tenantFromFilteredOptions = this.form.get('fromTenantId').valueChanges
-      .pipe(
-        startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(value => value ? this._filterTenant(value) : this.tenantOptions.slice()),
-      );
 
     //////////// Auto complete for TO TENANT
     this.tenantToFilteredOptions = this.form.get('toTenantId').valueChanges
@@ -142,11 +133,10 @@ export class EnterTransferComponent implements OnInit {
 
   async submit() {
     if (this.form.valid) {
-      this.form.get('fromTenantId').setValue(this.form.get('fromTenantId').value !== '' ? this.form.get('fromTenantId').value.id : (await this.authService.getUser$().toPromise()).sub.slice(6), { emitModelToViewChange: false });
       this.form.get('toTenantId').setValue(this.form.get('toTenantId').value.id, { emitModelToViewChange: false });
       this.form.get('medicineBatchId').setValue(this.form.get('medicineBatchId').value.batchId, { emitModelToViewChange: false });
 
-      this.transferService.createTransfer(this.form.value).subscribe(res => {
+      this.transferService.createTransfer({ ...this.form.value, fromTenantId: this.tenantFromId }).subscribe(res => {
         if (res) {
           this.notificationService.success('Enter transfer successfully!');
           setTimeout(() => {
@@ -162,13 +152,11 @@ export class EnterTransferComponent implements OnInit {
   }
 
   async onFocusMedicine() {
-    const tenantId = this.form.get('fromTenantId').value !== '' ? this.form.get('fromTenantId').value['id'] : (await this.authService.getUser$().toPromise()).sub.slice(6);
-    const batchesCreated = this.allBatches.filter(b => b.manufacturerId === tenantId);
-    const batchesReceived = this.allTransfers.filter(t => t.to === tenantId);
+    this.tenantFromId = (await this.authService.getUser$().toPromise()).sub.slice(6);
+    const batchesCreated = this.allBatches.filter(b => b.manufacturerId === this.tenantFromId);
+    const batchesReceived = this.allTransfers.filter(t => t.to === this.tenantFromId);
     const batchesAvaiable = [...batchesCreated, ...batchesReceived];
     const medicinesAvaible = batchesAvaiable.map(m => ({ id: m.medicineId, registrationCode: m.medicineCode, commercialName: m.commercialName, ingredientConcentration: m.ingredientConcentration } as IMedicine_SEARCH));
-
-
 
     this.medicineOptions = medicinesAvaible.map(ar => JSON.stringify(ar))
       .filter((itm, idx, arr) => arr.indexOf(itm) === idx)

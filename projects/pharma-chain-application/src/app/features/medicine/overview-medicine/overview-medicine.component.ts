@@ -139,5 +139,8 @@ export class OverviewMedicineComponent implements OnInit {
 
   onClickDelete(medicineId: string) {
   }
+
+  onClickUpdate(medicineId: string) {
+  }
 }
 

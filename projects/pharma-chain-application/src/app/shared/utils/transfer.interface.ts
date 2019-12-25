@@ -2,7 +2,9 @@
 export interface ITransfer_GET {
   id: string;
   from: string;
+  fromId: string;
   to: string;
+  toId: string;
   medicine: string;
   batchNumber: string;
   quantity: number;

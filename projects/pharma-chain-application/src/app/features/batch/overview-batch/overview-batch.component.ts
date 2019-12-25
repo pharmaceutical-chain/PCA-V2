@@ -141,4 +141,8 @@ export class OverviewBatchComponent implements OnInit {
   onClickDelete(batchId: string) {
 
   }
+
+  onClickUpdate(batchId: string) {
+
+  }
 }

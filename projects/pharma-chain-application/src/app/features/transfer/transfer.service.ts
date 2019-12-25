@@ -30,7 +30,9 @@ export class TransferService {
           const converted: ITransfer_GET = {
             id: base['id'],
             from: base['from']['name'],
+            fromId: base['from']['id'],
             to: base['to']['name'],
+            toId: base['to']['id'],
             medicine: base['medicineBatch']['medicine']['commercialName'],
             batchNumber: base['medicineBatch']['batchNumber'],
             quantity: base['quantity'],

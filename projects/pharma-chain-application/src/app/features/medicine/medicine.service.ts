@@ -74,6 +74,7 @@ export class MedicineService {
             registrationCode: base['registrationCode'],
             commercialName: base['commercialName'],
             ingredientConcentration: base['ingredientConcentration'],
+            packingSpecification: base['packingSpecification'],
           };
 
           convertedArray.push(converted);

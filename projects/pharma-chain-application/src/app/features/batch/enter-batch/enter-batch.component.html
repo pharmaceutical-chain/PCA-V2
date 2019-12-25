@@ -98,7 +98,7 @@
               <span class="option-input">({{ 'pca.features.batch.form.option' | translate }})</span>
               <input #file (change)="onFileSelected()" type="file" id="file" accept="application/pdf"
                 multiple="multiple" style="display:none">
-              <button (click)="file.click()" type="button" mat-flat-button color="accent" class="import-button">
+              <button (click)="file.click()" type="button" mat-stroked-button color="accent" class="import-button">
                 {{ 'pca.features.batch.form.import' | translate }}
               </button>
             </mat-form-field>
