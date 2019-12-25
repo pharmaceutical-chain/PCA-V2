@@ -35,7 +35,7 @@
       border: 2px solid black;
       padding: 8px;
       font-weight: lighter;
-      margin: 8px 0;
+      margin: 8px 0px 24px 16px;
       width: min-content;
       position: relative;
     }
@@ -47,7 +47,9 @@
     }
 
     .example-element-description {
-      padding: 16px;
+      padding: 16px 16px 24px 4%;
+      flex: 0 0 80%;
+      max-width: 80%;
     }
 
     .example-element-description-attribution {
@@ -88,6 +90,7 @@
     .data-label {
       margin-bottom: 8px;
       hyphens: auto;
+      max-width: 150px;
     }
 
     .txh-link {

@@ -24,14 +24,8 @@ export class TenantService {
   }
 
   deleteTenant(tenantId: string) {
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json-patch+json'
-      }),
-      body: '"' + tenantId + '"'
-    }
-    const url = SERVER_URL + API + TENANT;
-    return this._http.delete(url, options);
+    const url = `${SERVER_URL}${API}${TENANT}/${tenantId}`;
+    return this._http.delete(url);
   }
 
   updateTenant(tenantId, tenant: ITenant_CREATE) {
