@@ -34,10 +34,13 @@ export class EnterTenantComponent implements OnInit {
     phoneNumber: [''],
     primaryAddress: ['', [Validators.required]],
     branchAddress: this.fb.array([]),
-    goodPractices: [''],
+    goodPractices: [{ value: '', disabled: true }],
     certificatesArray: this.fb.array([])
   });
-  certificates: string;
+  certificates = '';
+  needUpload: boolean;
+  canUpdate = true;
+  initialFormValue: object;
 
   pdfSrc: Array<File> = [];
   pdfSrc$ = new BehaviorSubject<Array<File>>(this.pdfSrc);
@@ -63,6 +66,7 @@ export class EnterTenantComponent implements OnInit {
       if (this.tenantId) {
         this.tenant = await this.tenantService.getTenants(this.tenantId).toPromise();
         if (this.tenant) {
+          const certArr: Array<string> = this.tenant['certificates'] ? this.tenant['certificates'].split(',').map(c => c.split('-')[0]) : [];
           this.form.patchValue({
             name: this.tenant['name'],
             email: this.tenant['email'],
@@ -71,22 +75,39 @@ export class EnterTenantComponent implements OnInit {
             type: this.tenant['type'],
             phoneNumber: this.tenant['phoneNumber'],
             primaryAddress: this.tenant['primaryAddress'],
-            goodPractices: this.tenant['certificates'].split(',').map(c => c.split('-')[0]),
+            goodPractices: certArr.toString(),
           });
           this.certificates = this.tenant['certificates'];
-          this.pdfSrc = this.tenant['certificates'].split(',').map(c => `https://lamle.blob.core.windows.net/tenant-certificates/${c}`)
+          certArr.forEach(cert => {
+            this.addCertificate({ name: cert });
+            this.pdfSrc = this.tenant['certificates'].split(',').map(c => `https://lamle.blob.core.windows.net/tenant-certificates/${c}`)
+          });
           this.pdfSrc$.next(this.pdfSrc);
+          this.initialFormValue = this.form.value;
+          this.canUpdate = false;
+          this.form.valueChanges.subscribe(value => {
+            if (JSON.stringify(value) !== JSON.stringify(this.initialFormValue)) {
+              this.canUpdate = true;
+            } else {
+              this.canUpdate = false;
+            }
+          });
         }
       }
     });
 
-    this.certificatesFormArray.valueChanges.subscribe(() => this.form.get('goodPractices').setValue(this.certificateNames));
+    this.certificatesFormArray.valueChanges.subscribe(value => {
+      this.form.get('goodPractices').setValue(this.certificateNames);
+      if (value.length === 0) {
+        this.needUpload = false;
+      }
+    });
   }
 
   submit() {
     if (this.form.valid) {
       if (this.tenantId) {
-        this.tenantService.updateTenant(this.tenantId, { ...this.form.value, certificatess: this.certificates }).subscribe(res => {
+        this.tenantService.updateTenant(this.tenantId, { ...this.form.value, certificates: this.certificates ? this.certificates : '' }).subscribe(res => {
           this.notificationService.success('Update tenant successfully!');
           setTimeout(() => {
             this.router.navigate(['/tenant/overview-tenant']).then(() => {
@@ -135,23 +156,27 @@ export class EnterTenantComponent implements OnInit {
   openUploadDialog() {
     const dialogRef = this.dialog.open(UploaderDialogComponent, {
       width: '50%',
-      data: this.certificatesFormArray.value
+      data: this.certificatesFormArray.value.filter(c => c['idfile'] === '')
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res && res['message'] === 'success') {
         const certIds = res['data'].map((c: ICertificate) => c.idfile);
-        this.certificates = certIds.toString();
+        this.certificates += certIds.toString();
+        this.needUpload = false;
         this.cdf.markForCheck();
       }
     });
   }
 
-  addCertificate(certificateFile: File) {
+  addCertificate(cert: { name?: string, file?: File }) {
     const certificate = this.fb.group({
-      idfile: [''],
-      name: ['', [Validators.required]],
-      file: [certificateFile, [Validators.required]]
+      idfile: [cert.name ? cert.name : ''],
+      name: [cert.name ? cert.name : '', [Validators.required]],
+      file: [cert.file]
     });
+    if (cert.file !== undefined) {
+      this.needUpload = true;
+    }
     this.certificatesFormArray.push(certificate);
   }
 
@@ -185,7 +210,7 @@ export class EnterTenantComponent implements OnInit {
         const reader = new FileReader();
 
         reader.onloadend = (e: any) => {
-          this.addCertificate(pdf.files[i]);
+          this.addCertificate({ file: pdf.files[i] });
           this.pdfSrc.push(e.target.result);
           this.pdfSrc$.next(this.pdfSrc);
         };

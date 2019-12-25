@@ -17,7 +17,7 @@
 
   <!-- This are the actions of the dialog, containing the primary and the cancel button-->
   <mat-dialog-actions class="actions">
-    <button *ngIf="showCancelButton" mat-button mat-dialog-close>Cancel</button>
+    <button *ngIf="showCancelButton" mat-stroked-button mat-dialog-close>Cancel</button>
     <button mat-raised-button color="primary" [disabled]="!canBeClosed"
       (click)="closeDialog()">{{primaryButtonText}}</button>
   </mat-dialog-actions>

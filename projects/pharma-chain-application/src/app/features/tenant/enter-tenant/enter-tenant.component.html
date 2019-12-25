@@ -103,7 +103,7 @@
               <span class="option-input">({{ 'pca.features.tenant.form.option' | translate }})</span>
               <input #file (change)="onFileSelected()" type="file" id="file" accept="application/pdf"
                 multiple="multiple" style="display:none">
-              <button (click)="file.click()" type="button" mat-flat-button color="accent" class="import-button">
+              <button (click)="file.click()" type="button" mat-stroked-button color="accent" class="import-button">
                 {{ 'pca.features.tenant.form.import' | translate }}
               </button>
             </mat-form-field>
@@ -141,11 +141,11 @@
               [routerLink]="['/dashboard']">
               {{ 'pca.features.tenant.form.cancel' | translate }}
             </button>
-            <button *ngIf="pdfSrc.length != 0 && certificatesFormArray.valid && certificates == null" class="w-100"
-              mat-raised-button color="primary" [ngClass]="routeAnimationsElements" (click)="openUploadDialog()">
+            <button *ngIf="needUpload && form.valid" class="w-100" mat-raised-button color="primary"
+              [ngClass]="routeAnimationsElements" (click)="openUploadDialog()">
               {{ 'pca.features.tenant.form.upload' | translate }}
             </button>
-            <button [disabled]="form.invalid || (pdfSrc.length != 0 && certificatesFormArray.valid && certificates == null)" class="w-100" mat-raised-button color="primary"
+            <button [disabled]="form.invalid || needUpload || !canUpdate" class="w-100" mat-raised-button color="primary"
               [ngClass]="routeAnimationsElements" (click)="submit()">
               {{ 'pca.features.tenant.form.submit' | translate }}
             </button>
