@@ -65,14 +65,14 @@
           <!-- Manufacturing date, Expiry date -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <mat-label>{{ 'pca.features.batch.form.manufacturingDate' | translate }}</mat-label>
+              <mat-label>{{ 'pca.features.batch.form.manufactureDate' | translate }}</mat-label>
               <input matInput [matDatepicker]="mfgPicker"
                 placeholder="{{ 'pca.features.batch.form.datePlaceholder' | translate }}"
-                formControlName="manufacturingDate">
+                formControlName="manufactureDate">
               <mat-datepicker-toggle matSuffix [for]="mfgPicker"></mat-datepicker-toggle>
               <mat-datepicker #mfgPicker></mat-datepicker>
-              <mat-error *ngIf="form.get('manufacturingDate').invalid">
-                {{ 'pca.features.batch.form.manufacturingDate' | translate }}
+              <mat-error *ngIf="form.get('manufactureDate').invalid">
+                {{ 'pca.features.batch.form.manufactureDate' | translate }}
                 {{ 'pca.features.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>

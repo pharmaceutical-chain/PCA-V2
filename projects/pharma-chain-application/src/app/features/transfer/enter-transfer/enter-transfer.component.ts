@@ -58,9 +58,10 @@ export class EnterTransferComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.tenantFromId = (await this.authService.getUser$().toPromise()).sub.slice(6);
     this.batchService.getBatchesForSearch().subscribe(res => this.allBatches = res);
     this.transferService.getTransfersForSearch().subscribe(res => this.allTransfers = res);
-    this.tenantOptions = await this.tenantService.getTenantForSearch().toPromise();
+    this.tenantOptions = (await this.tenantService.getTenantForSearch().toPromise()).filter(t => t.id !== this.tenantFromId);
 
     //////////// Auto complete for TO TENANT
     this.tenantToFilteredOptions = this.form.get('toTenantId').valueChanges
@@ -152,7 +153,6 @@ export class EnterTransferComponent implements OnInit {
   }
 
   async onFocusMedicine() {
-    this.tenantFromId = (await this.authService.getUser$().toPromise()).sub.slice(6);
     const batchesCreated = this.allBatches.filter(b => b.manufacturerId === this.tenantFromId);
     const batchesReceived = this.allTransfers.filter(t => t.to === this.tenantFromId);
     const batchesAvaiable = [...batchesCreated, ...batchesReceived];

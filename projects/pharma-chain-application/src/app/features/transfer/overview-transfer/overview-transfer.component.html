@@ -11,13 +11,13 @@
     <div *ngIf="!isAdmin" class="filter mat-elevation-z2">
       <button mat-stroked-button [color]="currentFilter.value == 0 ? 'primary' : null" class="col"
         (click)="currentFilter.next(0)">
-        <span matBadge="{{data?.length}}" matBadgeOverlap="false"
-          [ngClass]="{'active': currentFilter.value == 0}">Received History</span>
+        <span matBadge="{{numSent}}" matBadgeOverlap="false" [ngClass]="{'active': currentFilter.value == 0}">Sent
+          History</span>
       </button>
       <button mat-stroked-button [color]="currentFilter.value == 1 ? 'primary' : null" class="col"
         (click)="currentFilter.next(1)">
-        <span matBadge="{{data?.length}}" matBadgeOverlap="false" [ngClass]="{'active': currentFilter.value == 1}">Sent
-          History</span>
+        <span matBadge="{{numReceived}}" matBadgeOverlap="false" [ngClass]="{'active': currentFilter.value == 1}">
+          Received History</span>
       </button>
     </div>
 
@@ -31,7 +31,8 @@
   </div>
 
   <!-- Table -->
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z3" matSort [ngClass]="routeAnimationsElements">
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z3" matSort
+    [ngClass]="routeAnimationsElements">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> {{camelCaseToTitle(column)}} </th>
       <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
@@ -136,25 +137,25 @@
                 <div class="col-9">{{element.quantity}} / {{element.unit}}</div>
               </div>
               <!-- from -->
-              <div *ngIf="currentFilter.value == 0 || isAdmin" class="row row-data">
+              <div *ngIf="currentFilter.value == 1 || isAdmin" class="row row-data">
                 <div class="col-3 data-label">From</div>
                 <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.fromCA)">{{element.from}}
                 </div>
               </div>
               <!-- fromAddress -->
-              <div *ngIf="currentFilter.value == 0 || isAdmin" class="row row-data">
+              <div *ngIf="currentFilter.value == 1 || isAdmin" class="row row-data">
                 <div class="col-3 data-label">Address</div>
                 <div class="col-9">{{element.fromAddress}}
                 </div>
               </div>
               <!-- to -->
-              <div *ngIf="currentFilter.value == 1 || isAdmin" class="row row-data">
+              <div *ngIf="currentFilter.value == 0 || isAdmin" class="row row-data">
                 <div class="col-3 data-label">To</div>
                 <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.toCA)">{{element.to}}
                 </div>
               </div>
               <!-- toAddress -->
-              <div *ngIf="currentFilter.value == 1 || isAdmin" class="row row-data">
+              <div *ngIf="currentFilter.value == 0 || isAdmin" class="row row-data">
                 <div class="col-3 data-label">Address</div>
                 <div class="col-9">{{element.toAddress}}
                 </div>

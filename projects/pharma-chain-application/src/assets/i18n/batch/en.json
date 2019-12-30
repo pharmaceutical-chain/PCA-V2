@@ -6,7 +6,7 @@
   "pca.features.batch.form.medicine": "Medicine name",
   "pca.features.batch.form.quantity": "Quantity",
   "pca.features.batch.form.unit": "Unit",
-  "pca.features.batch.form.manufacturingDate": "Manufacturing date",
+  "pca.features.batch.form.manufactureDate": "Manufacturing date",
   "pca.features.batch.form.expiryDate": "Expiry date",
   "pca.features.batch.form.datePlaceholder": "MM/DD/YYYY",
   "pca.features.batch.form.censorshipCertificateNames": "Censorship certificate names",

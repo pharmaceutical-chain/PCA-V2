@@ -25,7 +25,7 @@ export class BatchService {
             batchNumber: base['batchNumber'],
             commercialName: base['medicine']['commercialName'],
             ingredientConcentration: base['medicine']['ingredientConcentration'],
-            manufacturer: `${base['manufacturer']['name']} / ${base['manufacturer']['registrationCode']}`,
+            manufacturer: base['manufacturer']['name'],
             manufactureDate: (new Date(base['manufactureDate'])).toLocaleDateString(),
             expiryDate: (new Date(base['expiryDate'])).toLocaleDateString(),
             quantity: base['quantity'],

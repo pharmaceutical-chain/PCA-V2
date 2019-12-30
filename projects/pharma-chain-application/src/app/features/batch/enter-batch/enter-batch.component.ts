@@ -32,7 +32,7 @@ export class EnterBatchComponent implements OnInit {
     medicineId: ['', [Validators.required]],
     quantity: ['', [Validators.required]],
     unit: ['', [Validators.required]],
-    manufacturingDate: ['', [Validators.required]],
+    manufactureDate: ['', [Validators.required]],
     expiryDate: ['', [Validators.required]],
     censorshipCertificateNames: [''],
     certificates: this.fb.array([])
@@ -89,7 +89,7 @@ export class EnterBatchComponent implements OnInit {
   async submit() {
     if (this.form.valid) {
       this.form.get('medicineId').setValue(this.form.get('medicineId').value.id, { emitModelToViewChange: false });
-      this.form.get('manufacturingDate').setValue((this.form.get('manufacturingDate').value as Date).toLocaleDateString(), { emitModelToViewChange: false });
+      this.form.get('manufactureDate').setValue((this.form.get('manufactureDate').value as Date).toLocaleDateString(), { emitModelToViewChange: false });
       this.form.get('expiryDate').setValue((this.form.get('expiryDate').value as Date).toLocaleDateString(), { emitModelToViewChange: false });
 
       const manufacturerId = (await this.authService.getUser$().toPromise()).sub.slice(6);

@@ -26,9 +26,11 @@ export class OverviewTransferComponent implements OnInit {
   currentFilter: BehaviorSubject<number> = new BehaviorSubject(0);
 
   allTransfers: ITransfer_GET[] = [];
+  numSent = 0;
+  numReceived = 0;
 
   data: ITransfer_GET[] = [];
-  columnsToDisplay = ['from', 'medicine', 'batchNumber', 'date', 'time'];
+  columnsToDisplay = ['to', 'medicine', 'batchNumber', 'date', 'time'];
   dataSource: MatTableDataSource<ITransfer_GET>;
   expandedElement: ITransfer_GET | null;
 
@@ -51,23 +53,24 @@ export class OverviewTransferComponent implements OnInit {
     const tenantId = (await this.authService.getUser$().toPromise()).sub.slice(6);
 
     this.allTransfers = await this.transferService.getTransfers().toPromise();
-    this.data = this.isAdmin ? this.allTransfers : this.allTransfers.filter(t => t.toId === tenantId);
+    this.numSent = this.allTransfers.filter(t => t.fromId === tenantId).length;
+    this.numReceived = this.allTransfers.filter(t => t.toId === tenantId).length;
+    this.data = this.isAdmin ? this.allTransfers : this.allTransfers.filter(t => t.fromId === tenantId);
 
     // Initiate value for matTableDataSource
     this.initiateMatTableDataSource();
 
     if (!this.isAdmin) {
       this.currentFilter.subscribe(value => {
-        if (value !== this.currentFilter.value) {
-          if (value === 0) {
-            this.data = this.isAdmin ? this.allTransfers : this.allTransfers.filter(t => t.toId === tenantId);
-          } else if (value === 1) {
-            this.data = this.isAdmin ? this.allTransfers : this.allTransfers.filter(t => t.fromId === tenantId);
-          }
-
-          // Reinitiate
-          this.initiateMatTableDataSource();
+        if (value === 0) {
+          this.data = this.isAdmin ? this.allTransfers : this.allTransfers.filter(t => t.fromId === tenantId);
+          this.columnsToDisplay[0] = 'to';
+        } else if (value === 1) {
+          this.data = this.isAdmin ? this.allTransfers : this.allTransfers.filter(t => t.toId === tenantId);
+          this.columnsToDisplay[0] = 'from';
         }
+        // Reinitiate
+        this.initiateMatTableDataSource();
       });
     }
   }

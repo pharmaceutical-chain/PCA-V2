@@ -67,14 +67,14 @@ export const features: Feature[] = [
   {
     label: 'pca.menu.report',
     icon: 'chart-line',
-    link: '/examples/stock-market',
+    link: '/a',
     roles: ['admin', 'manufacturer', 'distributor', 'retailer'],
     color: 'purple'
   },
   {
     label: 'pca.menu.notification',
     icon: 'bell',
-    link: '',
+    link: '/b',
     roles: ['admin', 'manufacturer', 'distributor', 'retailer'], // admin approve for create new medicine, new batch request | all others approve for the transfer request
     color: 'mediumpurple'
   }
