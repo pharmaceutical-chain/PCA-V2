@@ -143,7 +143,7 @@ export class EnterTransferComponent implements OnInit {
           setTimeout(() => {
             this.router.navigate(['/transfer/overview-transfer']).then(() => {
               setTimeout(() => {
-                this.notificationService.info('We are mining into blockchain...');
+                this.notificationService.info('Wait for confirm...');
               }, 1000);
             });
           }, 1000);

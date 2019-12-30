@@ -1,1 +1,18 @@
-<div id="chartContainer" style="width: 100%; height: 400px;"></div>
+<div class="container">
+  <div class="row filter">
+    <mat-form-field class="col-3">
+      <mat-label>session year</mat-label>
+      <mat-select [formControl]="currentYear">
+        <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="!isAdmin" class="col-3">
+      <mat-label>session state</mat-label>
+      <mat-select [formControl]="currentState">
+        <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div id="chartContainer" style="width: 100%; height: 400px;"></div>
+</div>

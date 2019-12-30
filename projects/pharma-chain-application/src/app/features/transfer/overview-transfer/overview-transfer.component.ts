@@ -1,12 +1,10 @@
 import { AuthService } from './../../../core/auth/auth.service';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ITransfer_GET } from './../../../shared/utils/transfer.interface';
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
-import { IBatch_GET } from '../../../shared/utils/batches.interface';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialog, PageEvent } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { FormBuilder } from '@angular/forms';
-import { BatchService } from '../../batch/batch.service';
 import { detailExpand } from '../../../core/animations/element.animations';
 import { TransferService } from '../transfer.service';
 
@@ -45,7 +43,6 @@ export class OverviewTransferComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private transferService: TransferService,
-    private dialog: MatDialog,
     private authService: AuthService) { }
 
   async ngOnInit() {
