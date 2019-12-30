@@ -65,6 +65,12 @@ const routes: Routes = [
       import('./features/notification/notification.module').then(m => m.NotificationModule)
   },
   {
+    path: 'report',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./features/report/report.module').then(m => m.ReportModule)
+  },
+  {
     path: 'examples',
     loadChildren: () =>
       import('./features/examples/examples.module').then(m => m.ExamplesModule)

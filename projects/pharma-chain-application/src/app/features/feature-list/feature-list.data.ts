@@ -67,7 +67,7 @@ export const features: Feature[] = [
   {
     label: 'pca.menu.report',
     icon: 'chart-line',
-    link: '/a',
+    link: '/report',
     roles: ['admin', 'manufacturer', 'distributor', 'retailer'],
     color: 'purple'
   },
