@@ -29,7 +29,7 @@ export class TenantService {
   }
 
   updateTenant(tenantId, tenant: ITenant_CREATE) {
-    const url = SERVER_URL + API + TENANT + '/' + tenantId;
+    const url = SERVER_URL + API + TENANT + `/${tenantId}`;
     return this._http.put(url, tenant);
   }
 

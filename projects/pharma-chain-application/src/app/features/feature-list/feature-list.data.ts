@@ -74,7 +74,7 @@ export const features: Feature[] = [
   {
     label: 'pca.menu.notification',
     icon: 'bell',
-    link: '/b',
+    link: '/notification',
     roles: ['admin', 'manufacturer', 'distributor', 'retailer'], // admin approve for create new medicine, new batch request | all others approve for the transfer request
     color: 'mediumpurple'
   }

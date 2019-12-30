@@ -9,10 +9,10 @@ export interface ITransfer_GET {
   batchNumber: string;
   quantity: number;
   unit: string;
+  isConfirmed: boolean;
+  medicineBatchId: string;
 
   registrationCode: string;
-  isPrescriptionMedicine: boolean;
-  ingredientConcentration: string;
   declaredPrice: number;
   medicineCA: string;
   registeredBy: string;
@@ -44,6 +44,7 @@ export interface ITransfer_CREATE {
   fromTenantId: string;
   toTenantId: string;
   quantity: number;
+  isConfirmed: boolean;
 }
 
 // tslint:disable-next-line: class-name

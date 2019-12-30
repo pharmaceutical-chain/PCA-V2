@@ -54,7 +54,7 @@ export class OverviewTenantComponent implements OnInit {
     private dialog: MatDialog,
     private readonly notificationService: NotificationService,
     private router: Router,
-    private cdf: ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) { }
 
   async ngOnInit() {
@@ -163,7 +163,7 @@ export class OverviewTenantComponent implements OnInit {
           // Reinitiate
           this.initiateMatTableDataSource();
           this.updateFilterCounter();
-          this.cdf.detectChanges();
+          this.cdr.detectChanges();
         });
       }
     });

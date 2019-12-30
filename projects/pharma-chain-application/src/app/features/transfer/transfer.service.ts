@@ -1,6 +1,5 @@
 import { UtilsService } from './../../shared/utils/utils.service';
-import { ITransfer_SEARCH } from './../../shared/utils/transfer.interface';
-import { ITransfer_CREATE, ITransfer_GET } from '../../shared/utils/transfer.interface';
+import { ITransfer_CREATE, ITransfer_GET, ITransfer_SEARCH } from '../../shared/utils/transfer.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TRANSFER, SERVER_URL, API } from '../../shared/utils/constants';
@@ -37,11 +36,11 @@ export class TransferService {
             batchNumber: base['medicineBatch']['batchNumber'],
             quantity: base['quantity'],
             unit: base['medicineBatch']['unit'],
+            isConfirmed: base['isConfirmed'],
+            medicineBatchId: base['medicineBatch']['id'],
 
             registrationCode: base['medicineBatch']['medicine']['registrationCode'],
             medicineCA: base['medicineBatch']['medicine']['contractAddress'],
-            isPrescriptionMedicine: base['medicineBatch']['medicine']['isPrescriptionMedicine'],
-            ingredientConcentration: base['medicineBatch']['medicine']['ingredientConcentration'],
             declaredPrice: base['medicineBatch']['medicine']['declaredPrice'],
             registeredBy: base['medicineBatch']['medicine']['submittedTenant']['name'],
             registeredByCA: base['medicineBatch']['medicine']['submittedTenant']['contractAddress'],
@@ -124,5 +123,10 @@ export class TransferService {
         return convertedArray;
       })
     );
+  }
+
+  updateTransfer(id: string, transfer: ITransfer_CREATE) {
+    const url = SERVER_URL + API + TRANSFER + `/${id}`;
+    return this._http.put(url, transfer);
   }
 }

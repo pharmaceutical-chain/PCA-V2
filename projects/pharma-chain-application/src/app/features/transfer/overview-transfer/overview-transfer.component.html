@@ -46,7 +46,7 @@
           <div class="example-element-description">
 
             <!-- MEDICINE -->
-            <div class="group-info">
+            <div class="group-info sub-info">
               <div class="row">
                 <div class="col group-title">Medicine</div>
                 <div class="col see-detail" (click)="onClickContracAddress(element.medicineCA)">
@@ -60,15 +60,10 @@
                 <div class="col-3 data-label">Registration code</div>
                 <div class="col-9">{{element.registrationCode}}</div>
               </div>
-              <!-- isPrescriptionMedicine -->
+              <!-- commercialName -->
               <div class="row row-data">
-                <div class="col-3 data-label">Prescription</div>
-                <mat-checkbox class="col-9" [checked]="element.isPrescriptionMedicine" (click)="false"></mat-checkbox>
-              </div>
-              <!-- Ingredient concentration -->
-              <div class="row row-data">
-                <div class="col-3 data-label">Ingredient</div>
-                <div class="col-9">{{element.ingredientConcentration}}</div>
+                <div class="col-3 data-label">Name</div>
+                <div class="col-9">{{element.medicine}}</div>
               </div>
               <!-- declaredPrice -->
               <div class="row row-data">
@@ -85,7 +80,7 @@
             </div>
 
             <!-- BATCH -->
-            <div class="group-info">
+            <div class="group-info sub-info">
               <div class="row">
                 <div class="col group-title">Batch</div>
                 <div class="col see-detail" (click)="onClickContracAddress(element.batchCA)">
@@ -94,6 +89,11 @@
                 </div>
               </div>
               <hr>
+              <!-- Batch number -->
+              <div class="row row-data">
+                <div class="col-3 data-label">Batch number</div>
+                <div class="col-9">{{element.batchNumber}}</div>
+              </div>
               <!-- Manufacture date -->
               <div class="row row-data">
                 <div class="col-3 data-label">MFG date</div>

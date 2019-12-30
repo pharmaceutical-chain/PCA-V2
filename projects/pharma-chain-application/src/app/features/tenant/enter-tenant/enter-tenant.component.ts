@@ -56,7 +56,7 @@ export class EnterTenantComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private readonly notificationService: NotificationService,
-    private cdf: ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {
   }
 
@@ -163,7 +163,7 @@ export class EnterTenantComponent implements OnInit {
         const certIds = res['data'].map((c: ICertificate) => c.idfile);
         this.certificates += certIds.toString();
         this.needUpload = false;
-        this.cdf.markForCheck();
+        this.cdr.markForCheck();
       }
     });
   }

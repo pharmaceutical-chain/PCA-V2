@@ -55,7 +55,7 @@ export class EnterMedicineComponent implements OnInit {
     private authService: AuthService,
     private readonly notificationService: NotificationService,
     private router: Router,
-    private cdf: ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {
   }
 
@@ -121,7 +121,7 @@ export class EnterMedicineComponent implements OnInit {
       if (res && res['message'] === 'success') {
         const certIds = res['data'].map((c: ICertificate) => c.idfile);
         this.certificates = certIds.toString();
-        this.cdf.markForCheck();
+        this.cdr.markForCheck();
       }
     });
   }

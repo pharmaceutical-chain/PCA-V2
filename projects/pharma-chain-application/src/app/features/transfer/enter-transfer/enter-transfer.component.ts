@@ -137,7 +137,7 @@ export class EnterTransferComponent implements OnInit {
       this.form.get('toTenantId').setValue(this.form.get('toTenantId').value.id, { emitModelToViewChange: false });
       this.form.get('medicineBatchId').setValue(this.form.get('medicineBatchId').value.batchId, { emitModelToViewChange: false });
 
-      this.transferService.createTransfer({ ...this.form.value, fromTenantId: this.tenantFromId }).subscribe(res => {
+      this.transferService.createTransfer({ ...this.form.value, fromTenantId: this.tenantFromId, isConfirmed: false }).subscribe(res => {
         if (res) {
           this.notificationService.success('Enter transfer successfully!');
           setTimeout(() => {

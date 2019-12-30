@@ -38,6 +38,11 @@
         color: mat-color($foreground, text, 0.54);
       }
 
+      .sub-info {
+        color: mat-color($foreground, text, 0.6);
+        font-style: italic;
+      }
+
       .mat-tab-label-active {
         .mat-tab-label-content {
           color: mat-color($primary);
