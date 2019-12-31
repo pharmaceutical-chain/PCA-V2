@@ -10,6 +10,7 @@ export interface IMedicine_GET {
   packingSpecification: string;
   declaredPrice: string;
   manufacturerAddress: string;
+  certificates: string;
 
   transactionHash: string;
   contractAddress: string;
@@ -26,7 +27,8 @@ export interface IMedicine_CREATE {
   ingredientConcentration: string;
   packingSpecification: string;
   declaredPrice: number;
-  currentlyLoggedInTenant: string
+  currentlyLoggedInTenant: string;
+  certificates: string;
 }
 
 // tslint:disable-next-line: class-name

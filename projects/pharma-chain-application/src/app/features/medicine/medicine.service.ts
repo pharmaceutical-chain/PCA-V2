@@ -4,13 +4,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MEDICINE, SERVER_URL, API } from '../../shared/utils/constants';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { UtilsService } from '../../shared/utils/utils.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MedicineService {
 
-  constructor(private _http: HttpClient, ) { }
+  constructor(private _http: HttpClient,
+    private utilsService: UtilsService) { }
 
   getMedicines(): Observable<IMedicine_GET[]> {
     const url = SERVER_URL + API + MEDICINE;
@@ -20,6 +22,8 @@ export class MedicineService {
         const convertedArray: IMedicine_GET[] = [];
 
         baseMedicineArray.forEach(base => {
+          const dateCreated = this.utilsService.convertToLocalDate(new Date(base['dateCreated']));
+
           const converted: IMedicine_GET = {
             id: base['id'],
             registrationCode: base['registrationCode'],
@@ -31,9 +35,10 @@ export class MedicineService {
             packingSpecification: base['packingSpecification'],
             declaredPrice: base['declaredPrice'],
             manufacturerAddress: base['submittedTenant']['primaryAddress'],
+            certificates: base['certificates'],
             transactionHash: base['transactionHash'],
             contractAddress: base['contractAddress'],
-            dateCreated: (new Date(base['dateCreated'])).toLocaleDateString(),
+            dateCreated: dateCreated.toLocaleDateString(),
             transactionStatus: base['transactionStatus'],
           };
 

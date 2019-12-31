@@ -6,7 +6,6 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ChangeDetectorRe
 import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
 import { PageEvent, MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { detailExpand } from '../../../core/animations/element.animations';
-import { ImageViewerComponent } from '../../../shared/image-viewer/image-viewer.component';
 import { Router } from '@angular/router';
 import { PdfViewerComponent } from '../../../shared/pdf-viewer/pdf-viewer.component';
 
@@ -64,7 +63,7 @@ export class OverviewTenantComponent implements OnInit {
       if (tenant.certificates) {
         const idlinks = tenant.certificates.split(',');
         tenant.links = idlinks.map(id => `https://lamle.blob.core.windows.net/tenant-certificates/${id}`);
-        tenant.certificates = idlinks.map(id => id.split('-')[0]);
+        tenant.certificates = idlinks.map(id => id.substring(0, id.length - 41));
       }
     });
     this.updateFilterCounter();

@@ -38,6 +38,7 @@ export class EnterTenantComponent implements OnInit {
     certificatesArray: this.fb.array([])
   });
   certificates = '';
+  initCertificates = '';
   needUpload: boolean;
   canUpdate = true;
   initialFormValue: object;
@@ -66,7 +67,7 @@ export class EnterTenantComponent implements OnInit {
       if (this.tenantId) {
         this.tenant = await this.tenantService.getTenants(this.tenantId).toPromise();
         if (this.tenant) {
-          const certArr: Array<string> = this.tenant['certificates'] ? this.tenant['certificates'].split(',').map(c => c.split('-')[0]) : [];
+          const certArr: Array<string> = this.tenant['certificates'] ? this.tenant['certificates'].split(',').map(c => c.substring(0, c.length - 41)) : [];
           this.form.patchValue({
             name: this.tenant['name'],
             email: this.tenant['email'],
@@ -77,6 +78,7 @@ export class EnterTenantComponent implements OnInit {
             primaryAddress: this.tenant['primaryAddress'],
             goodPractices: certArr.toString(),
           });
+          this.initCertificates = this.tenant['certificates']; 
           this.certificates = this.tenant['certificates'];
           certArr.forEach(cert => {
             this.addCertificate({ name: cert });
@@ -161,9 +163,10 @@ export class EnterTenantComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res && res['message'] === 'success') {
         const certIds = res['data'].map((c: ICertificate) => c.idfile);
-        this.certificates += certIds.toString();
+        this.certificates === '' ? this.certificates += certIds.toString() : this.certificates += ',' + certIds.toString();
         this.needUpload = false;
         this.cdr.markForCheck();
+        this.certificatesFormArray.disable();
       }
     });
   }
@@ -171,7 +174,7 @@ export class EnterTenantComponent implements OnInit {
   addCertificate(cert: { name?: string, file?: File }) {
     const certificate = this.fb.group({
       idfile: [cert.name ? cert.name : ''],
-      name: [cert.name ? cert.name : '', [Validators.required]],
+      name: [{ value: cert.name ? cert.name : '', disabled: cert.name ? true : false }, [Validators.required]],
       file: [cert.file]
     });
     if (cert.file !== undefined) {
@@ -184,6 +187,18 @@ export class EnterTenantComponent implements OnInit {
     this.certificatesFormArray.removeAt(index);
     this.pdfSrc.splice(index, 1);
     this.pdfSrc$.next(this.pdfSrc);
+
+    if (!this.needUpload) {
+      const certificates = this.certificates.split(',');
+      certificates.splice(index, 1);
+      this.certificates = certificates.toString();
+
+      if (this.certificates === this.initCertificates) {
+        this.canUpdate = false;
+      } else {
+        this.canUpdate = true;
+      }
+    }
   }
 
   viewDetailPDF(index: number) {
