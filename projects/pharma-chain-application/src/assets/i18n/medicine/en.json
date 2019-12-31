@@ -1,5 +1,6 @@
 {
   "pca.features.medicine.enter": "Enter medicine",
+  "pca.features.medicine.update": "Update medicine",
   "pca.features.medicine.overview": "Overview medicines",
   "pca.features.medicine.form.formName": "Medicine form",
   "pca.features.medicine.form.registrationCode": "Registration code",
@@ -17,6 +18,7 @@
   "pca.features.medicine.form.import": "Import",
   "pca.features.medicine.form.certificateId": "Certificate Id",
   "pca.features.medicine.form.cancel": "Cancel",
+  "pca.features.medicine.form.upload": "Upload First",
   "pca.features.medicine.form.submit": "Submit",
   "pca.features.medicine.form.error.required": "is required"
 }

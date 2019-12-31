@@ -1,5 +1,6 @@
 {
   "pca.features.tenant.enter": "Enter tenant",
+  "pca.features.tenant.update": "Update tenant",
   "pca.features.tenant.overview": "Overview tenants",
   "pca.features.tenant.form.title": "Business information form",
   "pca.features.tenant.form.name": "Business name",

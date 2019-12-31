@@ -7,11 +7,11 @@ import { MatDialog } from '@angular/material';
 import { startWith, map } from 'rxjs/operators';
 import { PdfViewerComponent } from '../../../shared/pdf-viewer/pdf-viewer.component';
 import { MedicineService } from '../medicine.service';
-import { AuthService } from '../../../core/auth/auth.service';
-import { Router } from '@angular/router';
-import { IMedicine_CREATE } from '../../../shared/utils/medicines.interface';
+import { Router, ActivatedRoute } from '@angular/router';
+import { IMedicine_CREATE, IMedicine_GET } from '../../../shared/utils/medicines.interface';
 import { UploaderDialogComponent } from '../../../shared/uploader-dialog/uploader-dialog.component';
 import { ICertificate } from '../../../shared/utils/certificates.interface';
+import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'pca-enter-medicine',
@@ -23,9 +23,11 @@ export class EnterMedicineComponent implements OnInit {
 
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
+  medicineId: string;
+  medicine: IMedicine_GET;
+
   dosageFormOptions = ['Viên nén (Tablet)', 'Viên nang (Capsule)', 'Dược phẩm dạng bột (Powder)', 'Viên sủi (Effervescent tablet)', 'Dung dịch (Solution)', 'Thuốc tiêm (Injection)'];
   filteredOptions: Observable<string[]>;
-
 
   form = this.fb.group({
     registrationCode: ['', [Validators.required]],
@@ -35,10 +37,14 @@ export class EnterMedicineComponent implements OnInit {
     ingredientConcentration: ['', [Validators.required]],
     packingSpecification: ['', [Validators.required]],
     declaredPrice: ['', [Validators.required]],
-    censorshipCertificateNames: [''],
+    censorshipCertificateNames: [{ value: '', disabled: true }],
     certificatesArray: this.fb.array([])
   });
-  certificates: string;
+  certificates = '';
+  initCertificatesArray;
+  needUpload: boolean;
+  canUpdate = true;
+  initialFormValue: object;
 
   pdfSrc: Array<any> = [];
   pdfSrc$ = new BehaviorSubject<any>(this.pdfSrc);
@@ -52,15 +58,57 @@ export class EnterMedicineComponent implements OnInit {
     private fb: FormBuilder,
     private dialog: MatDialog,
     private medicineService: MedicineService,
-    private authService: AuthService,
     private readonly notificationService: NotificationService,
+    private route: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService,
   ) {
   }
 
-  ngOnInit() {
-    this.certificatesFormArray.valueChanges.subscribe(() => this.form.get('censorshipCertificateNames').setValue(this.certificateNames));
+  async ngOnInit() {
+    this.route.params.subscribe(async res => {
+      this.medicineId = res['medicineId'];
+      if (this.medicineId) {
+        this.medicine = await this.medicineService.getMedicine(this.medicineId).toPromise();
+        if (this.medicine) {
+          const certArr: Array<string> = this.medicine['certificates'] ? this.medicine['certificates'].split(',').map(c => c.substring(0, c.length - 41)) : [];
+          this.form.patchValue({
+            registrationCode: this.medicine['registrationCode'],
+            commercialName: this.medicine['commercialName'],
+            isPrescriptionMedicine: this.medicine['isPrescriptionMedicine'],
+            dosageForm: this.medicine['dosageForm'],
+            ingredientConcentration: this.medicine['ingredientConcentration'],
+            packingSpecification: this.medicine['packingSpecification'],
+            declaredPrice: this.medicine['declaredPrice'],
+            censorshipCertificateNames: certArr.toString(),
+          });
+          this.certificates = this.medicine['certificates'];
+          certArr.forEach(cert => {
+            this.addCertificate({ name: cert });
+            this.pdfSrc = this.medicine['certificates'].split(',').map(c => `https://lamle.blob.core.windows.net/tenant-certificates/${c}`)
+          });
+          this.initCertificatesArray = this.certificatesFormArray.value;
+          this.pdfSrc$.next(this.pdfSrc);
+          this.initialFormValue = this.form.value;
+          this.canUpdate = false;
+          this.form.valueChanges.subscribe(value => {
+            if (JSON.stringify(value) !== JSON.stringify(this.initialFormValue)) {
+              this.canUpdate = true;
+            } else {
+              this.canUpdate = false;
+            }
+          });
+        }
+      }
+    });
+
+    this.certificatesFormArray.valueChanges.subscribe(value => {
+      this.form.get('censorshipCertificateNames').setValue(this.certificateNames);
+      if (value.length === 0) {
+        this.needUpload = false;
+      }
+    });
 
     this.filteredOptions = this.form.get('dosageForm').valueChanges
       .pipe(
@@ -78,9 +126,9 @@ export class EnterMedicineComponent implements OnInit {
     if (this.form.valid) {
       const tenantId = (await this.authService.getUser$().toPromise()).sub.slice(6);
       const medicine: IMedicine_CREATE = { ...this.form.value, currentlyLoggedInTenant: tenantId, certificates: this.certificates };
-      this.medicineService.createMedicine(medicine).subscribe(res => {
-        if (res) {
-          this.notificationService.success('Enter medicine successfully!');
+      if (this.medicineId) {
+        this.medicineService.updateMedicine(this.medicineId, medicine).subscribe(() => {
+          this.notificationService.success('Update medicine successfully!');
           setTimeout(() => {
             this.router.navigate(['/medicine/overview-medicine']).then(() => {
               setTimeout(() => {
@@ -88,8 +136,21 @@ export class EnterMedicineComponent implements OnInit {
               }, 1000);
             });
           }, 1000);
-        }
-      });
+        });
+      } else {
+        this.medicineService.createMedicine(medicine).subscribe(res => {
+          if (res) {
+            this.notificationService.success('Enter medicine successfully!');
+            setTimeout(() => {
+              this.router.navigate(['/medicine/overview-medicine']).then(() => {
+                setTimeout(() => {
+                  this.notificationService.info('We are mining into blockchain...');
+                }, 1000);
+              });
+            }, 1000);
+          }
+        });
+      }
     }
   }
 
@@ -115,23 +176,30 @@ export class EnterMedicineComponent implements OnInit {
   openUploadDialog() {
     const dialogRef = this.dialog.open(UploaderDialogComponent, {
       width: '50%',
-      data: this.certificatesFormArray.value
+      data: this.certificatesFormArray.value.filter(c => c['idfile'] === '')
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res && res['message'] === 'success') {
         const certIds = res['data'].map((c: ICertificate) => c.idfile);
-        this.certificates = certIds.toString();
+        this.certificates === '' ? this.certificates += certIds.toString() : this.certificates += ',' + certIds.toString();
+        this.needUpload = false;
         this.cdr.markForCheck();
+        this.certificatesFormArray.disable();
+        this.initCertificatesArray = this.certificatesFormArray.value;
       }
     });
   }
 
-  addCertificate(certificateFile: File) {
+  addCertificate(cert: { name?: string, file?: File }) {
     const certificate = this.fb.group({
-      idfile: [''],
-      name: ['', [Validators.required]],
-      file: [certificateFile, [Validators.required]]
+      idfile: [cert.name ? cert.name : ''],
+      name: [{ value: cert.name ? cert.name : '', disabled: cert.name ? true : false }, [Validators.required]],
+      file: [cert.file]
     });
+    if (cert.file !== undefined) {
+      this.needUpload = true;
+      this.cdr.markForCheck();
+    }
     this.certificatesFormArray.push(certificate);
   }
 
@@ -139,6 +207,27 @@ export class EnterMedicineComponent implements OnInit {
     this.certificatesFormArray.removeAt(index);
     this.pdfSrc.splice(index, 1);
     this.pdfSrc$.next(this.pdfSrc);
+
+    if (!this.needUpload) {
+      const certificates = this.certificates.split(',');
+      certificates.splice(index, 1);
+      this.certificates = certificates.toString();
+      if (JSON.stringify(this.initCertificatesArray) === JSON.stringify(this.certificatesFormArray.value)) {
+        this.canUpdate = false;
+      } else {
+        this.canUpdate = true;
+      }
+    }
+    if (JSON.stringify(this.initCertificatesArray) === JSON.stringify(this.certificatesFormArray.value)) {
+      this.needUpload = false;
+    } else {
+      this.needUpload = false;
+      for (const cert of this.certificatesFormArray.value) {
+        if (cert['file'] !== null) {
+          this.needUpload = true;
+        }
+      }
+    }
   }
 
   viewDetailPDF(index: number) {
@@ -165,7 +254,7 @@ export class EnterMedicineComponent implements OnInit {
         const reader = new FileReader();
 
         reader.onloadend = (e: any) => {
-          this.addCertificate($pdf.files[i]);
+          this.addCertificate({ file: $pdf.files[i] });
           this.pdfSrc.push(e.target.result);
           this.pdfSrc$.next(this.pdfSrc);
         };

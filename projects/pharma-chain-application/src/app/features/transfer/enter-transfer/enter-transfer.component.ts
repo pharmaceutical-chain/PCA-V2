@@ -47,7 +47,6 @@ export class EnterTransferComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialog: MatDialog,
     private authService: AuthService,
     private readonly notificationService: NotificationService,
     private router: Router,

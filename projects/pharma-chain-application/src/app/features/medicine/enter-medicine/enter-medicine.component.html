@@ -85,7 +85,8 @@
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <mat-label>{{ 'pca.features.medicine.form.packingSpecification' | translate }}</mat-label>
-              <input matInput placeholder="{{ 'pca.features.medicine.form.packingSpecificationPlaceholder' | translate }}"
+              <input matInput
+                placeholder="{{ 'pca.features.medicine.form.packingSpecificationPlaceholder' | translate }}"
                 formControlName="packingSpecification">
               <mat-error *ngIf="form.get('packingSpecification').invalid">
                 {{ 'pca.features.medicine.form.packingSpecification' | translate }}
@@ -140,13 +141,12 @@
               [routerLink]="['/dashboard']">
               {{ 'pca.features.medicine.form.cancel' | translate }}
             </button>
-            <button *ngIf="pdfSrc.length != 0 && certificatesFormArray.valid && certificates == null" class="w-100"
-              mat-raised-button color="primary" [ngClass]="routeAnimationsElements" (click)="openUploadDialog()">
+            <button *ngIf="needUpload && form.valid" class="w-100" mat-raised-button color="primary"
+              [ngClass]="routeAnimationsElements" (click)="openUploadDialog()">
               {{ 'pca.features.medicine.form.upload' | translate }}
             </button>
-            <button
-              [disabled]="form.invalid || (pdfSrc.length != 0 && certificatesFormArray.valid && certificates == null)"
-              class="w-100" mat-raised-button color="primary" [ngClass]="routeAnimationsElements" (click)="submit()">
+            <button [disabled]="form.invalid || needUpload || !canUpdate" class="w-100" mat-raised-button
+              color="primary" [ngClass]="routeAnimationsElements" (click)="submit()">
               {{ 'pca.features.medicine.form.submit' | translate }}
             </button>
           </div>

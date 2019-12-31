@@ -38,7 +38,7 @@ export class EnterTenantComponent implements OnInit {
     certificatesArray: this.fb.array([])
   });
   certificates = '';
-  initCertificates = '';
+  initCertificatesArray;
   needUpload: boolean;
   canUpdate = true;
   initialFormValue: object;
@@ -78,12 +78,12 @@ export class EnterTenantComponent implements OnInit {
             primaryAddress: this.tenant['primaryAddress'],
             goodPractices: certArr.toString(),
           });
-          this.initCertificates = this.tenant['certificates']; 
           this.certificates = this.tenant['certificates'];
           certArr.forEach(cert => {
             this.addCertificate({ name: cert });
             this.pdfSrc = this.tenant['certificates'].split(',').map(c => `https://lamle.blob.core.windows.net/tenant-certificates/${c}`)
           });
+          this.initCertificatesArray = this.certificatesFormArray.value;
           this.pdfSrc$.next(this.pdfSrc);
           this.initialFormValue = this.form.value;
           this.canUpdate = false;
@@ -167,6 +167,7 @@ export class EnterTenantComponent implements OnInit {
         this.needUpload = false;
         this.cdr.markForCheck();
         this.certificatesFormArray.disable();
+        this.initCertificatesArray = this.certificatesFormArray.value;
       }
     });
   }
@@ -192,11 +193,20 @@ export class EnterTenantComponent implements OnInit {
       const certificates = this.certificates.split(',');
       certificates.splice(index, 1);
       this.certificates = certificates.toString();
-
-      if (this.certificates === this.initCertificates) {
+      if (JSON.stringify(this.initCertificatesArray) === JSON.stringify(this.certificatesFormArray.value)) {
         this.canUpdate = false;
       } else {
         this.canUpdate = true;
+      }
+    }
+    if (JSON.stringify(this.initCertificatesArray) === JSON.stringify(this.certificatesFormArray.value)) {
+      this.needUpload = false;
+    } else {
+      this.needUpload = false;
+      for (const cert of this.certificatesFormArray.value) {
+        if (cert['file'] !== null) {
+          this.needUpload = true;
+        }
       }
     }
   }

@@ -158,7 +158,6 @@ export class OverviewTenantComponent implements OnInit {
         this.tenantService.deleteTenant(tenantId).subscribe(() => {
           this.notificationService.success('Delete tenant successfully!');
           this.data.splice(this.data.findIndex((tenant: ITenant_GET) => tenant.id === tenantId), 1);
-
           // Reinitiate
           this.initiateMatTableDataSource();
           this.updateFilterCounter();

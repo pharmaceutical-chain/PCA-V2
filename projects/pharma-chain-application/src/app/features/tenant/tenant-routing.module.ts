@@ -22,7 +22,7 @@ const routes: Routes = [
       {
         path: 'update-tenant',
         component: EnterTenantComponent,
-        data: { title: 'pca.features.tenant.enter' }
+        data: { title: 'pca.features.tenant.update' }
       },
       {
         path: 'overview-tenant',

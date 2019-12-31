@@ -16,7 +16,6 @@ export class MedicineService {
 
   getMedicines(): Observable<IMedicine_GET[]> {
     const url = SERVER_URL + API + MEDICINE;
-
     return this._http.get(url).pipe(
       map((baseMedicineArray: Object[]) => {
         const convertedArray: IMedicine_GET[] = [];
@@ -50,20 +49,46 @@ export class MedicineService {
     );
   }
 
+  getMedicine(medicineId: string): Observable<IMedicine_GET> {
+    const url = SERVER_URL + API + MEDICINE + `/${medicineId}`;
+    return this._http.get(url).pipe(
+      map((base: Object) => {
+        const dateCreated = this.utilsService.convertToLocalDate(new Date(base['dateCreated']));
+        const converted: IMedicine_GET = {
+          id: base['id'],
+          registrationCode: base['registrationCode'],
+          commercialName: base['commercialName'],
+          ingredientConcentration: base['ingredientConcentration'],
+          isPrescriptionMedicine: base['isPrescriptionMedicine'],
+          manufacturer: base['submittedTenant']['name'],
+          dosageForm: base['dosageForm'],
+          packingSpecification: base['packingSpecification'],
+          declaredPrice: base['declaredPrice'],
+          manufacturerAddress: base['submittedTenant']['primaryAddress'],
+          certificates: base['certificates'],
+          transactionHash: base['transactionHash'],
+          contractAddress: base['contractAddress'],
+          dateCreated: dateCreated.toLocaleDateString(),
+          transactionStatus: base['transactionStatus'],
+        };
+        return converted;
+      })
+    );
+  }
+
   createMedicine(medicine: IMedicine_CREATE) {
     const url = SERVER_URL + API + MEDICINE;
     return this._http.post(url, medicine);
   }
 
+  updateMedicine(medicineId, medicine: IMedicine_CREATE) {
+    const url = SERVER_URL + API + MEDICINE + `/${medicineId}`;
+    return this._http.put(url, medicine);
+  }
+
   deleteMedicine(medicineId: string) {
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json-patch+json'
-      }),
-      body: '"' + medicineId + '"'
-    }
-    const url = SERVER_URL + API + MEDICINE;
-    return this._http.delete(url, options);
+    const url = SERVER_URL + API + MEDICINE + `/${medicineId}`;
+    return this._http.delete(url);
   }
 
   getMedicinesForSearch(): Observable<IMedicine_SEARCH[]> {

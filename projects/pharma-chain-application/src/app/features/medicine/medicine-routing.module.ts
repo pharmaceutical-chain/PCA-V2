@@ -20,6 +20,11 @@ const routes: Routes = [
         data: { title: 'pca.features.medicine.enter' }
       },
       {
+        path: 'update-medicine',
+        component: EnterMedicineComponent,
+        data: { title: 'pca.features.medicine.update' }
+      },
+      {
         path: 'overview-medicine',
         component: OverviewMedicineComponent,
         data: { title: 'pca.features.medicine.overview' }

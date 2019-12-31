@@ -1,11 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
-import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent, MatDialog } from '@angular/material';
 import { FormBuilder } from '@angular/forms';
 import { detailExpand } from '../../../core/animations/element.animations';
 import { MedicineService } from '../medicine.service';
 import { IMedicine_GET } from '../../../shared/utils/medicines.interface';
-import { ImageViewerComponent } from '../../../shared/image-viewer/image-viewer.component';
+import { PdfViewerComponent } from '../../../shared/pdf-viewer/pdf-viewer.component';
+import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog/confirmation-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pca-overview-medicine',
@@ -32,50 +34,26 @@ export class OverviewMedicineComponent implements OnInit {
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
-  goodPractices = '(1) 685 / GCN-QLD (GSP); (2) 685 / GCN-QLD (GSP); ';
-  certificates = [
-    {
-      name: '685 / GCN-QLD (GSP)',
-      file: 'https://5.imimg.com/data5/WV/RS/MY-42249117/gmp-good-manufacturing-practice-certification-consultancy-service-500x500.jpg'
-    },
-    {
-      name: '685 / GCN-QLD (GSP)',
-      file: 'https://5.imimg.com/data5/WV/RS/MY-42249117/gmp-good-manufacturing-practice-certification-consultancy-service-500x500.jpg'
-    }
-  ]
-
   constructor(
     private fb: FormBuilder,
     private medicineService: MedicineService,
     private dialog: MatDialog,
+    private readonly notificationService: NotificationService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
   async ngOnInit() {
     this.data = await this.medicineService.getMedicines().toPromise();
-
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(this.data);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
-    this.dataSource.filterPredicate = (data: IMedicine_GET, filters: string) => {
-      const matchFilter = [];
-      const filterArray = filters.split(' ');
-      const columns = (<any>Object).values(data);
-      // OR be more specific [data.name, data.race, data.color];
-
-      // Main
-      filterArray.forEach(filter => {
-        const customFilter = [];
-        columns.forEach(column => {
-          if (column) {
-            customFilter.push(column.toString().toLowerCase().includes(filter));
-          }
-        });
-        matchFilter.push(customFilter.some(Boolean)); // OR
-      });
-      return matchFilter.every(Boolean); // AND
-    }
+    this.data.map(medicine => {
+      if (medicine.certificates) {
+        const idlinks = medicine.certificates.split(',');
+        medicine['links'] = idlinks.map(id => `https://lamle.blob.core.windows.net/tenant-certificates/${id}`);
+        medicine.certificates = idlinks.map(id => id.substring(0, id.length - 41)).toString();
+      }
+    });
+    console.log(this.data);
+    this.initiateMatTableDataSource();
   }
 
   applyFilter(filterValue: string) {
@@ -130,7 +108,7 @@ export class OverviewMedicineComponent implements OnInit {
   }
 
   viewDetailCertificate(src: string) {
-    const dialogRef = this.dialog.open(ImageViewerComponent, {
+    const dialogRef = this.dialog.open(PdfViewerComponent, {
       data: src
     });
 
@@ -138,9 +116,55 @@ export class OverviewMedicineComponent implements OnInit {
   }
 
   onClickDelete(medicineId: string) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+
+    dialogRef.componentInstance.confirmTitle = 'Delete tenant';
+    dialogRef.componentInstance.confirmMessage = 'Are you sure, that will delete tenant out of system?';
+    dialogRef.componentInstance.confirmButtonColor = 'warn';
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.medicineService.deleteMedicine(medicineId).subscribe(() => {
+          this.notificationService.success('Delete tenant successfully!');
+          this.data.splice(this.data.findIndex((medicine: IMedicine_GET) => medicine.id === medicineId), 1);
+          // Reinitiate
+          this.initiateMatTableDataSource();
+          this.cdr.detectChanges();
+        });
+      }
+    });
   }
 
   onClickUpdate(medicineId: string) {
+    this.router.navigate(['/medicine/update-medicine', { medicineId }])
+  }
+
+  initiateMatTableDataSource() {
+    const currentFilter = this.dataSource ? this.dataSource.filter : '';
+    // Assign the data to the data source for the table to render
+    this.dataSource = new MatTableDataSource(this.data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this.dataSource.filterPredicate = (data: IMedicine_GET, filters: string) => {
+      const matchFilter = [];
+      const filterArray = filters.split(' ');
+      const columns = (<any>Object).values(data);
+      // OR be more specific [data.name, data.race, data.color];
+
+      // Main
+      filterArray.forEach(filter => {
+        const customFilter = [];
+        columns.forEach(column => {
+          if (column) {
+            customFilter.push(column.toString().toLowerCase().includes(filter));
+          }
+        });
+        matchFilter.push(customFilter.some(Boolean)); // OR
+      });
+      return matchFilter.every(Boolean); // AND
+    }
+    this.dataSource.filter = currentFilter;
   }
 }
 

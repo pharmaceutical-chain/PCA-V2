@@ -124,7 +124,7 @@
               <div class="col-9">{{element.certificates}}</div>
             </div>
             <div class="row" style="justify-content: center;">
-              <div class="col-3" style="padding: 16px;" *ngFor="let link of element.links">
+              <div class="col-5" style="padding: 16px;" *ngFor="let link of element.links">
                 <pdf-viewer [src]="link" [original-size]="false" [autoresize]="true" [show-all]="false"
                   (click)="viewDetailCertificate(link)">
                 </pdf-viewer>
