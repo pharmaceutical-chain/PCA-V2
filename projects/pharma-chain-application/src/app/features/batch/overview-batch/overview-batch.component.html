@@ -19,7 +19,8 @@
   </div>
 
   <!-- Table -->
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z3" matSort [ngClass]="routeAnimationsElements">
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z3" matSort
+    [ngClass]="routeAnimationsElements">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> {{camelCaseToTitle(column)}} </th>
       <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
@@ -99,17 +100,21 @@
             <!-- Certificates -->
             <div class="row row-data">
               <div class="col-3 data-label">GMP/GSP/GLP</div>
-              <div class="col-9">{{goodPractices}}</div>
+              <div class="col-9">{{element.certificates}}</div>
             </div>
             <div class="row" style="justify-content: center;">
-              <div class="col-3" style="padding: 16px;" *ngFor="let cert of certificates">
-                <img style="width: 100%;" src="{{cert.file}}" (click)="viewDetailCertificate(cert.file)">
+              <div class="col-5" style="padding: 16px;" *ngFor="let link of element.links">
+                <pdf-viewer [src]="link" [original-size]="false" [autoresize]="true" [show-all]="false"
+                  (click)="viewDetailCertificate(link)">
+                </pdf-viewer>
               </div>
             </div>
             <!-- Action button -->
             <div class="function-container">
-              <button mat-stroked-button color="primary" class="function" (click)="onClickUpdate(element.id)">Update</button>
-              <button mat-stroked-button color="warn" class="function" (click)="onClickDelete(element.id)">Delete</button>
+              <button mat-stroked-button color="primary" class="function"
+                (click)="onClickUpdate(element.id)">Update</button>
+              <button mat-stroked-button color="warn" class="function"
+                (click)="onClickDelete(element.id)">Delete</button>
             </div>
           </div>
         </div>

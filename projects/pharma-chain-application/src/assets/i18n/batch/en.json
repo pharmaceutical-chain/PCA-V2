@@ -1,5 +1,6 @@
 {
   "pca.features.batch.enter": "Enter batch",
+  "pca.features.batch.update": "Update batch",
   "pca.features.batch.overview": "Overview batches",
   "pca.features.batch.form.formName": "Batch form",
   "pca.features.batch.form.batchNumber": "Batch number",

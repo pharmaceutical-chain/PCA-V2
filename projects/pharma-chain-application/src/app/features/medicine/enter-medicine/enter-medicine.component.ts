@@ -24,7 +24,6 @@ export class EnterMedicineComponent implements OnInit {
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
   medicineId: string;
-  medicine: IMedicine_GET;
 
   dosageFormOptions = ['Viên nén (Tablet)', 'Viên nang (Capsule)', 'Dược phẩm dạng bột (Powder)', 'Viên sủi (Effervescent tablet)', 'Dung dịch (Solution)', 'Thuốc tiêm (Injection)'];
   filteredOptions: Observable<string[]>;
@@ -40,6 +39,7 @@ export class EnterMedicineComponent implements OnInit {
     censorshipCertificateNames: [{ value: '', disabled: true }],
     certificatesArray: this.fb.array([])
   });
+
   certificates = '';
   initCertificatesArray;
   needUpload: boolean;
@@ -70,23 +70,23 @@ export class EnterMedicineComponent implements OnInit {
     this.route.params.subscribe(async res => {
       this.medicineId = res['medicineId'];
       if (this.medicineId) {
-        this.medicine = await this.medicineService.getMedicine(this.medicineId).toPromise();
-        if (this.medicine) {
-          const certArr: Array<string> = this.medicine['certificates'] ? this.medicine['certificates'].split(',').map(c => c.substring(0, c.length - 41)) : [];
+        const medicine = await this.medicineService.getMedicine(this.medicineId).toPromise();
+        if (medicine) {
+          const certArr: Array<string> = medicine['certificates'] ? medicine['certificates'].split(',').map(c => c.substring(0, c.length - 41)) : [];
           this.form.patchValue({
-            registrationCode: this.medicine['registrationCode'],
-            commercialName: this.medicine['commercialName'],
-            isPrescriptionMedicine: this.medicine['isPrescriptionMedicine'],
-            dosageForm: this.medicine['dosageForm'],
-            ingredientConcentration: this.medicine['ingredientConcentration'],
-            packingSpecification: this.medicine['packingSpecification'],
-            declaredPrice: this.medicine['declaredPrice'],
+            registrationCode: medicine['registrationCode'],
+            commercialName: medicine['commercialName'],
+            isPrescriptionMedicine: medicine['isPrescriptionMedicine'],
+            dosageForm: medicine['dosageForm'],
+            ingredientConcentration: medicine['ingredientConcentration'],
+            packingSpecification: medicine['packingSpecification'],
+            declaredPrice: medicine['declaredPrice'],
             censorshipCertificateNames: certArr.toString(),
           });
-          this.certificates = this.medicine['certificates'];
+          this.certificates = medicine['certificates'];
           certArr.forEach(cert => {
             this.addCertificate({ name: cert });
-            this.pdfSrc = this.medicine['certificates'].split(',').map(c => `https://lamle.blob.core.windows.net/tenant-certificates/${c}`)
+            this.pdfSrc = medicine['certificates'].split(',').map(c => `https://lamle.blob.core.windows.net/tenant-certificates/${c}`)
           });
           this.initCertificatesArray = this.certificatesFormArray.value;
           this.pdfSrc$.next(this.pdfSrc);

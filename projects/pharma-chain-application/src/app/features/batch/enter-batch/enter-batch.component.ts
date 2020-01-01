@@ -1,7 +1,7 @@
 import { IMedicine_SEARCH } from './../../../shared/utils/medicines.interface';
 import { MedicineService } from './../../medicine/medicine.service';
 import { BatchService } from './../batch.service';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
 import { Validators, FormBuilder, FormArray } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -10,8 +10,10 @@ import { MatDialog } from '@angular/material';
 import { PdfViewerComponent } from '../../../shared/pdf-viewer/pdf-viewer.component';
 import { startWith, map } from 'rxjs/operators';
 import { AuthService } from '../../../core/auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { IBatch_CREATE } from '../../../shared/utils/batches.interface';
+import { UploaderDialogComponent } from '../../../shared/uploader-dialog/uploader-dialog.component';
+import { ICertificate } from '../../../shared/utils/certificates.interface';
 
 @Component({
   selector: 'pca-enter-batch',
@@ -22,6 +24,8 @@ import { IBatch_CREATE } from '../../../shared/utils/batches.interface';
 export class EnterBatchComponent implements OnInit {
 
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
+
+  batchId: string;
 
   medicineOptions: Array<IMedicine_SEARCH>;
   filteredOptions: Observable<Array<IMedicine_SEARCH>>;
@@ -35,8 +39,14 @@ export class EnterBatchComponent implements OnInit {
     manufactureDate: ['', [Validators.required]],
     expiryDate: ['', [Validators.required]],
     censorshipCertificateNames: [''],
-    certificates: this.fb.array([])
+    certificatesArray: this.fb.array([])
   });
+
+  certificates = '';
+  initCertificatesArray;
+  needUpload: boolean;
+  canUpdate = true;
+  initialFormValue: object;
 
   pdfSrc: Array<any> = [];
   pdfSrc$ = new BehaviorSubject<any>(this.pdfSrc);
@@ -53,12 +63,53 @@ export class EnterBatchComponent implements OnInit {
     private readonly notificationService: NotificationService,
     private router: Router,
     private batchService: BatchService,
-    private medicineService: MedicineService
+    private medicineService: MedicineService,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
   ) {
   }
 
   async ngOnInit() {
-    this.certificatesFormArray.valueChanges.subscribe(() => this.form.get('censorshipCertificateNames').setValue(this.certificateNames));
+    this.route.params.subscribe(async res => {
+      this.batchId = res['batchId'];
+      if (this.batchId) {
+        const batch = (await this.batchService.getBatches().toPromise()).find(b => b.id === this.batchId);
+        if (batch) {
+          const certArr: Array<string> = batch['certificates'] ? batch['certificates'].split(',').map(c => c.substring(0, c.length - 41)) : [];
+          this.form.patchValue({
+            batchNumber: batch['batchNumber'],
+            medicineId: { id: batch['medicineId'], commercialName: batch['commercialName'], ingredientConcentration: batch['ingredientConcentration'] } as IMedicine_SEARCH,
+            quantity: batch['quantity'],
+            unit: batch['unit'],
+            manufactureDate: new Date(batch['manufactureDate']),
+            expiryDate: new Date(batch['expiryDate']),
+          });
+          this.certificates = batch['certificates'];
+          certArr.forEach(cert => {
+            this.addCertificate({ name: cert });
+            this.pdfSrc = batch['certificates'].split(',').map(c => `https://lamle.blob.core.windows.net/tenant-certificates/${c}`)
+          });
+          this.pdfSrc$.next(this.pdfSrc);
+          this.initCertificatesArray = this.certificatesFormArray.value;
+          this.initialFormValue = this.form.value;
+          this.canUpdate = false;
+          this.form.valueChanges.subscribe(value => {
+            if (JSON.stringify(value) !== JSON.stringify(this.initialFormValue)) {
+              this.canUpdate = true;
+            } else {
+              this.canUpdate = false;
+            }
+          });
+        }
+      }
+    });
+
+    this.certificatesFormArray.valueChanges.subscribe(value => {
+      this.form.get('censorshipCertificateNames').setValue(this.certificateNames);
+      if (value.length === 0) {
+        this.needUpload = false;
+      }
+    });
 
     this.medicineOptions = await this.medicineService.getMedicinesForSearch().toPromise();
     this.filteredOptions = this.form.get('medicineId').valueChanges
@@ -88,19 +139,16 @@ export class EnterBatchComponent implements OnInit {
 
   async submit() {
     if (this.form.valid) {
-      this.form.get('medicineId').setValue(this.form.get('medicineId').value.id, { emitModelToViewChange: false });
-      this.form.get('manufactureDate').setValue((this.form.get('manufactureDate').value as Date).toLocaleDateString(), { emitModelToViewChange: false });
-      this.form.get('expiryDate').setValue((this.form.get('expiryDate').value as Date).toLocaleDateString(), { emitModelToViewChange: false });
-
       const manufacturerId = (await this.authService.getUser$().toPromise()).sub.slice(6);
       const batch: IBatch_CREATE = {
         ...this.form.value,
-        manufacturerId: manufacturerId
+        medicineId: this.form.get('medicineId').value.id,
+        manufacturerId: manufacturerId,
+        certificates: this.certificates
       }
-
-      this.batchService.createBatch(batch).subscribe(res => {
-        if (res) {
-          this.notificationService.success('Enter batch successfully!');
+      if (this.batchId) {
+        this.batchService.updateBatch(this.batchId, batch).subscribe(() => {
+          this.notificationService.success('Update batch successfully!');
           setTimeout(() => {
             this.router.navigate(['/batch/overview-batch']).then(() => {
               setTimeout(() => {
@@ -108,8 +156,21 @@ export class EnterBatchComponent implements OnInit {
               }, 1000);
             });
           }, 1000);
-        }
-      });
+        });
+      } else {
+        this.batchService.createBatch(batch).subscribe(res => {
+          if (res) {
+            this.notificationService.success('Enter batch successfully!');
+            setTimeout(() => {
+              this.router.navigate(['/batch/overview-batch']).then(() => {
+                setTimeout(() => {
+                  this.notificationService.info('We are mining into blockchain...');
+                }, 1000);
+              });
+            }, 1000);
+          }
+        });
+      }
     }
   }
 
@@ -118,7 +179,7 @@ export class EnterBatchComponent implements OnInit {
   }
 
   get certificatesFormArray(): FormArray {
-    return this.form.get('certificates') as FormArray;
+    return this.form.get('certificatesArray') as FormArray;
   }
 
   get certificateNames(): string {
@@ -129,16 +190,36 @@ export class EnterBatchComponent implements OnInit {
         name += `(${i + 1}) ${certificateNameAt}; `;
       }
     }
-
     return name;
   }
 
-  addCertificate(certificateFile: File) {
-    const certificate = this.fb.group({
-      name: ['', [Validators.required]],
-      file: [certificateFile, [Validators.required]]
+  openUploadDialog() {
+    const dialogRef = this.dialog.open(UploaderDialogComponent, {
+      width: '50%',
+      data: this.certificatesFormArray.value.filter(c => c['idfile'] === '')
     });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res['message'] === 'success') {
+        const certIds = res['data'].map((c: ICertificate) => c.idfile);
+        this.certificates === '' ? this.certificates += certIds.toString() : this.certificates += ',' + certIds.toString();
+        this.needUpload = false;
+        this.cdr.markForCheck();
+        this.certificatesFormArray.disable();
+        this.initCertificatesArray = this.certificatesFormArray.value;
+      }
+    });
+  }
 
+  addCertificate(cert: { name?: string, file?: File }) {
+    const certificate = this.fb.group({
+      idfile: [cert.name ? cert.name : ''],
+      name: [{ value: cert.name ? cert.name : '', disabled: cert.name ? true : false }, [Validators.required]],
+      file: [cert.file]
+    });
+    if (cert.file !== undefined) {
+      this.needUpload = true;
+      this.cdr.markForCheck();
+    }
     this.certificatesFormArray.push(certificate);
   }
 
@@ -146,13 +227,32 @@ export class EnterBatchComponent implements OnInit {
     this.certificatesFormArray.removeAt(index);
     this.pdfSrc.splice(index, 1);
     this.pdfSrc$.next(this.pdfSrc);
+    if (!this.needUpload) {
+      const certificates = this.certificates.split(',');
+      certificates.splice(index, 1);
+      this.certificates = certificates.toString();
+      if (JSON.stringify(this.initCertificatesArray) === JSON.stringify(this.certificatesFormArray.value)) {
+        this.canUpdate = false;
+      } else {
+        this.canUpdate = true;
+      }
+    }
+    if (JSON.stringify(this.initCertificatesArray) === JSON.stringify(this.certificatesFormArray.value)) {
+      this.needUpload = false;
+    } else {
+      this.needUpload = false;
+      for (const cert of this.certificatesFormArray.value) {
+        if (cert['file'] !== null) {
+          this.needUpload = true;
+        }
+      }
+    }
   }
 
   viewDetailPDF(index: number) {
     const dialogRef = this.dialog.open(PdfViewerComponent, {
       data: this.pdfSrc[index]
     });
-
     dialogRef.afterClosed().subscribe();
   }
 
@@ -165,19 +265,15 @@ export class EnterBatchComponent implements OnInit {
   */
   onFileSelected() {
     const $pdf: any = document.querySelector('#file');
-
     if ((typeof FileReader !== 'undefined') && ($pdf.files.length !== 0)) {
       this.isLoading = true;
-
       for (let i = 0; i < $pdf.files.length; i++) {
         const reader = new FileReader();
-
         reader.onloadend = (e: any) => {
-          this.addCertificate($pdf.files[i]);
+          this.addCertificate({ file: $pdf.files[i] });
           this.pdfSrc.push(e.target.result);
           this.pdfSrc$.next(this.pdfSrc);
         };
-
         reader.readAsArrayBuffer($pdf.files[i]);
       }
     }
@@ -225,9 +321,7 @@ export class EnterBatchComponent implements OnInit {
    */
   setPassword(password: string, index: number) {
     let newSrc;
-
     const pdfSrc = this.pdfSrc[index];
-
     if (pdfSrc instanceof ArrayBuffer) {
       newSrc = { data: pdfSrc };
     } else if (typeof pdfSrc === 'string') {
@@ -235,9 +329,7 @@ export class EnterBatchComponent implements OnInit {
     } else {
       newSrc = { ...pdfSrc };
     }
-
     newSrc.password = password;
-
     this.pdfSrc[index] = newSrc;
     this.pdfSrc$.next(this.pdfSrc);
   }

@@ -52,7 +52,6 @@ export class OverviewMedicineComponent implements OnInit {
         medicine.certificates = idlinks.map(id => id.substring(0, id.length - 41)).toString();
       }
     });
-    console.log(this.data);
     this.initiateMatTableDataSource();
   }
 
@@ -69,14 +68,12 @@ export class OverviewMedicineComponent implements OnInit {
   onblur() {
     if (this.currentPageIndex !== this.currentPageNumberControl.value - 1) {
       const maxPage = Math.ceil(this.length / this.pageSize);
-
       if (this.currentPageNumberControl.value < 1) {
         this.currentPageNumberControl.setValue(1);
       }
       if (this.currentPageNumberControl.value > maxPage) {
         this.currentPageNumberControl.setValue(maxPage);
       }
-
       this.currentPageIndex = this.currentPageNumberControl.value - 1;
       setTimeout(() => {
         this.dataSource.paginator = this.paginator;
@@ -111,21 +108,18 @@ export class OverviewMedicineComponent implements OnInit {
     const dialogRef = this.dialog.open(PdfViewerComponent, {
       data: src
     });
-
     dialogRef.afterClosed().subscribe();
   }
 
   onClickDelete(medicineId: string) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent);
-
-    dialogRef.componentInstance.confirmTitle = 'Delete tenant';
-    dialogRef.componentInstance.confirmMessage = 'Are you sure, that will delete tenant out of system?';
+    dialogRef.componentInstance.confirmTitle = 'Delete medicine';
+    dialogRef.componentInstance.confirmMessage = 'Are you sure, that will delete medicine out of system?';
     dialogRef.componentInstance.confirmButtonColor = 'warn';
-
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.medicineService.deleteMedicine(medicineId).subscribe(() => {
-          this.notificationService.success('Delete tenant successfully!');
+          this.notificationService.success('Delete medicine successfully!');
           this.data.splice(this.data.findIndex((medicine: IMedicine_GET) => medicine.id === medicineId), 1);
           // Reinitiate
           this.initiateMatTableDataSource();
@@ -145,13 +139,11 @@ export class OverviewMedicineComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-
     this.dataSource.filterPredicate = (data: IMedicine_GET, filters: string) => {
       const matchFilter = [];
       const filterArray = filters.split(' ');
       const columns = (<any>Object).values(data);
       // OR be more specific [data.name, data.race, data.color];
-
       // Main
       filterArray.forEach(filter => {
         const customFilter = [];

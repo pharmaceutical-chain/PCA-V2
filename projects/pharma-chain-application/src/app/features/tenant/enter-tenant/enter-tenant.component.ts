@@ -21,7 +21,6 @@ export class EnterTenantComponent implements OnInit {
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
   tenantId: string;
-  tenant: any;
 
   types = ['Manufacturer', 'Distributor', 'Retailer'];
 
@@ -37,6 +36,7 @@ export class EnterTenantComponent implements OnInit {
     goodPractices: [{ value: '', disabled: true }],
     certificatesArray: this.fb.array([])
   });
+
   certificates = '';
   initCertificatesArray;
   needUpload: boolean;
@@ -65,23 +65,23 @@ export class EnterTenantComponent implements OnInit {
     this.route.params.subscribe(async res => {
       this.tenantId = res['tenantId'];
       if (this.tenantId) {
-        this.tenant = await this.tenantService.getTenants(this.tenantId).toPromise();
-        if (this.tenant) {
-          const certArr: Array<string> = this.tenant['certificates'] ? this.tenant['certificates'].split(',').map(c => c.substring(0, c.length - 41)) : [];
+        const tenant = await this.tenantService.getTenants(this.tenantId).toPromise();
+        if (tenant) {
+          const certArr: Array<string> = tenant['certificates'] ? tenant['certificates'].split(',').map(c => c.substring(0, c.length - 41)) : [];
           this.form.patchValue({
-            name: this.tenant['name'],
-            email: this.tenant['email'],
-            taxCode: this.tenant['taxCode'],
-            registrationCode: this.tenant['registrationCode'],
-            type: this.tenant['type'],
-            phoneNumber: this.tenant['phoneNumber'],
-            primaryAddress: this.tenant['primaryAddress'],
+            name: tenant['name'],
+            email: tenant['email'],
+            taxCode: tenant['taxCode'],
+            registrationCode: tenant['registrationCode'],
+            type: tenant['type'],
+            phoneNumber: tenant['phoneNumber'],
+            primaryAddress: tenant['primaryAddress'],
             goodPractices: certArr.toString(),
           });
-          this.certificates = this.tenant['certificates'];
+          this.certificates = tenant['certificates'];
           certArr.forEach(cert => {
             this.addCertificate({ name: cert });
-            this.pdfSrc = this.tenant['certificates'].split(',').map(c => `https://lamle.blob.core.windows.net/tenant-certificates/${c}`)
+            this.pdfSrc = tenant['certificates'].split(',').map(c => `https://lamle.blob.core.windows.net/tenant-certificates/${c}`)
           });
           this.initCertificatesArray = this.certificatesFormArray.value;
           this.pdfSrc$.next(this.pdfSrc);

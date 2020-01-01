@@ -20,6 +20,11 @@ const routes: Routes = [
         data: { title: 'pca.features.batch.enter' }
       },
       {
+        path: 'update-batch',
+        component: EnterBatchComponent,
+        data: { title: 'pca.features.batch.update' }
+      },
+      {
         path: 'overview-batch',
         component: OverviewBatchComponent,
         data: { title: 'pca.features.batch.overview' }
