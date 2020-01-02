@@ -1,0 +1,23 @@
+{
+  "pca.features.tenant.enter": "Tạo doanh nghiệp",
+  "pca.features.tenant.update": "Sửa thông tin doanh nghiệp",
+  "pca.features.tenant.overview": "Quản lý thông tin doanh nghiệp",
+  "pca.features.tenant.form.title": "Biểu mẫu thông tin doanh nghiệp",
+  "pca.features.tenant.form.name": "Tên doanh nghiệp",
+  "pca.features.tenant.form.email": "Email",
+  "pca.features.tenant.form.tax": "Mã số thuế",
+  "pca.features.tenant.form.registrationCode": "Mã đăng ký",
+  "pca.features.tenant.form.type": "Loại hình kinh doanh",
+  "pca.features.tenant.form.phoneNumber": "Số điện thoại",
+  "pca.features.tenant.form.primaryAddress": "Địa chỉ trụ sở chính",
+  "pca.features.tenant.form.branchAddress": "Địa chỉ khác",
+  "pca.features.tenant.form.certificates": "GMP/GSP/GLP",
+  "pca.features.tenant.form.option": "tùy chọn",
+  "pca.features.tenant.form.import": "Thêm",
+  "pca.features.tenant.form.certificateId": "Mã chứng chỉ",
+  "pca.features.tenant.form.cancel": "Hủy",
+  "pca.features.tenant.form.submit": "Gửi",
+  "pca.features.tenant.form.upload": "Tải lên trước",
+  "pca.features.tenant.form.error.required": "bắt buộc",
+  "pca.features.tenant.form.error.invalidEmail": "sai email"
+}

@@ -1,0 +1,18 @@
+{
+  "pca.features.transfer.enter": "Tạo giao dịch",
+  "pca.features.transfer.overview": "Quản lý giao dịch",
+  "pca.features.transfer.form.formName": "Biểu mẫu giao dịch",
+  "pca.features.transfer.form.fromTenantId": "Từ",
+  "pca.features.transfer.form.toTenantId": "Đến",
+  "pca.features.transfer.form.medicine": "Dược phẩm",
+  "pca.features.transfer.form.batch": "Mã lô",
+  "pca.features.transfer.form.quantity": "Số lượng",
+  "pca.features.transfer.form.cancel": "Hủy",
+  "pca.features.transfer.form.submit": "Gửi",
+  "pca.features.transfer.form.error.required": "bắt buộc",
+  "pca.features.transfer.form.sub.registrationCode": "Mã đăng ký",
+  "pca.features.transfer.form.sub.primaryAddress": "Địa chỉ",
+  "pca.features.transfer.form.sub.manufactureDate": "Ngày sản xuất",
+  "pca.features.transfer.form.sub.expiryDate": "Ngày hết hạn",
+  "pca.features.transfer.form.sub.remainingQuantity": "Còn lại"
+}

@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
   version = env.versions.app;
   year = new Date().getFullYear();
   logo = require('../../assets/img/PHARMACHAIN-logo-white.png');
-  languages = ['en'];
+  languages = ['en', 'vi'];
 
   navigationSideMenu: Feature[] = [
     { link: '/dashboard', label: 'pca.menu.features', icon: 'tachometer-alt', roles: ['admin', 'manufacturer', 'distributor', 'retailer'] },

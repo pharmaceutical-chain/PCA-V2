@@ -13,7 +13,7 @@
   "pca.features.medicine.form.packingSpecificationPlaceholder": "Box 24 pack x 1,5g powder",
   "pca.features.medicine.form.declaredPrice": "Declared price",
   "pca.features.medicine.form.declaredPricePlaceholder": "Price (VND)",
-  "pca.features.medicine.form.censorshipCertificateNames": "Censorship certificate names",
+  "pca.features.medicine.form.censorshipCertificateNames": "Censorship certificate",
   "pca.features.medicine.form.option": "option",
   "pca.features.medicine.form.import": "Import",
   "pca.features.medicine.form.certificateId": "Certificate Id",

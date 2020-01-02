@@ -1,0 +1,21 @@
+{
+  "pca.features.batch.enter": "Tạo lô dược",
+  "pca.features.batch.update": "Cập nhật lô dược",
+  "pca.features.batch.overview": "Quản lý lô dược",
+  "pca.features.batch.form.formName": "Biểu mẫu lô dược",
+  "pca.features.batch.form.batchNumber": "Mã lô",
+  "pca.features.batch.form.medicine": "Tên dược phẩm",
+  "pca.features.batch.form.quantity": "Số lượng",
+  "pca.features.batch.form.unit": "Đơn vị",
+  "pca.features.batch.form.manufactureDate": "Ngày sản xuất",
+  "pca.features.batch.form.expiryDate": "Ngày hết hạn",
+  "pca.features.batch.form.datePlaceholder": "tháng/ngày/năm",
+  "pca.features.batch.form.censorshipCertificateNames": "Chứng chỉ kiểm định",
+  "pca.features.batch.form.option": "tùy chọn",
+  "pca.features.batch.form.import": "Thêm",
+  "pca.features.batch.form.certificateId": "Mã chứng chỉ",
+  "pca.features.batch.form.cancel": "Hủy",
+  "pca.features.batch.form.submit": "Gửi",
+  "pca.features.batch.form.upload": "Tải lên trước",
+  "pca.features.batch.form.error.required": "bắt buộc"
+}
