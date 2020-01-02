@@ -71,11 +71,6 @@ const routes: Routes = [
       import('./features/report/report.module').then(m => m.ReportModule)
   },
   {
-    path: 'examples',
-    loadChildren: () =>
-      import('./features/examples/examples.module').then(m => m.ExamplesModule)
-  },
-  {
     path: '**',
     redirectTo: 'signin'
   }

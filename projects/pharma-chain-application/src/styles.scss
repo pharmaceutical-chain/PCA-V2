@@ -17,12 +17,6 @@
 @import './app/app/app.component.scss-theme';
 @import './app/shared/big-input/big-input/big-input.component.scss-theme';
 @import './app/features/about/about/about.component.scss-theme';
-@import './app/features/examples/notifications/components/notifications.component.scss-theme';
-@import './app/features/examples/todos/components/todos-container.component.scss-theme';
-@import './app/features/examples/stock-market/components/stock-market-container.component.scss-theme';
-@import './app/features/examples/theming/parent/parent.component.scss-theme';
-@import './app/features/examples/theming/child/child.component.scss-theme';
-@import './app/features/examples/examples/examples.component.scss-theme';
 @import './app/features/tenant/tenant/tenant.component.scss-theme.scss';
 @import './app/features/batch/batch/batch.component.scss-theme.scss';
 @import './app/features/transfer/transfer/transfer.component.scss-theme.scss';
@@ -34,12 +28,6 @@
   @include pca-app-component-theme($theme);
   @include pca-about-component-theme($theme);
   @include pca-big-input-component-theme($theme);
-  @include pca-notifications-component-theme($theme);
-  @include pca-todos-container-component-theme($theme);
-  @include pca-stock-market-container-component-theme($theme);
-  @include pca-parent-component-theme($theme);
-  @include pca-child-component-theme($theme);
-  @include pca-examples-component-theme($theme);
   @include pca-tenant-component-theme($theme);
   @include pca-batch-component-theme($theme);
   @include pca-transfer-component-theme($theme);
