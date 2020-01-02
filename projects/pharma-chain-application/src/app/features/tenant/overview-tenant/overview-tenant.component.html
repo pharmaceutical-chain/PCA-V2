@@ -2,7 +2,7 @@
   <!-- Header -->
   <div class="row">
     <div class="col">
-      <h1 class="main-heading">Overview Tenants</h1>
+      <h1 class="main-heading">{{ 'pca.tenant.overview' | translate }}</h1>
     </div>
   </div>
 
@@ -11,30 +11,31 @@
     <div class="filter mat-elevation-z2">
       <button mat-stroked-button [color]="currentFilter == 0 ? 'primary' : null" class="col"
         (click)="currentFilter = 0; applyFilter(currentSearching)">
-        <span matBadge="{{data?.length}}" matBadgeOverlap="false" [ngClass]="{'active': currentFilter == 0}">All</span>
+        <span matBadge="{{data?.length}}" matBadgeOverlap="false"
+          [ngClass]="{'active': currentFilter == 0}">{{ 'pca.tenant.tool.all' | translate }}</span>
       </button>
       <button mat-stroked-button [color]="currentFilter == 1 ? 'primary' : null" class="col"
         (click)="currentFilter = 1; applyFilter(currentSearching + ' Manufacturer')">
         <span matBadge="{{numManufacturer}}" matBadgeOverlap="false"
-          [ngClass]="{'active': currentFilter == 1}">Manufacturers</span>
+          [ngClass]="{'active': currentFilter == 1}">{{ 'pca.tenant.tool.manufacturers' | translate }}</span>
       </button>
       <button mat-stroked-button [color]="currentFilter == 2 ? 'primary' : null" class="col"
         (click)="currentFilter = 2; applyFilter(currentSearching + ' Distributor')">
         <span matBadge="{{numDistributor}}" matBadgeOverlap="false"
-          [ngClass]="{'active': currentFilter == 2}">Distributors</span>
+          [ngClass]="{'active': currentFilter == 2}">{{ 'pca.tenant.tool.distributors' | translate }}</span>
       </button>
       <button mat-stroked-button [color]="currentFilter == 3 ? 'primary' : null" class="col"
         (click)="currentFilter = 3; applyFilter(currentSearching + ' Retailer')">
         <span matBadge="{{numRetailer}}" matBadgeOverlap="false"
-          [ngClass]="{'active': currentFilter == 3}">Retailers</span>
+          [ngClass]="{'active': currentFilter == 3}">{{ 'pca.tenant.tool.retailers' | translate }}</span>
       </button>
     </div>
 
     <div class="col mat-elevation-z2" style="padding: 0">
-      <pca-big-input placeholder="Search..."
+      <pca-big-input placeholder="{{ 'pca.tenant.tool.searching' | translate }}"
         (keyup)="applyFilter($event.target.value); currentSearching = $event.target.value">
-        <pca-big-input-action fontSet="fas" fontIcon="fa-search" faIcon="search" color="accent" matTooltip="Search"
-          matTooltipPosition="before">
+        <pca-big-input-action fontSet="fas" fontIcon="fa-search" faIcon="search" color="accent"
+          matTooltip="{{ 'pca.tenant.tool.search' | translate }}" matTooltipPosition="before">
         </pca-big-input-action>
       </pca-big-input>
     </div>
@@ -44,7 +45,7 @@
   <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z3" matSort
     [ngClass]="routeAnimationsElements">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{camelCaseToTitle(column)}} </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ translateByKey(column) | async }} </th>
       <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
     </ng-container>
 
@@ -64,37 +65,37 @@
           <div class="example-element-description">
             <!-- Business name -->
             <div class="row row-data">
-              <div class="col-3 data-label">Business name</div>
+              <div class="col-3 data-label">{{ 'pca.tenant.form.name' | translate }}</div>
               <div class="col-9">{{element.name}}</div>
             </div>
             <!-- Business type -->
             <div class="row row-data">
-              <div class="col-3 data-label">Business type</div>
+              <div class="col-3 data-label">{{ 'pca.tenant.form.type' | translate }}</div>
               <div class="col-9">{{element.type}}</div>
             </div>
             <!-- Tax code -->
             <div class="row row-data">
-              <div class="col-3 data-label">Tax code</div>
+              <div class="col-3 data-label">{{ 'pca.tenant.form.tax' | translate }}</div>
               <div class="col-9">{{element.taxCode}}</div>
             </div>
             <!-- Registration code -->
             <div class="row row-data">
-              <div class="col-3 data-label">Registrated code</div>
+              <div class="col-3 data-label">{{ 'pca.tenant.form.registrationCode' | translate }}</div>
               <div class="col-9">{{element.registrationCode}}</div>
             </div>
             <!-- Phone number -->
             <div *ngIf="element.phoneNumber !== ''" class="row row-data">
-              <div class="col-3 data-label">Phone number</div>
+              <div class="col-3 data-label">{{ 'pca.tenant.form.phoneNumber' | translate }}</div>
               <div class="col-9">{{element.phoneNumber}}</div>
             </div>
             <!-- Primary address -->
             <div class="row row-data">
-              <div class="col-3 data-label">Primary address</div>
+              <div class="col-3 data-label">{{ 'pca.tenant.form.primaryAddress' | translate }}</div>
               <div class="col-9">{{element.primaryAddress}}</div>
             </div>
             <!-- Branch address -->
             <div class="row row-data" *ngIf="element?.branchAddresses">
-              <div class="col-3 data-label">Branch address</div>
+              <div class="col-3 data-label">{{ 'pca.tenant.form.branchAddress' | translate }}</div>
               <div class="col-9">
                 <span *ngFor="let branch of element.branchAddresses; let i=index">({{i+1}}) {{branch}}; </span>
               </div>
@@ -102,18 +103,18 @@
 
             <!-- Contract address -->
             <div class="row row-data">
-              <div class="col-3 data-label">Contract address</div>
+              <div class="col-3 data-label">{{ 'pca.tenant.form.contractAddress' | translate }}</div>
               <div *ngIf="element.contractAddress" class="col-9 txh-link"
                 (click)="onClickContracAddress(element.contractAddress)">
                 {{element.contractAddress}}
               </div>
               <div *ngIf="!element.contractAddress" class="col-9">
-                Pending...
+                {{ 'pca.tenant.form.pending' | translate }}
               </div>
             </div>
             <!-- Transaction hash -->
             <div class="row row-data">
-              <div class="col-3 data-label">Transaction hash</div>
+              <div class="col-3 data-label">{{ 'pca.tenant.form.transactionHash' | translate }}</div>
               <div class="col-9 txh-link" (click)="onClickTransactionHash(element.transactionHash)">
                 {{element.transactionHash}}
               </div>
@@ -132,8 +133,10 @@
             </div>
             <!-- Action button -->
             <div class="function-container">
-              <button mat-stroked-button color="primary" class="function" (click)="onClickUpdate(element.id)">Update</button>
-              <button mat-stroked-button color="warn" class="function" (click)="onClickDelete(element.id)">Delete</button>
+              <button mat-stroked-button color="primary" class="function"
+                (click)="onClickUpdate(element.id)">{{ 'pca.tenant.form.update' | translate }}</button>
+              <button mat-stroked-button color="warn" class="function"
+                (click)="onClickDelete(element.id)">{{ 'pca.tenant.form.delete' | translate }}</button>
             </div>
           </div>
         </div>

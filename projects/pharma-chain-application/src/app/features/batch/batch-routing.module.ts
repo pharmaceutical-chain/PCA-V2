@@ -17,17 +17,17 @@ const routes: Routes = [
       {
         path: 'enter-batch',
         component: EnterBatchComponent,
-        data: { title: 'pca.features.batch.enter' }
+        data: { title: 'pca.batch.enter' }
       },
       {
         path: 'update-batch',
         component: EnterBatchComponent,
-        data: { title: 'pca.features.batch.update' }
+        data: { title: 'pca.batch.update' }
       },
       {
         path: 'overview-batch',
         component: OverviewBatchComponent,
-        data: { title: 'pca.features.batch.overview' }
+        data: { title: 'pca.batch.overview' }
       }
     ]
   }

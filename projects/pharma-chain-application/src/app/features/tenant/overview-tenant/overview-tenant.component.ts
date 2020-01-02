@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationDialogComponent } from './../../../shared/confirmation-dialog/confirmation-dialog.component';
 import { ITenant_GET } from './../../../shared/utils/tenants.interface';
 import { TenantService } from './../tenant.service';
@@ -53,7 +54,8 @@ export class OverviewTenantComponent implements OnInit {
     private dialog: MatDialog,
     private readonly notificationService: NotificationService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService
   ) { }
 
   async ngOnInit() {
@@ -123,9 +125,8 @@ export class OverviewTenantComponent implements OnInit {
     this.length = event.length;
   }
 
-  camelCaseToTitle(camelCase: string): string {
-    const result = camelCase.replace(/([A-Z])/g, x => ` ${x.toLowerCase()}`);
-    return result.charAt(0).toUpperCase() + result.slice(1);
+  translateByKey(key: string) {
+    return this.translate.get(`pca.tenant.form.${key}`);
   }
 
   onClickTransactionHash(txh: string) {

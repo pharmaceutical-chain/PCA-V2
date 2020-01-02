@@ -2,7 +2,7 @@
   <!-- Header -->
   <div class="row">
     <div class="col">
-      <h1 class="main-heading">Overview Transfer</h1>
+      <h1 class="main-heading">{{ 'pca.transfer.overview' | translate }}</h1>
     </div>
   </div>
 
@@ -11,19 +11,19 @@
     <div *ngIf="!isAdmin" class="filter mat-elevation-z2">
       <button mat-stroked-button [color]="currentFilter.value == 0 ? 'primary' : null" class="col"
         (click)="currentFilter.next(0)">
-        <span matBadge="{{numSent}}" matBadgeOverlap="false" [ngClass]="{'active': currentFilter.value == 0}">Sent
-          History</span>
+        <span matBadge="{{numSent}}" matBadgeOverlap="false"
+          [ngClass]="{'active': currentFilter.value == 0}">{{ 'pca.transfer.sentHistory' | translate }}</span>
       </button>
       <button mat-stroked-button [color]="currentFilter.value == 1 ? 'primary' : null" class="col"
         (click)="currentFilter.next(1)">
         <span matBadge="{{numReceived}}" matBadgeOverlap="false" [ngClass]="{'active': currentFilter.value == 1}">
-          Received History</span>
+          {{ 'pca.transfer.receivedHistory' | translate }}</span>
       </button>
     </div>
 
     <div class="col mat-elevation-z2" style="padding: 0">
-      <pca-big-input placeholder="Search..." (keyup)="applyFilter($event.target.value);">
-        <pca-big-input-action fontSet="fas" fontIcon="fa-search" faIcon="search" color="accent" matTooltip="Search"
+      <pca-big-input placeholder="{{ 'pca.transfer.tool.searching' | translate }}" (keyup)="applyFilter($event.target.value);">
+        <pca-big-input-action fontSet="fas" fontIcon="fa-search" faIcon="search" color="accent" matTooltip="{{ 'pca.transfer.tool.search' | translate }}"
           matTooltipPosition="before">
         </pca-big-input-action>
       </pca-big-input>
@@ -34,7 +34,7 @@
   <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z3" matSort
     [ngClass]="routeAnimationsElements">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{camelCaseToTitle(column)}} </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ translateByKey(column) | async }} </th>
       <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
     </ng-container>
 
@@ -48,31 +48,31 @@
             <!-- MEDICINE -->
             <div class="group-info sub-info">
               <div class="row">
-                <div class="col group-title">Medicine</div>
+                <div class="col group-title">{{ 'pca.transfer.form.medicine' | translate }}</div>
                 <div class="col see-detail" (click)="onClickContracAddress(element.medicineCA)">
-                  Click to see detail on BLOCKCHAIN
+                  {{ 'pca.transfer.form.seeBlockchain' | translate }}
                   <fa-icon icon="external-link-alt"></fa-icon>
                 </div>
               </div>
               <hr>
               <!-- registrationCode -->
               <div class="row row-data">
-                <div class="col-3 data-label">Registration code</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.registrationCode' | translate }}</div>
                 <div class="col-9">{{element.registrationCode}}</div>
               </div>
               <!-- commercialName -->
               <div class="row row-data">
-                <div class="col-3 data-label">Name</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.commercialName' | translate }}</div>
                 <div class="col-9">{{element.medicine}}</div>
               </div>
               <!-- declaredPrice -->
               <div class="row row-data">
-                <div class="col-3 data-label">Declared price</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.declaredPrice' | translate }}</div>
                 <div class="col-9">{{element.declaredPrice}}</div>
               </div>
               <!-- registeredBy -->
               <div class="row row-data">
-                <div class="col-3 data-label">Registered by</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.registeredBy' | translate }}</div>
                 <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.registeredByCA)">
                   {{element.registeredBy}}
                 </div>
@@ -82,37 +82,37 @@
             <!-- BATCH -->
             <div class="group-info sub-info">
               <div class="row">
-                <div class="col group-title">Batch</div>
+                <div class="col group-title">{{ 'pca.transfer.form.batch' | translate }}</div>
                 <div class="col see-detail" (click)="onClickContracAddress(element.batchCA)">
-                  Click to see detail on BLOCKCHAIN
+                  {{ 'pca.transfer.form.seeBlockchain' | translate }}
                   <fa-icon icon="external-link-alt"></fa-icon>
                 </div>
               </div>
               <hr>
               <!-- Batch number -->
               <div class="row row-data">
-                <div class="col-3 data-label">Batch number</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.batchNumber' | translate }}</div>
                 <div class="col-9">{{element.batchNumber}}</div>
               </div>
               <!-- Manufacture date -->
               <div class="row row-data">
-                <div class="col-3 data-label">MFG date</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.mfgDate' | translate }}</div>
                 <div class="col-9">{{element.manufactureDate}}</div>
               </div>
               <!-- Expiry date -->
               <div class="row row-data">
-                <div class="col-3 data-label">EXP date</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.expDate' | translate }}</div>
                 <div class="col-9">{{element.expiryDate}}</div>
               </div>
               <!-- madeBy -->
               <div class="row row-data">
-                <div class="col-3 data-label">Made by</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.madeBy' | translate }}</div>
                 <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.madeByCA)">{{element.madeBy}}
                 </div>
               </div>
               <!-- madeIn -->
               <div class="row row-data">
-                <div class="col-3 data-label">Made in</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.madeIn' | translate }}</div>
                 <div class="col-9">{{element.madeIn}}</div>
               </div>
             </div>
@@ -120,43 +120,43 @@
             <!-- TRANSFER -->
             <div class="group-info">
               <div class="row">
-                <div class="col group-title">Transfer</div>
+                <div class="col group-title">{{ 'pca.transfer.form.transfer' | translate }}</div>
                 <div *ngIf="element.contractAddress" class="col see-detail"
                   (click)="onClickContracAddress(element.contractAddress)">
-                  Click to see detail on BLOCKCHAIN
+                  {{ 'pca.transfer.form.seeBlockchain' | translate }}
                   <fa-icon icon="external-link-alt"></fa-icon>
                 </div>
                 <div *ngIf="!element.contractAddress" class="col see-detail">
-                  Pending...
+                  {{ 'pca.transfer.form.pending' | translate }}
                 </div>
               </div>
               <hr>
               <!-- quantity -->
               <div class="row row-data">
-                <div class="col-3 data-label">Quantity</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.quantity' | translate }}</div>
                 <div class="col-9">{{element.quantity}} / {{element.unit}}</div>
               </div>
               <!-- from -->
               <div *ngIf="currentFilter.value == 1 || isAdmin" class="row row-data">
-                <div class="col-3 data-label">From</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.from' | translate }}</div>
                 <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.fromCA)">{{element.from}}
                 </div>
               </div>
               <!-- fromAddress -->
               <div *ngIf="currentFilter.value == 1 || isAdmin" class="row row-data">
-                <div class="col-3 data-label">Address</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.address' | translate }}</div>
                 <div class="col-9">{{element.fromAddress}}
                 </div>
               </div>
               <!-- to -->
               <div *ngIf="currentFilter.value == 0 || isAdmin" class="row row-data">
-                <div class="col-3 data-label">To</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.to' | translate }}</div>
                 <div class="col-9 emphasis-text" (click)="onClickContracAddress(element.toCA)">{{element.to}}
                 </div>
               </div>
               <!-- toAddress -->
               <div *ngIf="currentFilter.value == 0 || isAdmin" class="row row-data">
-                <div class="col-3 data-label">Address</div>
+                <div class="col-3 data-label">{{ 'pca.transfer.form.address' | translate }}</div>
                 <div class="col-9">{{element.toAddress}}
                 </div>
               </div>
@@ -164,11 +164,11 @@
 
             <!-- Action button -->
             <div class="function-container">
-              <button mat-flat-button color="primary">VIEW SUPPLY CHAIN</button>
-              <div class="function-crud">
-                <button mat-stroked-button class="function-button">UPDATE</button>
-                <button mat-stroked-button color="warn" class="function-button">DELETE</button>
-              </div>
+              <button mat-flat-button color="primary">{{ 'pca.transfer.form.viewSupplyChain' | translate }}</button>
+              <!-- <div class="function-crud">
+                <button mat-stroked-button class="function-button">{{ 'pca.transfer.form.update' | translate }}</button>
+                <button mat-stroked-button color="warn" class="function-button">{{ 'pca.transfer.form.delete' | translate }}</button>
+              </div> -->
             </div>
           </div>
         </div>

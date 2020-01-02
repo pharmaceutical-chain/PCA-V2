@@ -1,7 +1,7 @@
 <div class="container enter-tenant" rtl>
   <div class="row">
     <div class="col">
-      <h1 class="main-heading">{{ 'pca.features.medicine.form.formName' | translate }}</h1>
+      <h1 class="main-heading">{{ 'pca.medicine.form.formName' | translate }}</h1>
     </div>
   </div>
   <form [formGroup]="form">
@@ -11,20 +11,20 @@
           <!-- Registration code, Commercial name -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.medicine.form.registrationCode' | translate }}"
+              <input matInput placeholder="{{ 'pca.medicine.form.registrationCode' | translate }}"
                 formControlName="registrationCode">
               <mat-error *ngIf="form.get('registrationCode').invalid">
-                {{ 'pca.features.medicine.form.registrationCode' | translate }}
-                {{ 'pca.features.medicine.form.error.required' | translate }}
+                {{ 'pca.medicine.form.registrationCode' | translate }}
+                {{ 'pca.medicine.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
 
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.medicine.form.commercialName' | translate }}"
+              <input matInput placeholder="{{ 'pca.medicine.form.commercialName' | translate }}"
                 formControlName="commercialName">
               <mat-error *ngIf="form.get('commercialName').invalid">
-                {{ 'pca.features.medicine.form.commercialName' | translate }}
-                {{ 'pca.features.medicine.form.error.required' | translate }}
+                {{ 'pca.medicine.form.commercialName' | translate }}
+                {{ 'pca.medicine.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -32,7 +32,7 @@
           <!-- DosageForm, Prescription medicine -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput type="text" placeholder="{{ 'pca.features.medicine.form.dosageForm' | translate }}"
+              <input matInput type="text" placeholder="{{ 'pca.medicine.form.dosageForm' | translate }}"
                 formControlName="dosageForm" [matAutocomplete]="auto">
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
@@ -40,15 +40,15 @@
                 </mat-option>
               </mat-autocomplete>
               <mat-error *ngIf="form.get('dosageForm').invalid">
-                {{ 'pca.features.medicine.form.dosageForm' | translate }}
-                {{ 'pca.features.medicine.form.error.required' | translate }}
+                {{ 'pca.medicine.form.dosageForm' | translate }}
+                {{ 'pca.medicine.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
 
             <div class="col" style="align-self: center;" [ngClass]="routeAnimationsElements">
               <mat-slide-toggle color="primary" [checked]="form.get('isPrescriptionMedicine').value"
                 formControlName="isPrescriptionMedicine">
-                {{ 'pca.features.medicine.form.isPrescriptionMedicine' | translate }}
+                {{ 'pca.medicine.form.isPrescriptionMedicine' | translate }}
               </mat-slide-toggle>
             </div>
           </div>
@@ -57,12 +57,12 @@
           <!-- Price declared -->
           <div class="row">
             <mat-form-field class="col-6" [ngClass]="routeAnimationsElements">
-              <mat-label>{{ 'pca.features.medicine.form.declaredPrice' | translate }}</mat-label>
-              <input matInput placeholder="{{ 'pca.features.medicine.form.declaredPricePlaceholder' | translate }}"
+              <mat-label>{{ 'pca.medicine.form.declaredPrice' | translate }}</mat-label>
+              <input matInput placeholder="{{ 'pca.medicine.form.declaredPricePlaceholder' | translate }}"
                 formControlName="declaredPrice">
               <mat-error *ngIf="form.get('declaredPrice').invalid">
-                {{ 'pca.features.medicine.form.declaredPrice' | translate }}
-                {{ 'pca.features.medicine.form.error.required' | translate }}
+                {{ 'pca.medicine.form.declaredPrice' | translate }}
+                {{ 'pca.medicine.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -70,13 +70,13 @@
           <!-- Active ingredient - Concentration -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <mat-label>{{ 'pca.features.medicine.form.ingredientConcentration' | translate }}</mat-label>
+              <mat-label>{{ 'pca.medicine.form.ingredientConcentration' | translate }}</mat-label>
               <input matInput
-                placeholder="{{ 'pca.features.medicine.form.ingredientConcentrationPlaceholder' | translate }}"
+                placeholder="{{ 'pca.medicine.form.ingredientConcentrationPlaceholder' | translate }}"
                 formControlName="ingredientConcentration">
               <mat-error *ngIf="form.get('ingredientConcentration').invalid">
-                {{ 'pca.features.medicine.form.ingredientConcentration' | translate }}
-                {{ 'pca.features.medicine.form.error.required' | translate }}
+                {{ 'pca.medicine.form.ingredientConcentration' | translate }}
+                {{ 'pca.medicine.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -84,13 +84,13 @@
           <!-- Packing specification -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <mat-label>{{ 'pca.features.medicine.form.packingSpecification' | translate }}</mat-label>
+              <mat-label>{{ 'pca.medicine.form.packingSpecification' | translate }}</mat-label>
               <input matInput
-                placeholder="{{ 'pca.features.medicine.form.packingSpecificationPlaceholder' | translate }}"
+                placeholder="{{ 'pca.medicine.form.packingSpecificationPlaceholder' | translate }}"
                 formControlName="packingSpecification">
               <mat-error *ngIf="form.get('packingSpecification').invalid">
-                {{ 'pca.features.medicine.form.packingSpecification' | translate }}
-                {{ 'pca.features.medicine.form.error.required' | translate }}
+                {{ 'pca.medicine.form.packingSpecification' | translate }}
+                {{ 'pca.medicine.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -98,13 +98,13 @@
           <!-- Import button -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.medicine.form.censorshipCertificateNames' | translate }}"
+              <input matInput placeholder="{{ 'pca.medicine.form.censorshipCertificateNames' | translate }}"
                 formControlName="censorshipCertificateNames">
-              <span class="option-input">({{ 'pca.features.medicine.form.option' | translate }})</span>
+              <span class="option-input">({{ 'pca.medicine.form.option' | translate }})</span>
               <input #file (change)="onFileSelected()" type="file" id="file" accept="application/pdf"
                 multiple="multiple" style="display:none">
               <button (click)="file.click()" type="button" mat-stroked-button color="accent" class="import-button">
-                {{ 'pca.features.medicine.form.import' | translate }}
+                {{ 'pca.medicine.form.import' | translate }}
               </button>
             </mat-form-field>
           </div>
@@ -120,12 +120,12 @@
             <div *ngFor="let pdfSrc of (pdfSrc$ | async); let i=index" class="pdfViewer-item" [formGroupName]="i"
               [ngClass]="routeAnimationsElements">
               <mat-form-field *ngIf="currentPageRendered[i]" class="col">
-                <input matInput placeholder="{{ 'pca.features.medicine.form.certificateId' | translate }}"
+                <input matInput placeholder="{{ 'pca.medicine.form.certificateId' | translate }}"
                   formControlName="name">
                 <fa-icon class="remove-pdf-icon" icon="times" (click)="removeCertificate(i)"></fa-icon>
                 <mat-error *ngIf="certificatesFormArray.at(i)?.invalid">
-                  {{ 'pca.features.medicine.form.certificateId' | translate }}
-                  {{ 'pca.features.medicine.form.error.required' | translate }}
+                  {{ 'pca.medicine.form.certificateId' | translate }}
+                  {{ 'pca.medicine.form.error.required' | translate }}
                 </mat-error>
               </mat-form-field>
               <pdf-viewer [src]="pdfSrc" [original-size]="false" [autoresize]="true" [show-all]="false"
@@ -139,15 +139,15 @@
           <div class="row buttons d-flex justify-content-between pad">
             <button class="w-100" mat-stroked-button color="primary" [ngClass]="routeAnimationsElements"
               [routerLink]="['/dashboard']">
-              {{ 'pca.features.medicine.form.cancel' | translate }}
+              {{ 'pca.medicine.form.cancel' | translate }}
             </button>
             <button *ngIf="needUpload && form.valid" class="w-100" mat-raised-button color="primary"
               [ngClass]="routeAnimationsElements" (click)="openUploadDialog()">
-              {{ 'pca.features.medicine.form.upload' | translate }}
+              {{ 'pca.medicine.form.upload' | translate }}
             </button>
             <button [disabled]="form.invalid || needUpload || !canUpdate" class="w-100" mat-raised-button
               color="primary" [ngClass]="routeAnimationsElements" (click)="submit()">
-              {{ 'pca.features.medicine.form.submit' | translate }}
+              {{ 'pca.medicine.form.submit' | translate }}
             </button>
           </div>
         </mat-card>

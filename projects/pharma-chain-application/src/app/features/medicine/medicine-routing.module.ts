@@ -17,17 +17,17 @@ const routes: Routes = [
       {
         path: 'enter-medicine',
         component: EnterMedicineComponent,
-        data: { title: 'pca.features.medicine.enter' }
+        data: { title: 'pca.medicine.enter' }
       },
       {
         path: 'update-medicine',
         component: EnterMedicineComponent,
-        data: { title: 'pca.features.medicine.update' }
+        data: { title: 'pca.medicine.update' }
       },
       {
         path: 'overview-medicine',
         component: OverviewMedicineComponent,
-        data: { title: 'pca.features.medicine.overview' }
+        data: { title: 'pca.medicine.overview' }
       }
     ]
   }

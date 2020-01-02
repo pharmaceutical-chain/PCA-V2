@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ROUTE_ANIMATIONS_ELEMENTS, NotificationService } from '../../../core/core.module';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent, MatDialog } from '@angular/material';
@@ -40,7 +41,8 @@ export class OverviewMedicineComponent implements OnInit {
     private dialog: MatDialog,
     private readonly notificationService: NotificationService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService
   ) { }
 
   async ngOnInit() {
@@ -89,9 +91,8 @@ export class OverviewMedicineComponent implements OnInit {
     this.length = event.length;
   }
 
-  camelCaseToTitle(camelCase: string): string {
-    const result = camelCase.replace(/([A-Z])/g, x => ` ${x.toLowerCase()}`);
-    return result.charAt(0).toUpperCase() + result.slice(1);
+  translateByKey(key: string) {
+    return this.translate.get(`pca.medicine.form.${key}`);
   }
 
   onClickTransactionHash(txh: string) {

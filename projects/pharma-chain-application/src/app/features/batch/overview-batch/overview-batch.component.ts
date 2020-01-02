@@ -8,6 +8,7 @@ import { IBatch_GET } from '../../../shared/utils/batches.interface';
 import { PdfViewerComponent } from '../../../shared/pdf-viewer/pdf-viewer.component';
 import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog/confirmation-dialog.component';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'pca-overview-batch',
@@ -40,7 +41,8 @@ export class OverviewBatchComponent implements OnInit {
     private dialog: MatDialog,
     private readonly notificationService: NotificationService,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) { }
 
   async ngOnInit() {
@@ -88,9 +90,8 @@ export class OverviewBatchComponent implements OnInit {
     this.length = event.length;
   }
 
-  camelCaseToTitle(camelCase: string): string {
-    const result = camelCase.replace(/([A-Z])/g, x => ` ${x.toLowerCase()}`);
-    return result.charAt(0).toUpperCase() + result.slice(1);
+  translateByKey(key: string) {
+    return this.translate.get(`pca.batch.form.${key}`);
   }
 
   onClickTransactionHash(txh: string) {

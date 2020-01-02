@@ -17,12 +17,12 @@ const routes: Routes = [
       {
         path: 'enter-transfer',
         component: EnterTransferComponent,
-        data: { title: 'pca.features.transfer.enter' }
+        data: { title: 'pca.transfer.enter' }
       },
       {
         path: 'overview-transfer',
         component: OverviewTransferComponent,
-        data: { title: 'pca.features.transfer.overview' }
+        data: { title: 'pca.transfer.overview' }
       }
     ]
   }

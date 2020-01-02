@@ -1,7 +1,7 @@
 <div class="container enter-batch" rtl>
   <div class="row">
     <div class="col">
-      <h1 class="main-heading">{{ 'pca.features.batch.form.formName' | translate }}</h1>
+      <h1 class="main-heading">{{ 'pca.batch.form.formName' | translate }}</h1>
     </div>
   </div>
   <form [formGroup]="form">
@@ -11,11 +11,11 @@
           <!-- Batch number -->
           <div class="row">
             <mat-form-field class="col-6" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.batch.form.batchNumber' | translate }}"
+              <input matInput placeholder="{{ 'pca.batch.form.batchNumber' | translate }}"
                 formControlName="batchNumber">
               <mat-error *ngIf="form.get('batchNumber').invalid">
-                {{ 'pca.features.batch.form.batchNumber' | translate }}
-                {{ 'pca.features.batch.form.error.required' | translate }}
+                {{ 'pca.batch.form.batchNumber' | translate }}
+                {{ 'pca.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -23,7 +23,7 @@
           <!-- Medicine -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput type="text" placeholder="{{ 'pca.features.batch.form.medicine' | translate }}"
+              <input matInput type="text" placeholder="{{ 'pca.batch.form.medicine' | translate }}"
                 formControlName="medicineId" [matAutocomplete]="auto">
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                 <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
@@ -31,8 +31,8 @@
                 </mat-option>
               </mat-autocomplete>
               <mat-error *ngIf="form.get('medicineId').invalid">
-                {{ 'pca.features.batch.form.medicine' | translate }}
-                {{ 'pca.features.batch.form.error.required' | translate }}
+                {{ 'pca.batch.form.medicine' | translate }}
+                {{ 'pca.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -40,15 +40,15 @@
           <!-- Quantity, Unit -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.batch.form.quantity' | translate }}"
+              <input matInput placeholder="{{ 'pca.batch.form.quantity' | translate }}"
                 formControlName="quantity">
               <mat-error *ngIf="form.get('quantity').invalid">
-                {{ 'pca.features.batch.form.quantity' | translate }}
-                {{ 'pca.features.batch.form.error.required' | translate }}
+                {{ 'pca.batch.form.quantity' | translate }}
+                {{ 'pca.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.batch.form.unit' | translate }}" formControlName="unit"
+              <input matInput placeholder="{{ 'pca.batch.form.unit' | translate }}" formControlName="unit"
                 [matAutocomplete]="autoUnit" (focus)="onFocusUnitInput()">
               <mat-autocomplete #autoUnit="matAutocomplete">
                 <mat-option *ngFor="let option of unitOptions" [value]="option">
@@ -56,8 +56,8 @@
                 </mat-option>
               </mat-autocomplete>
               <mat-error *ngIf="form.get('unit').invalid">
-                {{ 'pca.features.batch.form.unit' | translate }}
-                {{ 'pca.features.batch.form.error.required' | translate }}
+                {{ 'pca.batch.form.unit' | translate }}
+                {{ 'pca.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -65,27 +65,27 @@
           <!-- Manufacturing date, Expiry date -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <mat-label>{{ 'pca.features.batch.form.manufactureDate' | translate }}</mat-label>
+              <mat-label>{{ 'pca.batch.form.manufactureDate' | translate }}</mat-label>
               <input matInput [matDatepicker]="mfgPicker"
-                placeholder="{{ 'pca.features.batch.form.datePlaceholder' | translate }}"
+                placeholder="{{ 'pca.batch.form.datePlaceholder' | translate }}"
                 formControlName="manufactureDate">
               <mat-datepicker-toggle matSuffix [for]="mfgPicker"></mat-datepicker-toggle>
               <mat-datepicker #mfgPicker></mat-datepicker>
               <mat-error *ngIf="form.get('manufactureDate').invalid">
-                {{ 'pca.features.batch.form.manufactureDate' | translate }}
-                {{ 'pca.features.batch.form.error.required' | translate }}
+                {{ 'pca.batch.form.manufactureDate' | translate }}
+                {{ 'pca.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
 
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <mat-label>{{ 'pca.features.batch.form.expiryDate' | translate }}</mat-label>
+              <mat-label>{{ 'pca.batch.form.expiryDate' | translate }}</mat-label>
               <input matInput [matDatepicker]="expPicker"
-                placeholder="{{ 'pca.features.batch.form.datePlaceholder' | translate }}" formControlName="expiryDate">
+                placeholder="{{ 'pca.batch.form.datePlaceholder' | translate }}" formControlName="expiryDate">
               <mat-datepicker-toggle matSuffix [for]="expPicker"></mat-datepicker-toggle>
               <mat-datepicker #expPicker></mat-datepicker>
               <mat-error *ngIf="form.get('expiryDate').invalid">
-                {{ 'pca.features.batch.form.expiryDate' | translate }}
-                {{ 'pca.features.batch.form.error.required' | translate }}
+                {{ 'pca.batch.form.expiryDate' | translate }}
+                {{ 'pca.batch.form.error.required' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -93,13 +93,13 @@
           <!-- Import button -->
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'pca.features.batch.form.censorshipCertificateNames' | translate }}"
+              <input matInput placeholder="{{ 'pca.batch.form.censorshipCertificateNames' | translate }}"
                 formControlName="censorshipCertificateNames">
-              <span class="option-input">({{ 'pca.features.batch.form.option' | translate }})</span>
+              <span class="option-input">({{ 'pca.batch.form.option' | translate }})</span>
               <input #file (change)="onFileSelected()" type="file" id="file" accept="application/pdf"
                 multiple="multiple" style="display:none">
               <button (click)="file.click()" type="button" mat-stroked-button color="accent" class="import-button">
-                {{ 'pca.features.batch.form.import' | translate }}
+                {{ 'pca.batch.form.import' | translate }}
               </button>
             </mat-form-field>
           </div>
@@ -115,12 +115,12 @@
             <div *ngFor="let pdfSrc of (pdfSrc$ | async); let i=index" class="pdfViewer-item" [formGroupName]="i"
               [ngClass]="routeAnimationsElements">
               <mat-form-field *ngIf="currentPageRendered[i]" class="col">
-                <input matInput placeholder="{{ 'pca.features.batch.form.certificateId' | translate }}"
+                <input matInput placeholder="{{ 'pca.batch.form.certificateId' | translate }}"
                   formControlName="name">
                 <fa-icon class="remove-pdf-icon" icon="times" (click)="removeCertificate(i)"></fa-icon>
                 <mat-error *ngIf="certificatesFormArray.at(i)?.invalid">
-                  {{ 'pca.features.batch.form.certificateId' | translate }}
-                  {{ 'pca.features.batch.form.error.required' | translate }}
+                  {{ 'pca.batch.form.certificateId' | translate }}
+                  {{ 'pca.batch.form.error.required' | translate }}
                 </mat-error>
               </mat-form-field>
               <pdf-viewer [src]="pdfSrc" [original-size]="false" [autoresize]="true" [show-all]="false"
@@ -134,15 +134,15 @@
           <div class="row buttons d-flex justify-content-between pad">
             <button class="w-100" mat-stroked-button color="primary" [ngClass]="routeAnimationsElements"
               [routerLink]="['/dashboard']">
-              {{ 'pca.features.batch.form.cancel' | translate }}
+              {{ 'pca.batch.form.cancel' | translate }}
             </button>
             <button *ngIf="needUpload && form.valid" class="w-100" mat-raised-button color="primary"
               [ngClass]="routeAnimationsElements" (click)="openUploadDialog()">
-              {{ 'pca.features.batch.form.upload' | translate }}
+              {{ 'pca.batch.form.upload' | translate }}
             </button>
             <button [disabled]="form.invalid || needUpload || !canUpdate" class="w-100" mat-raised-button
               color="primary" [ngClass]="routeAnimationsElements" (click)="submit()">
-              {{ 'pca.features.batch.form.submit' | translate }}
+              {{ 'pca.batch.form.submit' | translate }}
             </button>
           </div>
         </mat-card>

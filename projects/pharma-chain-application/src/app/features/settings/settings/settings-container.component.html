@@ -63,14 +63,14 @@
           <mat-icon color="accent"><mat-icon color="accent"><fa-icon icon="window-maximize"></fa-icon></mat-icon></mat-icon>
           <mat-placeholder>{{ 'pca.settings.animations.page' | translate }}
           </mat-placeholder>
-          <mat-slide-toggle
+          <!-- <mat-slide-toggle
             matTooltip="Sorry, this feature is disabled in IE, EDGE and Safari"
             matTooltipPosition="before"
             *ngIf="settings.pageAnimationsDisabled"
             disabled>
-          </mat-slide-toggle>
+          </mat-slide-toggle> -->
           <mat-slide-toggle
-            *ngIf="!settings.pageAnimationsDisabled"
+            *ngIf="settings.pageAnimationsDisabled"
             [checked]="settings.pageAnimations"
             (change)="onPageAnimationsToggle($event)">
           </mat-slide-toggle>

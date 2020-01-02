@@ -17,17 +17,17 @@ const routes: Routes = [
       {
         path: 'enter-tenant',
         component: EnterTenantComponent,
-        data: { title: 'pca.features.tenant.enter' }
+        data: { title: 'pca.tenant.enter' }
       },
       {
         path: 'update-tenant',
         component: EnterTenantComponent,
-        data: { title: 'pca.features.tenant.update' }
+        data: { title: 'pca.tenant.update' }
       },
       {
         path: 'overview-tenant',
         component: OverviewTenantComponent,
-        data: { title: 'pca.features.tenant.overview' }
+        data: { title: 'pca.tenant.overview' }
       }
     ]
   }

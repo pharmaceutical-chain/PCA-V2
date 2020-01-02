@@ -2,15 +2,15 @@
   <!-- Header -->
   <div class="row">
     <div class="col">
-      <h1 class="main-heading">Overview Medicines</h1>
+      <h1 class="main-heading">{{ 'pca.medicine.overview' | translate }}</h1>
     </div>
   </div>
 
   <!-- Tools -->
   <div class="tool-group" style="padding-bottom: 40px;" [ngClass]="routeAnimationsElements">
     <div class="col mat-elevation-z2" style="padding: 0">
-      <pca-big-input placeholder="Search..." (keyup)="applyFilter($event.target.value)">
-        <pca-big-input-action fontSet="fas" fontIcon="fa-search" faIcon="search" color="accent" matTooltip="Search"
+      <pca-big-input placeholder="{{ 'pca.medicine.tool.searching' | translate }}" (keyup)="applyFilter($event.target.value)">
+        <pca-big-input-action fontSet="fas" fontIcon="fa-search" faIcon="search" color="accent" matTooltip="{{ 'pca.medicine.tool.search' | translate }}"
           matTooltipPosition="before">
         </pca-big-input-action>
       </pca-big-input>
@@ -21,7 +21,7 @@
   <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z3" matSort
     [ngClass]="routeAnimationsElements">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{camelCaseToTitle(column)}} </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ translateByKey(column) | async }} </th>
       <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
     </ng-container>
 
@@ -41,64 +41,64 @@
           <div class="example-element-description">
             <!-- Registration code -->
             <div class="row row-data">
-              <div class="col-3 data-label">Registration code</div>
+              <div class="col-3 data-label">{{ 'pca.medicine.form.registrationCode' | translate }}</div>
               <div class="col-9">{{element.registrationCode}}</div>
             </div>
             <!-- Commercial name -->
             <div class="row row-data">
-              <div class="col-3 data-label">Commercial name</div>
+              <div class="col-3 data-label">{{ 'pca.medicine.form.commercialName' | translate }}</div>
               <div class="col-9">{{element.commercialName}}</div>
             </div>
             <!-- Ingredient concentration -->
             <div class="row row-data">
-              <div class="col-3 data-label">Ingredient - Concentration</div>
+              <div class="col-3 data-label">{{ 'pca.medicine.form.ingredientConcentration' | translate }}</div>
               <div class="col-9">{{element.ingredientConcentration}}</div>
             </div>
             <!-- Is prescription medicine -->
             <div class="row row-data">
-              <div class="col-3 data-label">Classification</div>
-              <div class="col-9">{{element.isPrescriptionMedicine ? '' : 'Non-'}}Prescription medicine</div>
+              <div class="col-3 data-label">{{ 'pca.medicine.form.classification' | translate }}</div>
+              <div class="col-9">{{element.isPrescriptionMedicine ? '' : 'Non-'}}{{ 'pca.medicine.form.isPrescriptionMedicine' | translate }}</div>
             </div>
             <!-- Dosage form -->
             <div class="row row-data">
-              <div class="col-3 data-label">Dosage form</div>
+              <div class="col-3 data-label">{{ 'pca.medicine.form.dosageForm' | translate }}</div>
               <div class="col-9">{{element.dosageForm}}</div>
             </div>
             <!-- Packing specification -->
             <div class="row row-data">
-              <div class="col-3 data-label">Packing specification</div>
+              <div class="col-3 data-label">{{ 'pca.medicine.form.packingSpecification' | translate }}</div>
               <div class="col-9">{{element.packingSpecification}}</div>
             </div>
             <!-- Declared price -->
             <div class="row row-data">
-              <div class="col-3 data-label">Declared price</div>
+              <div class="col-3 data-label">{{ 'pca.medicine.form.declaredPrice' | translate }}</div>
               <div class="col-9">{{element.declaredPrice}}</div>
             </div>
             <!-- Manufacturer -->
             <div class="row row-data">
-              <div class="col-3 data-label">Manufacturer</div>
+              <div class="col-3 data-label">{{ 'pca.medicine.form.manufacturer' | translate }}</div>
               <div class="col-9">{{element.manufacturer}}</div>
             </div>
             <!-- Manufacturer address -->
             <div class="row row-data">
-              <div class="col-3 data-label">Manufacturer address</div>
+              <div class="col-3 data-label">{{ 'pca.medicine.form.manufacturerAddress' | translate }}</div>
               <div class="col-9">{{element.manufacturerAddress}}</div>
             </div>
 
             <!-- Contract address -->
             <div class="row row-data">
-              <div class="col-3 data-label">Contract address</div>
+              <div class="col-3 data-label">{{ 'pca.medicine.form.contractAddress' | translate }}</div>
               <div *ngIf="element.contractAddress" class="col-9 txh-link"
                 (click)="onClickContracAddress(element.contractAddress)">
                 {{element.contractAddress}}
               </div>
               <div *ngIf="!element.contractAddress" class="col-9">
-                Pending...
+                {{ 'pca.medicine.form.pending' | translate }}
               </div>
             </div>
             <!-- Transaction hash -->
             <div class="row row-data">
-              <div class="col-3 data-label">Transaction hash</div>
+              <div class="col-3 data-label">{{ 'pca.medicine.form.transactionHash' | translate }}</div>
               <div class="col-9 txh-link" (click)="onClickTransactionHash(element.transactionHash)">
                 {{element.transactionHash}}
               </div>
@@ -118,9 +118,9 @@
             <!-- Action button -->
             <div class="function-container">
               <button mat-stroked-button color="primary" class="function"
-                (click)="onClickUpdate(element.id)">Update</button>
+                (click)="onClickUpdate(element.id)">{{ 'pca.medicine.form.update' | translate }}</button>
               <button mat-stroked-button color="warn" class="function"
-                (click)="onClickDelete(element.id)">Delete</button>
+                (click)="onClickDelete(element.id)">{{ 'pca.medicine.form.delete' | translate }}</button>
             </div>
           </div>
         </div>

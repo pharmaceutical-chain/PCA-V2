@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from './../../../core/auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
 import { ITransfer_GET } from './../../../shared/utils/transfer.interface';
@@ -43,7 +44,8 @@ export class OverviewTransferComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private transferService: TransferService,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private translate: TranslateService) { }
 
   async ngOnInit() {
     this.isAdmin = await this.authService.isAdmin$.toPromise();
@@ -108,10 +110,10 @@ export class OverviewTransferComponent implements OnInit {
     this.length = event.length;
   }
 
-  camelCaseToTitle(camelCase: string): string {
-    const result = camelCase.replace(/([A-Z])/g, x => ` ${x.toLowerCase()}`);
-    return result.charAt(0).toUpperCase() + result.slice(1);
+  translateByKey(key: string) {
+    return this.translate.get(`pca.transfer.form.${key}`);
   }
+
 
   onClickTransactionHash(txh: string) {
     const url = `https://ropsten.etherscan.io/tx/${txh}`;
