@@ -12,12 +12,12 @@
       <button mat-stroked-button [color]="currentFilter.value == 0 ? 'primary' : null" class="col"
         (click)="currentFilter.next(0)">
         <span matBadge="{{numSent}}" matBadgeOverlap="false"
-          [ngClass]="{'active': currentFilter.value == 0}">{{ 'pca.transfer.sentHistory' | translate }}</span>
+          [ngClass]="{'active': currentFilter.value == 0}">{{ 'pca.transfer.tool.sentHistory' | translate }}</span>
       </button>
       <button mat-stroked-button [color]="currentFilter.value == 1 ? 'primary' : null" class="col"
         (click)="currentFilter.next(1)">
         <span matBadge="{{numReceived}}" matBadgeOverlap="false" [ngClass]="{'active': currentFilter.value == 1}">
-          {{ 'pca.transfer.receivedHistory' | translate }}</span>
+          {{ 'pca.transfer.tool.receivedHistory' | translate }}</span>
       </button>
     </div>
 
@@ -164,7 +164,8 @@
 
             <!-- Action button -->
             <div class="function-container">
-              <button mat-flat-button color="primary">{{ 'pca.transfer.form.viewSupplyChain' | translate }}</button>
+              <button mat-flat-button color="primary" class="function-button" (click)="verifyBatch(element.toId, element.medicineBatchId)">{{ 'pca.transfer.form.verify' | translate }}</button>
+              <button mat-flat-button color="primary" class="function-button" (click)="generateQR(element.toId, element.medicineBatchId)">{{ 'pca.transfer.form.generateQR' | translate }}</button>
               <!-- <div class="function-crud">
                 <button mat-stroked-button class="function-button">{{ 'pca.transfer.form.update' | translate }}</button>
                 <button mat-stroked-button color="warn" class="function-button">{{ 'pca.transfer.form.delete' | translate }}</button>

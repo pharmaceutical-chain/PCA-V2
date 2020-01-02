@@ -17,7 +17,8 @@
   "pca.transfer.form.expDate": "Ngày hết hạn",
   "pca.transfer.form.remainingQuantity": "Còn lại",
   "pca.transfer.form.seeBlockchain": "Nhấn để xem chi tiết trên BLOCKCHAIN",
-  "pca.transfer.form.viewSupplyChain": "XÁC THỰC LÔ DƯỢC",
+  "pca.transfer.form.verify": "XÁC THỰC LÔ DƯỢC",
+  "pca.transfer.form.generateQR": "XUẤT MÃ QR",
   "pca.transfer.form.pending": "đang xử lý...",
   "pca.transfer.form.date": "Ngày",
   "pca.transfer.form.time": "Giờ",
@@ -27,6 +28,8 @@
   "pca.transfer.form.madeBy": "Sản xuất bởi",
   "pca.transfer.form.madeIn": "Sản xuất tại",
   "pca.transfer.form.transfer": "Giao dịch",
+  "pca.transfer.tool.sentHistory": "Lịch Sử Gửi",
+  "pca.transfer.tool.receivedHistory": "Lịch Sử Nhận",
   "pca.transfer.tool.search": "Tìm kiếm",
   "pca.transfer.tool.searching": "Tìm kiếm..."
 }

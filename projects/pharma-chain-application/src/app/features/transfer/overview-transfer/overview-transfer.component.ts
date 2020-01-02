@@ -1,10 +1,11 @@
+import { ImageViewerComponent } from './../../../shared/image-viewer/image-viewer.component';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from './../../../core/auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
 import { ITransfer_GET } from './../../../shared/utils/transfer.interface';
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
-import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, PageEvent, MatDialog } from '@angular/material';
 import { FormBuilder } from '@angular/forms';
 import { detailExpand } from '../../../core/animations/element.animations';
 import { TransferService } from '../transfer.service';
@@ -45,7 +46,8 @@ export class OverviewTransferComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private transferService: TransferService,
     private authService: AuthService,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private dialog: MatDialog) { }
 
   async ngOnInit() {
     this.isAdmin = await this.authService.isAdmin$.toPromise();
@@ -127,6 +129,18 @@ export class OverviewTransferComponent implements OnInit {
 
   onClickDelete(batchId: string) {
 
+  }
+
+  verifyBatch(tenantId: string, batchId: string) {
+    const url = `http://pharmachain-verificator.herokuapp.com/${tenantId}/${batchId}`;
+    window.open(url, '_blank');
+  }
+
+  async generateQR(tenantId: string, batchId: string) {
+    const src = await this.transferService.generateQR(tenantId, batchId).toPromise();
+    this.dialog.open(ImageViewerComponent, {
+      data: 'data:image/png;base64,' + src  
+    });
   }
 
   ///////////////////////////// Utils

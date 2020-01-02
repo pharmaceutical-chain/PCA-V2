@@ -13,7 +13,7 @@ export const features: Feature[] = [
     icon: 'clinic-medical',
     link: '/tenant/overview-tenant',
     roles: ['admin'],
-    total: '22',
+    total: '12',
   },
   {
     label: 'pca.menu.tenant.enter',
@@ -41,7 +41,7 @@ export const features: Feature[] = [
     icon: 'swatchbook',
     link: '/batch/overview-batch',
     roles: ['admin', 'manufacturer'],
-    total: '77'
+    total: '17'
   },
   {
     label: 'pca.menu.batch.enter',
@@ -55,7 +55,7 @@ export const features: Feature[] = [
     icon: 'exchange-alt',
     link: '/transfer/overview-transfer',
     roles: ['admin', 'manufacturer', 'distributor', 'retailer'],
-    total: '102'
+    total: '18'
   },
   {
     label: 'pca.menu.transfer.enter',

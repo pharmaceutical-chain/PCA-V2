@@ -2,7 +2,7 @@ import { UtilsService } from './../../shared/utils/utils.service';
 import { ITransfer_CREATE, ITransfer_GET, ITransfer_SEARCH } from '../../shared/utils/transfer.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TRANSFER, SERVER_URL, API } from '../../shared/utils/constants';
+import { TRANSFER, SERVER_URL, API, VERIFY } from '../../shared/utils/constants';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -107,5 +107,13 @@ export class TransferService {
   updateTransfer(id: string, transfer: ITransfer_CREATE) {
     const url = SERVER_URL + API + TRANSFER + `/${id}`;
     return this._http.put(url, transfer);
+  }
+
+  generateQR(tenantId: string, batchId: string) {
+    const url = SERVER_URL + API + VERIFY + `?retailerId=${tenantId}` + '&' + `batchIds=${batchId}`;
+    const header = new HttpHeaders ({
+      'accept': 'application/json'
+    });
+    return this._http.get(url, {headers: header});
   }
 }

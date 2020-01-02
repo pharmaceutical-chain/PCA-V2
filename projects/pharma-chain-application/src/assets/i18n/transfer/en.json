@@ -17,7 +17,8 @@
   "pca.transfer.form.expDate": "EXP date",
   "pca.transfer.form.remainingQuantity": "Remaining quantity",  
   "pca.transfer.form.seeBlockchain": "Click to see detail on BLOCKCHAIN",
-  "pca.transfer.form.viewSupplyChain": "VERIFY MEDICINE BATCH",
+  "pca.transfer.form.verify": "VERIFY MEDICINE BATCH",
+  "pca.transfer.form.generateQR": "GENERATE QR-CODE",
   "pca.transfer.form.pending": "pending...",
   "pca.transfer.form.date": "Date",
   "pca.transfer.form.time": "Time",
@@ -27,6 +28,8 @@
   "pca.transfer.form.madeBy": "Made by",
   "pca.transfer.form.madeIn": "Made in",
   "pca.transfer.form.transfer": "Transfer",
+  "pca.transfer.tool.sentHistory": "Sent History",
+  "pca.transfer.tool.receivedHistory": "Received History",
   "pca.transfer.tool.search": "Search",
   "pca.transfer.tool.searching": "Search..."
 }
