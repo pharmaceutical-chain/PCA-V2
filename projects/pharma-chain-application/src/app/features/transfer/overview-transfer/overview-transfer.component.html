@@ -121,12 +121,12 @@
             <div class="group-info">
               <div class="row">
                 <div class="col group-title">{{ 'pca.transfer.form.transfer' | translate }}</div>
-                <div *ngIf="element.contractAddress" class="col see-detail"
+                <div *ngIf="element.contractAddress && element.isConfirmed" class="col see-detail"
                   (click)="onClickContracAddress(element.contractAddress)">
                   {{ 'pca.transfer.form.seeBlockchain' | translate }}
                   <fa-icon icon="external-link-alt"></fa-icon>
                 </div>
-                <div *ngIf="!element.contractAddress" class="col see-detail">
+                <div *ngIf="!(element.contractAddress && element.isConfirmed)" class="col see-detail">
                   {{ 'pca.transfer.form.pending' | translate }}
                 </div>
               </div>

@@ -125,14 +125,14 @@ export class EnterMedicineComponent implements OnInit {
   async submit() {
     if (this.form.valid) {
       const tenantId = (await this.authService.getUser$().toPromise()).sub.slice(6);
-      const medicine: IMedicine_CREATE = { ...this.form.value, currentlyLoggedInTenant: tenantId, certificates: this.certificates };
+      const medicine: IMedicine_CREATE = { ...this.form.value, currentlyLoggedInTenant: tenantId, certificates: this.certificates, isApprovedByAdmin: false };
       if (this.medicineId) {
         this.medicineService.updateMedicine(this.medicineId, medicine).subscribe(() => {
           this.notificationService.success('Update medicine successfully!');
           setTimeout(() => {
             this.router.navigate(['/medicine/overview-medicine']).then(() => {
               setTimeout(() => {
-                this.notificationService.info('We are mining into blockchain...');
+                this.notificationService.warn('Waiting for admin approve...');
               }, 1000);
             });
           }, 1000);
@@ -144,7 +144,7 @@ export class EnterMedicineComponent implements OnInit {
             setTimeout(() => {
               this.router.navigate(['/medicine/overview-medicine']).then(() => {
                 setTimeout(() => {
-                  this.notificationService.info('We are mining into blockchain...');
+                  this.notificationService.warn('Waiting for admin approve...');
                 }, 1000);
               });
             }, 1000);

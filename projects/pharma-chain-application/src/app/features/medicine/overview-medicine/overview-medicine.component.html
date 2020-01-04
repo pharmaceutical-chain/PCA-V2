@@ -88,11 +88,11 @@
             <!-- Contract address -->
             <div class="row row-data">
               <div class="col-3 data-label">{{ 'pca.medicine.form.contractAddress' | translate }}</div>
-              <div *ngIf="element.contractAddress" class="col-9 txh-link"
+              <div *ngIf="element.contractAddress && element.isApprovedByAdmin" class="col-9 txh-link"
                 (click)="onClickContracAddress(element.contractAddress)">
                 {{element.contractAddress}}
               </div>
-              <div *ngIf="!element.contractAddress" class="col-9">
+              <div *ngIf="!(element.contractAddress && element.isApprovedByAdmin)" class="col-9">
                 {{ 'pca.medicine.form.pending' | translate }}
               </div>
             </div>

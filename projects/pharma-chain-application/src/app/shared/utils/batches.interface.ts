@@ -12,6 +12,7 @@ export interface IBatch_GET {
   quantity: number;
   unit: string;
   certificates: string;
+  isApprovedByAdmin: boolean;
   transactionHash: string;
   contractAddress: string;
   dateCreated: string;
@@ -24,10 +25,11 @@ export interface IBatch_CREATE {
   medicineId: string;
   manufacturerId: string;
   manufactureDate: string;
-  expiryDate: string
+  expiryDate: string;
   quantity: number;
   unit: string;
   certificates: string;
+  isApprovedByAdmin: boolean;
 }
 
 // tslint:disable-next-line: class-name

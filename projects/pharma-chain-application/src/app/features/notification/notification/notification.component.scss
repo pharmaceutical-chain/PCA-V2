@@ -26,6 +26,26 @@
     flex: 35%;
     max-width: 35%;
   }
+
+  .panel-header-manufacturer {
+    flex: 40%;
+    max-width: 40%;
+  }
+
+  .panel-header-batchNumber {
+    flex: 15%;
+    max-width: 15%;
+  }
+
+  .panel-header-commercialName {
+    flex: 25%;
+    max-width: 25%;
+  }
+
+  .panel-header-registrationCode {
+    flex: 20%;
+    max-width: 20%;
+  }
 }
 
 .data-label {

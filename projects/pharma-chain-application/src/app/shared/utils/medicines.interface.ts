@@ -5,12 +5,14 @@ export interface IMedicine_GET {
   commercialName: string;
   ingredientConcentration: string;
   isPrescriptionMedicine: boolean;
+  manufacturerId: string;
   manufacturer: string;
   dosageForm: string;
   packingSpecification: string;
   declaredPrice: string;
   manufacturerAddress: string;
   certificates: string;
+  isApprovedByAdmin: boolean;
 
   transactionHash: string;
   contractAddress: string;
@@ -29,6 +31,7 @@ export interface IMedicine_CREATE {
   declaredPrice: number;
   currentlyLoggedInTenant: string;
   certificates: string;
+  isApprovedByAdmin: boolean;
 }
 
 // tslint:disable-next-line: class-name

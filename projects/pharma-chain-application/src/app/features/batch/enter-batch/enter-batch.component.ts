@@ -144,7 +144,8 @@ export class EnterBatchComponent implements OnInit {
         ...this.form.value,
         medicineId: this.form.get('medicineId').value.id,
         manufacturerId: manufacturerId,
-        certificates: this.certificates
+        certificates: this.certificates,
+        isApprovedByAdmin: false
       }
       if (this.batchId) {
         this.batchService.updateBatch(this.batchId, batch).subscribe(() => {
@@ -152,7 +153,7 @@ export class EnterBatchComponent implements OnInit {
           setTimeout(() => {
             this.router.navigate(['/batch/overview-batch']).then(() => {
               setTimeout(() => {
-                this.notificationService.info('We are mining into blockchain...');
+                this.notificationService.warn('Waiting for admin approve...');
               }, 1000);
             });
           }, 1000);
@@ -164,7 +165,7 @@ export class EnterBatchComponent implements OnInit {
             setTimeout(() => {
               this.router.navigate(['/batch/overview-batch']).then(() => {
                 setTimeout(() => {
-                  this.notificationService.info('We are mining into blockchain...');
+                  this.notificationService.warn('Waiting for admin approve...');
                 }, 1000);
               });
             }, 1000);
