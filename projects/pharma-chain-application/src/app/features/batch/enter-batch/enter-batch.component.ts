@@ -111,7 +111,7 @@ export class EnterBatchComponent implements OnInit {
       }
     });
 
-    this.medicineOptions = await this.medicineService.getMedicinesForSearch().toPromise();
+    this.medicineOptions = (await this.medicineService.getMedicinesForSearch().toPromise()).filter(m => m.isApprovedByAdmin === true);
     this.filteredOptions = this.form.get('medicineId').valueChanges
       .pipe(
         startWith(''),

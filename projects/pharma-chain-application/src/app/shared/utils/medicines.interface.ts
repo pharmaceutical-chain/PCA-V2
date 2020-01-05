@@ -41,4 +41,5 @@ export interface IMedicine_SEARCH {
   commercialName: string;
   ingredientConcentration: string;
   packingSpecification: string;
+  isApprovedByAdmin: boolean;
 }

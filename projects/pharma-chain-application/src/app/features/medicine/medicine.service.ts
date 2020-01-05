@@ -101,7 +101,6 @@ export class MedicineService {
     return this._http.get(url).pipe(
       map((baseMedicineArray: Object[]) => {
         const convertedArray: IMedicine_SEARCH[] = [];
-
         baseMedicineArray.forEach(base => {
           const converted: IMedicine_SEARCH = {
             id: base['id'],
@@ -109,11 +108,10 @@ export class MedicineService {
             commercialName: base['commercialName'],
             ingredientConcentration: base['ingredientConcentration'],
             packingSpecification: base['packingSpecification'],
+            isApprovedByAdmin: base['isApprovedByAdmin'],
           };
-
           convertedArray.push(converted);
         });
-
         return convertedArray;
       })
     );
